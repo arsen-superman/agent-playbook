@@ -1,0 +1,22 @@
+{
+  "name": "agent-playbook",
+  "description": "Personal playbooks for working with AI agents: a shared knowledge-base core plus domain playbooks (software development, personal life).",
+  "owner": { "name": "Arsen Superman" },
+  "plugins": [
+    {
+      "name": "kb",
+      "source": "./playbooks/kb",
+      "description": "Knowledge-base core used by every playbook: capture, triage, stash/unstash, ingest, lint."
+    },
+    {
+      "name": "dev",
+      "source": "./playbooks/dev",
+      "description": "Software development playbook: project .ai/ knowledge base, task lifecycle from spec to close, park/resume."
+    },
+    {
+      "name": "me",
+      "source": "./playbooks/me",
+      "description": "Personal knowledge vault: save recipes, how-tos and answers from conversations as Markdown notes; find them later."
+    }
+  ]
+}

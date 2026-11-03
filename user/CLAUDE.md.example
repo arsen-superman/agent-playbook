@@ -1,0 +1,14 @@
+# Me
+<your role, stack and tools — e.g. "senior backend developer, .NET and Azure, VS Code">
+
+# How to work with me
+- Chat in the language I write to you in. Everything project-related (files, code, comments, commits, PRs) in English; quote raw requirements verbatim. Personal vault notes may be in my native language.
+- <your style preferences: tone, depth, format>
+- Ask before anything irreversible or external: push, merge, posting to Jira/Slack, writing to shared databases.
+- Out-of-scope findings → /kb:capture, don't fix silently.
+
+# Where things are
+<!-- Added by /me:init-vault; edit by hand if you move the vault. -->
+Personal vault: <absolute path to your vault folder>
+Personal vault (Drive): Vault
+Projects: wherever they live on disk — each project folder has its own .ai/ knowledge base (/dev:init-project). Never carry knowledge between projects.

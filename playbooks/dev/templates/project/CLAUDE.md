@@ -1,0 +1,33 @@
+# Project: <Name>
+
+<!-- 2-3 lines: what the product is, who the client is, your role, current phase. -->
+
+## Repositories
+| Folder | What | Stack | Build / test |
+|---|---|---|---|
+| `<repo-a>/` | <purpose> | .NET 8 | `dotnet build X.sln` · `dotnet test` |
+
+Each repo may have its own `CLAUDE.md` (code conventions) — it loads when you work inside that repo.
+
+## Links
+- Tracker: <Jira project URL> (key `ABC`)
+- Docs: <Confluence / Drive>
+- People: <role → name, only those you need to ask things>
+
+## Environments & data (local only — this file is not in any repo)
+- Databases are reached through MCP servers by name, never by connection string: `<db-local>` (local), `<db-test>` (test, read-only).
+- Production: **not available to you.** If prod data is needed, write the query and ask me to run it.
+- Never read or edit: <paths, e.g. `*/appsettings.Production.json`, `infra/secrets/`>.
+- Never run: <commands, e.g. migrations against shared DBs, `terraform apply`>.
+
+## Conventions
+- Branch: `feature/<KEY>-<slug>` · commits/PRs in English, prefixed with the ticket key.
+- Two tasks in the same repo at once → separate `git worktree` under `worktrees/`.
+- <anything the agent got wrong twice>
+
+## Context index (read on demand)
+- `context/glossary.md` — business terms → code
+
+<!-- agent-playbook:kb:begin -->
+<!-- Managed by agent-playbook. Filled from templates/project/kb-section.md by /dev:init-project and replaced by /dev:upgrade-project. Edit outside these markers only. -->
+<!-- agent-playbook:kb:end -->

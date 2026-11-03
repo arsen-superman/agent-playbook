@@ -1,0 +1,6 @@
+# ripgrep / Glob ignore for the knowledge base: hidden from agent searches, read only by explicit path
+archive/
+raw/
+**/raw/
+stash/.consumed/
+inbox/_done/
