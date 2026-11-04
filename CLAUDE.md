@@ -12,5 +12,5 @@ Read `docs/design.md` before changing behaviour; README for layout.
 - Changing anything that lives inside projects (`.ai/` layout, `templates/project/kb-section.md`, `.ai/.ignore`) → add a migration and bump `migrations/CURRENT`.
 - **Keep `docs/COMMANDS.md` current**: any added/removed/renamed skill or agent, changed arguments, trigger (auto vs manual), gates, model or outputs → update it in the same change; run `python scripts/check_commands.py`.
 - `me` changed → `python scripts/pack.py me` and re-upload the zip in claude.ai (Customize → Plugins).
-- After editing: bump `version` in that plugin's `plugin.json`; run `claude plugin validate .`.
+- After editing: bump the **patch** number of `version` in that plugin's `plugin.json` (0.1.0 → 0.1.1), also for new skills or agents — minor/major only when I ask. Once per uncommitted change set: already bumped in the working tree → don't bump again. Run `claude plugin validate .`.
 - No project or personal data in this repo.

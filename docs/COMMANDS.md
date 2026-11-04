@@ -13,8 +13,11 @@ For you and for any agent. Kept in sync with `playbooks/` (see *Maintenance* at 
 | New project folder | `/dev:init-project` once |
 | Continue earlier work | `/dev:start [KEY]` (not needed when starting something new) |
 | Work with no ticket yet | `/dev:new-task "description"` → `LOCAL-n`, then as usual |
-| New ticket, do it all in one go | `/dev:feature KEY` · `/dev:bugfix KEY` · `/dev:spike "question"` |
+| New ticket, do it all in one go | `/dev:feature-workflow KEY` · `/dev:bugfix-workflow KEY` · `/dev:spike-workflow "question"` |
 | New ticket, step by step | `/dev:new-task KEY` → `/dev:spec` → `/dev:plan` → `/dev:implement` → `/dev:verify` → `/dev:close-task` |
+| New requirements / clarifications for a task in progress or in review | `/dev:amend KEY "…"` |
+| Reviewers left comments on the PR | `/dev:pr-comments KEY` |
+| PR merged | `/dev:close-task KEY` (archive, STATUS, branches and worktrees) |
 | End of every session | `/dev:handoff` (no task in the session → `/kb:stash`) |
 | Switch to something else for a while | `/kb:stash name` … later `/kb:unstash name` |
 | Task blocked for days/weeks | `/dev:park KEY reason` … later `/dev:resume KEY` |
@@ -29,27 +32,31 @@ For you and for any agent. Kept in sync with `playbooks/` (see *Maintenance* at 
 ## dev — software development
 
 ### Workflows (one session, each stage in a subagent, you approve at gates)
+Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature workflow — agent map](design.md#feature-workflow--agent-map).
+
 | Command | When | What happens |
 |---|---|---|
-| ⌨ `/dev:feature <KEY \| task \| description> [auto]` | a feature end to end | analyst → **GATE A** questions → planner → **GATE B** plan → implementer per phase → reviewer (≤2 fix rounds) → verifier → **GATE C** push/PR. `auto` skips B for small plans. Resumable: `/dev:start` continues at the saved stage |
-| ⌨ `/dev:bugfix <KEY \| task \| description>` | a bug end to end | debugger (repro, root cause, failing test) → **GATE A** pick fix → implementer → reviewer → verifier → **GATE C** |
-| ⌨ `/dev:spike <question \| KEY> [timebox]` | choose between options before building | frame + sub-questions → **GATE A** → researcher ×N in parallel → synthesis → **GATE B** → decision record in `.ai/decisions/`, follow-ups |
+| ⌨ `/dev:feature-workflow <KEY \| task \| description> [auto]` | a feature end to end | analyst → **GATE A** questions → planner → **GATE B** plan → implementer per phase → reviewer (≤2 fix rounds) → verifier → **GATE C** push/PR. `auto` skips B for small plans. Resumable: `/dev:start` continues at the saved stage |
+| ⌨ `/dev:bugfix-workflow <KEY \| task \| description>` | a bug end to end | debugger (repro, root cause, failing test) → **GATE A** pick fix → implementer → reviewer → verifier → **GATE C** |
+| 🤖 `/dev:amend <KEY> <text \| file \| url>` | new requirements, clarifications, edge cases after the spec (also with a PR open) | appends a dated Update to Raw requirement → analyst classifies items (covered+tested / no test / new / conflict) and sizes them → **GATE A** → planner adds TCs + one Amend phase (**GATE B** unless ≤3 steps) → implementer → reviewer (whole PR diff, focus on amend) → verifier (full regression) → **GATE C** PR update + Jira |
+| 🤖 `/dev:pr-comments [KEY]` | PR has review comments | fetches unresolved threads (`gh` / connector / paste) → triage table fix / reply / discuss / amend / follow-up → **GATE** → PR-feedback phase via implementer (+ reviewer and verifier for logic changes) → drafted replies → **GATE C** push, reply, resolve |
+| ⌨ `/dev:spike-workflow <question \| KEY> [timebox]` | choose between options before building | frame + sub-questions → **GATE A** → researcher ×N in parallel → synthesis → **GATE B** → decision record in `.ai/decisions/`, follow-ups |
 
 ### Project setup and maintenance
 | Command | When | What happens |
 |---|---|---|
-| 🤖 `/dev:init-project [folder] [refresh]` | first time in a project folder; `refresh` after repos change | scans repos and stack, asks what it can't infer, creates `.ai/`, project `CLAUDE.md`, `.claude/settings.local.json`, `.ai/.playbook.json`; suggests (doesn't write) repo CLAUDE.md files and DB MCP setup |
+| 🤖 `/dev:init-project [folder] [refresh]` | first time in a project folder; `refresh` after repos change or a playbook update adds project settings (hosts, worktrees) | scans repos, stack and git host per repo (link + tool `gh` / `glab` / `az repos` / `gk`, checks it's installed and signed in, recommends install), asks what it can't infer, creates `.ai/`, `worktrees/`, project `CLAUDE.md`, `.claude/settings.local.json`, `.ai/.playbook.json`; suggests (doesn't write) repo CLAUDE.md files and DB MCP setup |
 | ⌨ `/dev:upgrade-project [folder \| all] [dry-run]` | after agent-playbook changed project-side structure; when start/lint says "outdated" | applies pending migrations, refreshes the managed KB block in CLAUDE.md, bumps `.ai/.playbook.json` |
 
 ### Session and task lifecycle
 | Command | When | What happens |
 |---|---|---|
-| 🤖 `/dev:start [KEY]` | beginning of every session | reads STATUS + task card + plan up to Next; reports where things are, inbox/stash counts, staleness, outdated KB |
+| 🤖 `/dev:start [KEY]` | beginning of every session | reads STATUS + task card + plan up to Next; reports where things are, inbox/stash counts, staleness, outdated KB; task in review → PR merged / new comments |
 | 🤖 `/dev:new-task <KEY \| description> [from LOCAL-n]` | new ticket; work with no ticket yet (→ `LOCAL-n`, tracked like any task); a LOCAL task got a ticket (`IPR-123 from LOCAL-2`) | fetches Jira, creates `.ai/tasks/<KEY-slug>/` with `task.md` and raw requirement, adds to STATUS; on `from` renames the LOCAL task to the ticket key (can draft the Jira ticket for you, created only on OK) |
 | 🤖 `/dev:handoff [KEY]` | end of every session, or when context gets long | rewrites task Now/Next, ticks plan, promotes decisions/knowledge, captures leftovers, updates STATUS |
 | 🤖 `/dev:park <KEY> [reason]` | blocked / missing data / priorities changed | handoff + WIP commit on the branch + **Parked** block (why, unblocks when, volatile facts) + STATUS → Parked |
 | 🤖 `/dev:resume <KEY>` | coming back to a parked task | "while you were away": Jira, branch drift, re-checked facts → updates spec/plan → back to Active |
-| 🤖 `/dev:close-task <KEY>` | merged / done / cancelled | promotes decisions, knowledge and regression test cases (→ `.ai/qa/regression.md`), writes Outcome, moves to `.ai/archive/` |
+| 🤖 `/dev:close-task <KEY>` | "PR merged" / done / cancelled | confirms the merge, runs handoff, promotes decisions, knowledge and regression test cases (→ `.ai/qa/regression.md`), writes Outcome, moves to `.ai/archive/`, updates STATUS; on one OK removes the task's worktrees (asks before `--force`), local and remote branches |
 
 ### Single stages (manual, in this session — the workflows use the same procedures)
 | Command | What it produces |
@@ -64,13 +71,14 @@ For you and for any agent. Kept in sync with `playbooks/` (see *Maintenance* at 
 ### Agents (called by workflows; you can also say "use dev:reviewer on IPR-123")
 | Agent | Model / effort | Does | Writes |
 |---|---|---|---|
-| `dev:analyst` | opus / high | requirements vs code → spec | spec.md |
-| `dev:planner` | opus / high | spec → test design + plan | test-cases.md, plan.md |
+| `dev:analyst` | opus / medium | requirements vs code → spec (code reading via scouts) | spec.md |
+| `dev:planner` | opus / medium | spec → test design + plan (symbol checks via scouts) | test-cases.md, plan.md |
 | `dev:implementer` | sonnet / medium | one phase of the plan | code, commits, plan ticks |
-| `dev:debugger` | opus / high | repro, root cause, failing test (no fix) | spec AS-IS, test-cases.md TC-01, test commit |
-| `dev:reviewer` | opus / high | code review of the diff | nothing (returns findings) |
-| `dev:verifier` | sonnet / high | executes test cases, proposes missing ones | nothing (orchestrator records the run in test-cases.md) |
-| `dev:researcher` | opus / high | one research question | research/<topic>.md |
+| `dev:debugger` | opus / high | repro, root cause, failing test (no fix); wide searches via scouts | spec AS-IS, test-cases.md TC-01, test commit |
+| `dev:reviewer` | opus / medium; fix rounds sonnet, fix commits only | code review of the diff | nothing (returns findings) |
+| `dev:verifier` | sonnet / medium | executes test cases, proposes missing ones | nothing (orchestrator records the run in test-cases.md) |
+| `dev:researcher` | sonnet / high | one research question | research/<topic>.md |
+| `dev:scout` | sonnet / low | one narrow read-only question about code, answered with `file:line` facts; called by analyst, planner, debugger, researcher | nothing (returns facts) |
 Every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`.
 
 ## kb — any knowledge base (project `.ai/` or the personal vault)
@@ -86,9 +94,9 @@ Every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`.
 ## me — personal vault (`G:\My Drive\Vault`; in claude.ai chat via the Drive connector)
 | Command | When | What happens |
 |---|---|---|
-| 🤖 `/me:init-vault [path]` | once | creates vault structure, registers the path in `~/.claude/CLAUDE.md` |
-| 🤖 `/me:save [what] [area]` | "збережи рецепт / інструкцію / це" | note (recipe / howto with Check+Rollback / note) in the right folder, merged with an existing one, index updated |
-| 🤖 `/me:find <question>` | "як я робив…", "де мій рецепт…" | answers from the vault with `[[note]]` citations; offers to save new syntheses |
+| 🤖 `/me:init-vault [path]` | once; again to split an old flat index | creates vault structure (root `index.md` = areas, `<area>/index.md` = notes), registers the path in `~/.claude/CLAUDE.md` |
+| 🤖 `/me:save [what] [area]` | "збережи рецепт / інструкцію / це" | note (recipe / howto with Check+Rollback / note) in the right folder, merged with an existing one, area index updated |
+| 🤖 `/me:find <question>` | "як я робив…", "де мій рецепт…" | searches first, reads only the relevant area index on a miss; answers with `[[note]]` citations; offers to save new syntheses |
 
 ## Command line (outside a session)
 ```

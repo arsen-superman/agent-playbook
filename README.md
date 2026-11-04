@@ -55,7 +55,7 @@ Two ways, both under **Customize → Plugins**:
 
 ## Configure the workflow agents
 
-Every agent in the `/dev:feature`, `/dev:bugfix` and `/dev:spike` workflows is one Markdown file in [`playbooks/dev/agents/`](playbooks/dev/agents/). Its frontmatter controls how it runs:
+Every agent in the `/dev:feature-workflow`, `/dev:bugfix-workflow` and `/dev:spike-workflow` workflows is one Markdown file in [`playbooks/dev/agents/`](playbooks/dev/agents/). Its frontmatter controls how it runs:
 
 ```yaml
 model: opus        # opus | sonnet | haiku | a full model ID
@@ -99,9 +99,9 @@ open Repos/SuperProject in VS Code → Claude Code or in Claude CLI from project
 ## Workflows — one session, every stage in a subagent
 
 ```
-/dev:feature IPR-4001   analyst → GATE → planner → GATE → implementer (per phase) → reviewer ⟲ → verifier → GATE (PR)
-/dev:bugfix  IPR-4002   debugger (repro, root cause, failing test) → GATE (fix option) → implementer → reviewer → verifier → GATE
-/dev:spike   "<question>"  frame → GATE → researcher ×N in parallel → synthesis → GATE (decision record)
+/dev:feature-workflow IPR-4001   analyst → GATE → planner → GATE → implementer (per phase) → reviewer ⟲ → verifier → GATE (PR)
+/dev:bugfix-workflow IPR-4002   debugger (repro, root cause, failing test) → GATE (fix option) → implementer → reviewer → verifier → GATE
+/dev:spike-workflow  "<question>"  frame → GATE → researcher ×N in parallel → synthesis → GATE (decision record)
 ```
 
 The session you type in is the orchestrator: it only reads each agent's STATUS block and `task.md`, so its context stays small.

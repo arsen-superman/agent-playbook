@@ -14,4 +14,6 @@ Template: `templates/doc/plan.md` in this plugin.
 5. Each step: `- [ ] <one commit-sized action, naming files and repo> — verify: <command or observable check>`. Steps that add tests name the TC IDs they automate.
 6. **Follow-ups** — deliberately not done here; each also `/kb:capture`.
 7. **Risks** ≤5 bullets. Set `**Next:**` at the top.
+**Amend mode** (prompt says amend): never rewrite done phases or renumber TCs. Covered + tested items → add/adjust the TC with `Automated by` = the existing test; others → new TCs and steps in one phase `## Phase N — Amend YYYY-MM-DD`, placed before the final Verify phase.
+
 8. Ask for approval. On OK: `status: planned`, Next = first step.

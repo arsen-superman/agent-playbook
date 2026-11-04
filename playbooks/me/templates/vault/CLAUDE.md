@@ -4,7 +4,9 @@ Personal knowledge saved from conversations and sources: recipes, how-tos, instr
 Plain Markdown in a Google Drive folder — readable in Obsidian, any editor, claude.ai chat (Drive connector) or any agent.
 
 ## Layout
-- `index.md` — catalog: one line per note, grouped by area. **Read it first** when looking for something.
+- `index.md` — list of areas only, one line each. Stays short at any vault size.
+- `<area>/index.md` — catalog of that area: one line per note.
+- **Looking for something:** search first (file names, `tags`, headings, then full text, in both languages); read an index only when search misses — the root, then just the relevant area's.
 - `<area>/` — top-level areas (cooking, tech, home, travel, learning, …). Create a new area only when ≥3 notes would go there; until then use the closest one.
 - `<area>/<topic>/` — optional second level once an area has >15 notes.
 - `inbox/` — quick captures to sort later (`/kb:triage`).

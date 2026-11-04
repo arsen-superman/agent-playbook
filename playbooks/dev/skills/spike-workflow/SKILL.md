@@ -1,12 +1,12 @@
 ---
-name: spike
-description: Run a time-boxed spike (technical or product investigation) in one session — frame the question, fan out parallel researcher subagents, synthesise a recommendation, record the decision. Use when the user runs /dev:spike or asks to investigate options before committing to a solution.
+name: spike-workflow
+description: Run a time-boxed spike (technical or product investigation) in one session — frame the question, fan out parallel researcher subagents, synthesise a recommendation, record the decision. Use when the user runs /dev:spike-workflow or asks to investigate options before committing to a solution.
 argument-hint: "<question | JIRA-KEY> [timebox]"
 disable-model-invocation: true
 ---
 # Spike workflow — orchestrator
 
-You orchestrate; research runs in `dev:researcher` subagents. Follow the **Orchestration rules** of `/dev:feature`, with `workflow: spike`.
+You orchestrate; research runs in `dev:researcher` subagents. Follow the **Orchestration rules** of `/dev:feature-workflow`, with `workflow: spike`.
 
 ## Stages
 0. **Frame** (you) — task via `/dev:new-task` with `type: research`. In `spec.md` write: the question, the decision it unblocks, success criteria, timebox (default: this session), and 2-5 independent sub-questions (e.g. per option, per constraint: performance / cost / effort / risk / fit with current code).

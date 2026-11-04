@@ -11,6 +11,7 @@ Everything else on demand.
 .ai/stash/           temporary consume-once session context
 .ai/raw/             ingested sources, immutable
 .ai/archive/         closed tasks — only when asked
+worktrees/<repo>--<KEY>/   (project root, not .ai/) git worktrees of tasks
 ```
 Rules:
 - **Current truth, not history.** Rewrite in place; no strikethrough, no "UPDATE" paragraphs, no v2 files.
@@ -20,4 +21,6 @@ Rules:
 - **No worklogs.** Progress = ticked plan steps with commit hashes.
 - **Raw data** (query results, long reports, logs) → `raw/`; conclusions → the md file.
 - **Stop on blockers** — write the question in `task.md §Open questions` and ask.
+- **Worktrees** only at `<project>/worktrees/<repo>--<KEY>/` (`git -C <repo> worktree add <project>/worktrees/<repo>--<KEY> <branch>`), never inside a repo or elsewhere. Search inside the repo or worktree you work in, not from the project root (worktrees duplicate code).
+- **Git host operations** (PR/MR, comments, merge state) with the tool from the Repositories table (`Host · tool`); tool missing or signed out → say so and give the install/login command, don't improvise with another tool.
 - Limits: CLAUDE.md ≤100 lines · STATUS ≤30 · task.md ≤40 · spec.md ≤250 · inbox item ≤15.

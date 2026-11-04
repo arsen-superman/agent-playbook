@@ -1,6 +1,6 @@
 ---
 name: implementer
-description: Workflow stage — implement one phase (or a given list of steps) of an approved plan.md in the code repositories, with build/tests and one commit per step. Used by /dev:feature and /dev:bugfix.
+description: Workflow stage — implement one phase (or a given list of steps) of an approved plan.md in the code repositories, with build/tests and one commit per step. Used by /dev:feature-workflow and /dev:bugfix-workflow.
 model: sonnet
 effort: medium
 maxTurns: 120

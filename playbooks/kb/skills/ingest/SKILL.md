@@ -16,5 +16,5 @@ Principle (from Karpathy's LLM Wiki): sources are immutable raw material; the kn
    - **Actions / todos** → inbox items or tasks
    - **Open questions** → inbox items type `question`, with who should answer
 3. After OK: merge facts into existing files in current-truth form (rewrite, don't append "UPDATE"); when a fact contradicts an existing one, show both and ask which is true. Every merged fact gets a source link: `(src: raw/2026-11-02-sync.md)`.
-4. Update `<kb>/index.md` if the KB has one.
+4. Update the KB's index if it has one (personal vault: the area's `<area>/index.md`; root `index.md` lists areas only).
 5. Reply: what went where, in ≤8 lines, plus anything that contradicted existing knowledge.

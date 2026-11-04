@@ -1,8 +1,8 @@
 ---
 name: verifier
-description: Workflow stage — independent QA of a task against spec.md acceptance criteria and regression neighbours, by running tests and read-only checks. Read-only. Used by /dev:feature, /dev:bugfix and /dev:verify.
+description: Workflow stage — independent QA of a task against spec.md acceptance criteria and regression neighbours, by running tests and read-only checks. Read-only. Used by /dev:feature-workflow, /dev:bugfix-workflow and /dev:verify.
 model: sonnet
-effort: high
+effort: medium
 maxTurns: 60
 color: cyan
 tools: Read, Grep, Glob, Bash

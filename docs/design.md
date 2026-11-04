@@ -37,12 +37,43 @@
 What is ours: task lifecycle (spec → plan → implement → verify → close) that feeds the KB; project = multi-repo isolation boundary; capture/triage for side findings; stash and park as distinct temporary states; method separated from content.
 
 ## Workflows and agents
-- **Workflow = orchestrator skill** (`dev:feature`, `dev:bugfix`, `dev:spike`), run in the main session because it needs the user at the gates.
+- **Workflow = orchestrator skill** (`dev:feature-workflow`, `dev:bugfix-workflow`, `dev:spike-workflow`), run in the main session because it needs the user at the gates.
 - **Stage = agent** (`playbooks/dev/agents/`): its own model, effort, tools, maxTurns, color; preloads the matching stage skill (`skills:`) so the procedure has one source of truth.
 - **Contract**: every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`; evidence goes into files. The orchestrator never reads transcripts or code.
+- **After the PR** the task stays `review` until merged: `dev:amend` (requirements changed — delta spec/plan, never rewrite done work), `dev:pr-comments` (review loop, fixes as a plan phase linked to comments), `dev:close-task` (merged → promote, archive, git cleanup).
 - **Gates**: A — blocking questions (never skipped); B — plan/decision approval (skippable with `auto` for small plans); C — anything external: push, PR, Jira, Slack (never skipped).
-- Model choice: reasoning-heavy stages (analyst, planner, debugger, reviewer, researcher) on `opus`/high; execution (implementer) on `sonnet`/medium; QA (verifier) on `sonnet`/high. Change in the agent file.
+- Model choice: judgement on `opus` (analyst, planner, reviewer at medium; debugger at high); execution and evidence gathering on `sonnet` (implementer, verifier at medium; researcher at high); code reading delegated to `dev:scout` (`sonnet`/low) so expensive agents keep small contexts — the built-in Explore runs on the caller's model, so it saves nothing. Review fix rounds re-review only the fix commits on `sonnet`. Within a session an agent is continued (SendMessage) for follow-ups on its own work; reviewer and verifier are always fresh. Change in the agent file.
+- Worktrees live in `<project>/worktrees/<repo>--<KEY>/`; git-host operations use the per-repo tool recorded in the project CLAUDE.md.
 - Plugin agents ignore `hooks`, `mcpServers`, `permissionMode` — those come from the session/project.
+- Orchestrators stay in `skills/` next to stage skills: a plugin's `workflows/` folder is reserved by Claude Code for JS workflows, and the folder doesn't change the slash name anyway.
+
+### Feature workflow — agent map
+```mermaid
+flowchart TD
+    U(["You: /dev:feature-workflow KEY"]) --> O["Orchestrator · main session<br/>reads only STATUS blocks + task.md"]
+    O --> A["dev:analyst · opus / medium<br/>writes spec.md"]
+    A -.->|"one narrow question each, in parallel"| S1["dev:scout ×N · sonnet / low<br/>file:line facts"]
+    A --> GA{{"GATE A · blocking questions"}}
+    GA -->|"answers → spec §Decisions, SendMessage"| A
+    GA --> P["dev:planner · opus / medium<br/>writes test-cases.md + plan.md"]
+    P -.->|"file / symbol checks"| S2["dev:scout · sonnet / low"]
+    P --> GB{{"GATE B · plan approval<br/>auto: skipped if ≤3 phases, no high risk"}}
+    GB -->|"edits, SendMessage"| P
+    GB --> I["dev:implementer · sonnet / medium<br/>one per phase · commits + plan ticks"]
+    I -->|"next phase → fresh implementer"| I
+    I --> R["dev:reviewer · opus / medium · fresh<br/>whole base...branch diff"]
+    R -->|"blocker / major → same implementer, SendMessage"| I2["fix round"]
+    I2 --> R2["dev:reviewer · sonnet · fresh<br/>fix commits only · max 2 rounds"]
+    R2 --> V
+    R -->|"approve"| V["dev:verifier · sonnet / medium · fresh<br/>runs test-cases.md"]
+    V -->|"fail → same implementer, max 2"| I2
+    V --> GC{{"GATE C · push / PR / Jira"}}
+    GC --> H["/dev:handoff · status: review"]
+    H -.->|"PR comments"| PC["/dev:pr-comments"]
+    H -.->|"new requirements"| AM["/dev:amend"]
+    H -.->|"merged"| CT["/dev:close-task"]
+```
+Solid arrows: stage order. Dotted: scouts (cheap reading) and what follows the PR. `SendMessage` = the same agent continues in this session; everything else starts fresh and learns from the task files. Gates are you.
 
 ## Testing
 - **Design before code**: the planner writes `test-cases.md` from the AC (one+ case per AC, negatives, edge cases, unaffected users), choosing the lowest level that proves the behaviour: unit → integration → e2e → manual. Existing repo frameworks only, unless the user agrees otherwise.

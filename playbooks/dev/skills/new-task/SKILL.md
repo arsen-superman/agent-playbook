@@ -11,7 +11,7 @@ Templates: `templates/doc/` in this plugin (two levels up from this skill's fold
 2. Folder `.ai/tasks/<KEY>-<3-5-word-kebab-slug>/`. Stop if the key already exists.
 3. `task.md` from `templates/doc/task.md`: frontmatter, Goal (your 2-line paraphrase), `repos:` (which repos are likely touched), `status: spec`, Next = `/dev:spec` (bug → `/dev:fix-bug`, research → `/dev:research`).
 4. `spec.md` from `templates/doc/spec.md` with only **Raw requirement** (verbatim) and links. No analysis yet.
-5. Branch name per the project CLAUDE.md convention → `branch:`. Don't create the branch. Same repo already busy with another active task → suggest a worktree.
+5. Branch name per the project CLAUDE.md convention → `branch:`. Don't create the branch. Same repo already busy with another active task → suggest a worktree at `worktrees/<repo>--<KEY>/` (KB rules).
 6. Add a row to `.ai/STATUS.md` → Active.
 7. Reply: folder, goal in 2 lines, next command.
 

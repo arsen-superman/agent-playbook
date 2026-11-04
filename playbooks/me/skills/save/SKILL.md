@@ -14,8 +14,8 @@ Note shapes (templates in this plugin, `templates/note/`): **recipe** (ingredien
 
 Steps:
 1. **What** — the thing meant (usually the last substantial answer). Drop conversation noise; keep exact quantities, commands, values.
-2. **Where** — read `index.md`, pick area (and topic folder if present). Same subject exists → update that note (merge, current truth, bump `updated`). Ambiguous → state the path in one line and go unless the user objects.
+2. **Where** — pick the area from root `index.md` (areas only); find an existing note on the subject by searching file names, `tags` and headings, else `<area>/index.md`. Same subject exists → update that note (merge, current truth, bump `updated`). Ambiguous → state the path in one line and go unless the user objects.
 3. **Shape** — recipe → recipe; anything that changes a system (BIOS, undervolt, router, OS) → howto with Check and Rollback filled and `applies-to` set; otherwise note. `source:` = `conversation YYYY-MM-DD` or the URL.
 4. **Risky numbers** — voltages, doses, temperatures, money/legal figures you're unsure of → mark `⚠️ verify`, never invent precision.
-5. **Index** — add/update `- [[note-name]] — what it is (applies-to)` in `index.md`.
+5. **Index** — add/update `- [[note-name]] — what it is (applies-to)` in `<area>/index.md`. New area → create its index from `templates/vault/area-index.md` in this plugin and add one line to root `index.md`; never list notes in the root.
 6. Reply in one line: `💾 <area>/<file>.md` (+ "updated existing").

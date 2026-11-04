@@ -3,9 +3,9 @@
 <!-- 2-3 lines: what the product is, who the client is, your role, current phase. -->
 
 ## Repositories
-| Folder | What | Stack | Build / test |
-|---|---|---|---|
-| `<repo-a>/` | <purpose> | .NET 8 | `dotnet build X.sln` · `dotnet test` |
+| Folder | What | Stack | Build / test | Host · tool |
+|---|---|---|---|---|
+| `<repo-a>/` | <purpose> | .NET 8 | `dotnet build X.sln` · `dotnet test` | [GitHub](https://github.com/org/repo-a) · `gh` |
 
 Each repo may have its own `CLAUDE.md` (code conventions) — it loads when you work inside that repo.
 
@@ -22,7 +22,6 @@ Each repo may have its own `CLAUDE.md` (code conventions) — it loads when you 
 
 ## Conventions
 - Branch: `feature/<KEY>-<slug>` · commits/PRs in English, prefixed with the ticket key.
-- Two tasks in the same repo at once → separate `git worktree` under `worktrees/`.
 - <anything the agent got wrong twice>
 
 ## Context index (read on demand)

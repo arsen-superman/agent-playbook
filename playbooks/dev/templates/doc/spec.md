@@ -1,7 +1,7 @@
 # Spec — KEY-123 Short title
 
 ## Raw requirement
-<!-- Verbatim from Jira / the user. Never edit. -->
+<!-- Verbatim from Jira / the user. Never edit. Later clarifications → append "### Update YYYY-MM-DD — <source>" (/dev:amend). -->
 
 ## AS-IS
 <!-- Current behaviour with file:line. Root cause for bugs (≤10 lines). Details → research/. -->
