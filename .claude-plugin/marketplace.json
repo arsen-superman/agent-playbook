@@ -8,7 +8,7 @@
     {
       "name": "kb",
       "source": "./playbooks/knowledge-base-core",
-      "description": "Knowledge-base core used by every playbook: capture, triage, stash/unstash, ingest, lint."
+      "description": "Knowledge-base core used by every playbook: capture, ideas and brainstorm, triage, stash/unstash, ingest, lint."
     },
     {
       "name": "dev",

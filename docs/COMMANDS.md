@@ -23,6 +23,7 @@ For you and for any agent. Kept in sync with `playbooks/` (see *Maintenance* at 
 | Task blocked for days/weeks | `/dev:park KEY reason` … later `/dev:resume KEY` |
 | Noticed something unrelated | just say "запиши на потім" → `/kb:capture` |
 | Free half hour | `/kb:triage` |
+| An idea came up (also from the phone) | just say "ідея: …" → `/kb:capture`; later `/kb:brainstorm` |
 | Meeting notes / doc / epic to digest | `/kb:ingest <file or paste>` |
 | Weekly | `/kb:lint` |
 | After changing agent-playbook structure | `/dev:upgrade-project all` |
@@ -84,8 +85,9 @@ Every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`.
 ## kb — any knowledge base (project `.ai/` or the personal vault)
 | Command | When | What happens |
 |---|---|---|
-| 🤖 `/kb:capture <what>` | something outside the current task: bug, idea, todo, question, finding | one small file in `inbox/`; reply `📥 title`; work continues |
-| 🤖 `/kb:triage [filter]` | inbox grew / free time | table of items, one proposed outcome each (now / task / ticket / knowledge / decision / ask / park / drop); you confirm in one reply |
+| 🤖 `/kb:capture <what>` | your idea ("ідея: …"); something outside the current task: bug, todo, question, finding | your idea → `ideas/<slug>.md` (`status: raw`), reply `💡 title`; anything else (incl. ideas Claude noticed itself) → one small file in `inbox/`, reply `📥 title`; work continues. Works from claude.ai on the phone (vault via Google Drive) |
+| 🤖 `/kb:brainstorm [idea]` | time to think an idea through | no argument → lists ideas of the current KB (project `.ai/` or vault, never both) and asks which; dialogue on goal, options, risks, cheapest test → rewrites the idea file: status, verdict, value, effort, next; offers promote (`/dev:new-task`, new project) on OK. Works from the phone |
+| 🤖 `/kb:triage [filter]` | inbox grew / free time | table of items, one proposed outcome each (now / task / ticket / knowledge / decision / idea / ask / park / drop); you confirm in one reply |
 | 🤖 `/kb:stash [name]` | switching context; task-less exploration to continue in a fresh session instead of compacting | ≤40-line snapshot in `stash/` |
 | 🤖 `/kb:unstash [name]` | coming back | restores it into the session, reports drift, consumes it (kept 14 days in `.consumed/`) |
 | 🤖 `/kb:ingest <file \| url \| text>` | meeting notes, transcript, doc, epic | keeps source in `raw/`, proposes facts / decisions / todos / questions, files them on OK |

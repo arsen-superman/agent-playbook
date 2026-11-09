@@ -10,6 +10,7 @@ Plain Markdown in a Google Drive folder — readable in Obsidian, any editor, cl
 - `<area>/` — top-level areas (cooking, tech, home, travel, learning, …). Create a new area only when ≥3 notes would go there; until then use the closest one.
 - `<area>/<topic>/` — optional second level once an area has >15 notes.
 - `inbox/` — quick captures to sort later (`/kb:triage`).
+- `ideas/` — ideas with a status (raw → explored → promoted / shelved), one file each (`/kb:capture`, `/kb:brainstorm`). Project ideas live in that project's `.ai/ideas/`, not here.
 - `raw/` — original sources kept verbatim (`/kb:ingest`).
 
 ## Notes

@@ -7,7 +7,7 @@ The repo holds the **method** — skills, templates, rules. The **content** live
 agent-playbook/                    ← this repo = a Claude Code plugin marketplace
   .claude-plugin/marketplace.json
   playbooks/
-    knowledge-base-core/  (kb)   core for every knowledge base: capture · triage · stash · unstash · ingest · lint
+    knowledge-base-core/  (kb)   core for every knowledge base: capture · brainstorm · triage · stash · unstash · ingest · lint
     dev-workflow/         (dev)  software development
             workflows (orchestrators): feature · bugfix · spike
             stages:    init-project · upgrade-project · start · new-task · spec · plan · implement
@@ -85,6 +85,7 @@ open Repos/SuperProject in VS Code → Claude Code or in Claude CLI from project
 /kb:stash  /kb:unstash            switch context for a while (consume-once)
 /dev:park  /dev:resume            freeze a task for weeks
 /kb:capture  /kb:triage           side findings → inbox → sorted later
+/kb:capture  /kb:brainstorm       "ідея: …" → ideas/ → think it through, verdict, promote
 /kb:ingest  /kb:lint              meeting notes/docs into the KB · weekly health check
 ```
 

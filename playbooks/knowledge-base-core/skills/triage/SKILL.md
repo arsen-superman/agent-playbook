@@ -14,6 +14,7 @@ argument-hint: "[filter: type | priority]"
    - **ticket** — draft a tracker ticket (summary, type, description with evidence); create only after explicit OK
    - **knowledge** — merge the fact into the right `context/` file (or vault note), current-truth form
    - **decision** — write a decision record
+   - **idea** — worth thinking through later: move to `<kb>/ideas/<kebab-slug>.md` from `templates/idea.md` in this plugin, `status: raw`, `## Idea` = the item's What, `source` = the item's source
    - **ask** — draft the question for the person who knows
    - **park** — keep; add `parked: YYYY-MM-DD <reason>` to frontmatter
    - **drop** — no longer relevant

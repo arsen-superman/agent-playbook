@@ -8,6 +8,7 @@ Everything else on demand.
 .ai/tasks/<KEY-slug>/ task.md · spec.md · plan.md · test-cases.md · research/ (raw/ = dumps)
 .ai/qa/regression.md  regression suite promoted from closed tasks (for QA and future changes)
 .ai/inbox/           captured, unprocessed items — never read at session start
+.ai/ideas/           ideas about this project: raw → explored → promoted / shelved (/kb:capture, /kb:brainstorm)
 .ai/stash/           temporary consume-once session context
 .ai/raw/             ingested sources, immutable
 .ai/archive/         closed tasks — only when asked
@@ -23,4 +24,4 @@ Rules:
 - **Stop on blockers** — write the question in `task.md §Open questions` and ask.
 - **Worktrees** only at `<project>/worktrees/<repo>--<KEY>/` (`git -C <repo> worktree add <project>/worktrees/<repo>--<KEY> <branch>`), never inside a repo or elsewhere. Search inside the repo or worktree you work in, not from the project root (worktrees duplicate code).
 - **Git host operations** (PR/MR, comments, merge state) with the tool from the Repositories table (`Host · tool`); tool missing or signed out → say so and give the install/login command, don't improvise with another tool.
-- Limits: CLAUDE.md ≤100 lines · STATUS ≤30 · task.md ≤40 · spec.md ≤250 · inbox item ≤15.
+- Limits: CLAUDE.md ≤100 lines · STATUS ≤30 · task.md ≤40 · spec.md ≤250 · inbox item ≤15 · idea ≤80.

@@ -28,7 +28,7 @@ Show a short scan summary, then ask together:
 6. Confirm the detected build/test commands and the git host + tool per repo.
 
 ## 3. Create
-- `.ai/` with `STATUS.md`, `context/glossary.md`, `decisions/`, `tasks/`, `inbox/`, `stash/`, `raw/`, `archive/`, `qa/regression.md` (from `templates/project/regression.md`), and `.ai/.ignore` from `templates/project/ignore`. Add `.gitkeep` to empty folders only if the project folder is itself a git repo (otherwise nothing tracks them; skills create missing folders on demand).
+- `.ai/` with `STATUS.md`, `context/glossary.md`, `decisions/`, `tasks/`, `inbox/`, `ideas/`, `stash/`, `raw/`, `archive/`, `qa/regression.md` (from `templates/project/regression.md`), and `.ai/.ignore` from `templates/project/ignore`. Add `.gitkeep` to empty folders only if the project folder is itself a git repo (otherwise nothing tracks them; skills create missing folders on demand).
 - Project `CLAUDE.md` from `templates/project/CLAUDE.md`, filled from the scan and answers (≤100 lines). Fill the managed block between `<!-- agent-playbook:kb:begin -->` and `<!-- agent-playbook:kb:end -->` with `templates/project/kb-section.md` verbatim — it is replaced on upgrades, so project-specific text goes outside it.
 - `.ai/.playbook.json` from `templates/project/playbook.json`: `schema` = `migrations/CURRENT`, `playbook` = this plugin's version, dates = today.
   - If the project folder **is** a git repo, write it as `CLAUDE.local.md` instead and add `CLAUDE.local.md` and `.ai/` to that repo's `.gitignore` (ask first) — client knowledge must not be committed by accident.

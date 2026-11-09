@@ -14,6 +14,6 @@ Templates: `templates/vault/` in this plugin (two levels up from this skill's fo
 
 Steps:
 1. Path: argument, else ask (suggest `G:\My Drive\Vault`). Must be outside any work project. Existing folder with notes → add only missing pieces.
-2. Create `CLAUDE.md` and root `index.md` (areas only) from `templates/vault/`, folders `inbox/`, `raw/` and the areas in `index.md`, each with `<area>/index.md` from `area-index.md`. Existing vault whose root `index.md` lists notes → move each area's lines into its `<area>/index.md` and leave only area lines in the root.
+2. Create `CLAUDE.md` and root `index.md` (areas only) from `templates/vault/`, folders `inbox/`, `ideas/`, `raw/` and the areas in `index.md`, each with `<area>/index.md` from `area-index.md`. Existing vault whose root `index.md` lists notes → move each area's lines into its `<area>/index.md` and leave only area lines in the root.
 3. Add to `~/.claude/CLAUDE.md` (show the diff, ask first): `Personal vault: <absolute path>` and `Personal vault (Drive): Vault`.
 4. Tell the user: in Google Drive for desktop, mark the folder "Available offline" (search and Obsidian need local files); open it in Obsidian as a vault if wanted.

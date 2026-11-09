@@ -34,7 +34,14 @@
 | [agamarora/second-brain](https://github.com/agamarora/second-brain) | template repo + first-run setup (`init-project`, `init-vault`); private folders out of git; inbox | journal/NOW/TODO/DONE, people pages |
 | [Memory Bank](https://tweag.github.io/agentic-coding-handbook/WORKFLOW_MEMORY_BANK) | activeContext/progress → `STATUS.md`; techContext → project CLAUDE.md | reading every file every session; one-repo scope |
 
-What is ours: task lifecycle (spec → plan → implement → verify → close) that feeds the KB; project = multi-repo isolation boundary; capture/triage for side findings; stash and park as distinct temporary states; method separated from content.
+What is ours: task lifecycle (spec → plan → implement → verify → close) that feeds the KB; project = multi-repo isolation boundary; capture/triage for side findings; ideas as long-lived files with a status, apart from the inbox; stash and park as distinct temporary states; method separated from content.
+
+## Ideas
+- **Not inbox items.** Inbox items are short, get triaged and deleted, and age out after 60 days; an idea lives for months, grows with brainstorming and carries `status` (raw → explored → promoted / shelved / dropped) and a verdict. Hence `ideas/`, one file each, never deleted by age.
+- **An idea lives where it would be implemented.** About a project → `<project>/.ai/ideas/` (client details stay inside the project boundary; promote with `/dev:new-task`). Personal, cross-project or "could become a project" → `Vault/ideas/`. Skills work on one KB at a time and never mix the two.
+- **Only the user's ideas go to `ideas/`.** Improvements Claude notices during other work go to the inbox; triage can move them to `ideas/`.
+- **Phone:** `capture` and `brainstorm` fall back to the Google Drive connector when there is no file system, so ideas and inbox items reach the vault from claude.ai; triage and project work happen on the PC.
+- No `todo/` (the inbox already holds todos; tasks and the tracker hold planned work) and no `howto/` (vault how-tos are a note shape filed by topic; project how-tos belong in `.ai/context/` or the repo README).
 
 ## Workflows and agents
 - **Workflow = orchestrator skill** (`dev:feature-workflow`, `dev:bugfix-workflow`, `dev:spike-workflow`), run in the main session because it needs the user at the gates.
