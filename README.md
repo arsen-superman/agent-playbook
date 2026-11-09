@@ -32,11 +32,20 @@ claude plugin install dev@agent-playbook
 claude plugin install me@agent-playbook
 ```
 
+`dev` is only useful inside project folders, and every enabled skill costs context on each turn — keep it off elsewhere and turn it on per project:
+
+```bash
+claude plugin disable dev@agent-playbook --scope user    # once
+claude plugin enable dev@agent-playbook --scope local    # in each project folder, before /dev:init-project
+```
+
+`/dev:init-project` also writes the enablement into the project's `.claude/settings.local.json`, so existing projects get it from `/dev:upgrade-project`.
+
 Or clone the repo and add the local folder instead (`claude plugin marketplace add /path/to/agent-playbook`) — then edits apply at the next session start or after `/reload-plugins`, no reinstall.
 
 Optional: copy [`user/CLAUDE.md.example`](user/CLAUDE.md.example) into your `~/.claude/CLAUDE.md` (merge if you have one; you don't need to clone the repo — just copy the text from GitHub) and fill in the `<placeholders>`. The playbooks work without it; `/me:init-vault` adds the vault path for you.
 
-Skills are namespaced by the plugin's `name`, not its folder or display name: Dev Workflow → `/dev:start`, Knowledge Base Core → `/kb:capture`, Personal Vault → `/me:save`. Most also trigger on their own from what you say.
+Skills are namespaced by the plugin's `name`, not its folder or display name: Dev Workflow → `/dev:start`, Knowledge Base Core → `/kb:capture`, Personal Vault → `/me:save`. Most also trigger on their own from what you say; rare, deliberate ones (`init-project`, `upgrade-project`, `init-vault`, `lint`, `triage`, the `*-workflow` orchestrators) are manual-only — type them, their descriptions stay out of the context.
 
 **Keep [`docs/COMMANDS.md`](docs/COMMANDS.md) handy** — it is the cheat sheet of every command and agent (arguments, triggers, gates, models, outputs). Bookmark it on GitHub or save a copy next to your notes; it is the quickest way to remember what to type.
 

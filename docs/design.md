@@ -8,7 +8,8 @@
 5. **Work produces knowledge.** Tasks have a lifecycle; at close, what outlives the task is promoted to the project KB.
 6. **Isolation by folder.** One project folder = one KB = one context. Personal vault is separate from all projects.
 7. **Method ≠ content.** This repo (method) is versioned and shareable; content stays where it belongs.
-8. **Enforce with config, inform with text.** CLAUDE.md informs; `permissions.deny`, hooks and unconfigured credentials enforce.
+8. **Pay context only for what can trigger.** Every model-invocable skill description sits in context on every turn. Rare, deliberate skills (setup, upgrade, lint, triage, orchestrators) are `disable-model-invocation: true` — typed, never auto-run, invisible to the model and to agents, so nothing else may depend on invoking them. `dev` is enabled per project folder (`enabledPlugins` in `.claude/settings.local.json`), not globally.
+9. **Enforce with config, inform with text.** CLAUDE.md informs; `permissions.deny`, hooks and unconfigured credentials enforce.
 
 ## Layers
 | Layer | Where | Loaded |
@@ -37,17 +38,25 @@
 
 What is ours: task lifecycle (spec → plan → implement → verify → close) that feeds the KB; project = multi-repo isolation boundary; capture/triage for side findings; ideas as long-lived files with a status, apart from the inbox; stash and park as distinct temporary states; method separated from content.
 
+## Project knowledge: context and decisions
+- **`context/` stays small per file.** Files are rewritten in place, so they only grow: one area per file, ≤300 lines, split by sub-area past that. A grep hit opens the whole file, so a big file costs tokens on every hit.
+- **Repo docs win.** `.ai/` is local and outside every repo; a repo's `docs/`/README is versioned with the code and read by the team. What they describe is linked from the Context index, never copied; new knowledge about that code becomes a docs change in the repo. `context/` holds what no repo has: cross-repo flows, domain, data, environments.
+- **Decisions are few and never deleted.** Only what outlives the task *and* someone may want to reverse (usually 0–2 per task); task details stay in `spec.md §Decisions` and go to the archive. A replaced decision gets `status: superseded` + `superseded-by: NNNN` in its frontmatter so grep doesn't serve it as a current rule. `/kb:lint` flags contradicting `accepted` records and copies of repo docs.
+- **Many repos, one KB — tag, don't nest.** A project with ~10 repos keeps one `tasks/`, `decisions/`, STATUS: tasks and decisions often span repos, and a task's scope can grow into another repo, so a per-repo folder would force a choice, a copy or a move that breaks links. Instead every task (`repos:`), decision (`Repos:`) and STATUS row (Repos column) names its repos. Only `context/` nests (`context/<repo>/`), because knowledge about one repo stays about that repo; the Context index is grouped by repo.
+- **Obsidian is an optional viewer, never a dependency.** Every project KB is Obsidian-ready by its normal rules: properties in frontmatter (tasks, decisions, ideas), relative Markdown links (no wikilinks, so grep, GitHub and VS Code read them too), related files linked to each other, links rewritten when a task moves to `archive/`. Opting in at `/dev:init-project` only adds `.ai/views.md` (Bases: tasks by status and repo, archive, decisions, ideas) and a setup checklist; the vault is `.ai/` itself because Obsidian hides dot-folders. Dropping it = deleting `.ai/.obsidian/` and `views.md`. Agents never read `views.md` or need Obsidian.
+
 ## Ideas
 - **Not inbox items.** Inbox items are short, get triaged and deleted, and age out after 60 days; an idea lives for months, grows with brainstorming and carries `status` (raw → explored → promoted / shelved / dropped) and a verdict. Hence `ideas/`, one file each, never deleted by age.
-- **Vault ideas grow into folders.** Once material outgrows the card (research, MVP scope, sketches) the idea becomes `ideas/<slug>/<slug>.md` + files; on promotion the material moves into the new project's `.ai/`. Project ideas stay one file each (no layout change in projects).
-- **An idea lives where it would be implemented.** About a project → `<project>/.ai/ideas/` (client details stay inside the project boundary; promote with `/dev:new-task`). Personal, cross-project or "could become a project" → `Vault/ideas/`. Skills work on one KB at a time and never mix the two.
+- **Vault ideas grow into folders.** Once material outgrows the card (research, MVP scope, sketches) the idea becomes `_ideas/<slug>/<slug>.md` + files; on promotion the material moves into the new project's `.ai/`. Project ideas stay one file each (no layout change in projects).
+- **An idea lives where it would be implemented.** About a project → `<project>/.ai/ideas/` (client details stay inside the project boundary; promote with `/dev:new-task`). Personal, cross-project or "could become a project" → `Vault/_ideas/`. Skills work on one KB at a time and never mix the two.
 - **Only the user's ideas go to `ideas/`.** Improvements Claude notices during other work go to the inbox; triage can move them to `ideas/`.
 - **Phone:** `capture` and `brainstorm` fall back to the Google Drive connector when there is no file system, so ideas and inbox items reach the vault from claude.ai; triage and project work happen on the PC.
-- No `todo/` (the inbox holds todos that need routing; in the vault a plain todo is a `- [ ]` line in today's daily note, collected by `tasks.md`) and no `howto/` (vault how-tos are a category filed by topic; project how-tos belong in `.ai/context/` or the repo README).
+- No `todo/` (the inbox holds todos that need routing; in the vault a plain todo is a `- [ ]` line in today's daily note, collected by `tasks.md`) and no `howto/` (vault how-tos are a category filed by topic; project how-tos belong in the repo's docs/README, or in `.ai/context/` only when no repo covers them).
 
 ## Personal vault
 - **Obsidian is the UI, files are the truth.** Everything an agent needs is in Markdown and frontmatter; Bases only render it. Nothing exists only inside a Base.
-- **Two axes.** Folder = what it is about (capitalized domain, one level, fixed list in the vault `CLAUDE.md`); `categories` = what kind of note (Recipes, How-tos, Prompts, Notes). A folder named after a kind (`prompts/`) is the mistake this prevents. New domains and subfolders (past ~50–100 notes) only with the user's OK.
+- **Two axes.** Folder = what it is about (capitalized domain, one level, fixed list in the vault `CLAUDE.md`); `categories` = what kind of note (Recipes, How-tos, Prompts, Notes). A folder named after a kind (`prompts/`) is the mistake this prevents.
+- **Service folders start with `_`** (`_inbox`, `_ideas`, `_daily`, `_raw`, `_categories`, `_templates`, `_attachments`) so Obsidian, Drive and Explorer sort them above the capitalized domains instead of mixing them alphabetically. Project `.ai/` keeps plain names (it has no domains); `/kb:*` skills read `inbox/` etc. as the `_` folder in the vault. New domains and subfolders (past ~50–100 notes) only with the user's OK.
 - **No index files.** `summary` in frontmatter is the catalog: Bases show it to the user, grep shows it to agents. Folder note `<Domain>/<Domain>.md` = the domain's Base.
 - **Service folders are lowercase** (`inbox`, `ideas`, `daily`, `raw`, `categories`, `templates`, `attachments`) so domains stand out.
 - **Obsidian CLI for the link graph only** (`move`, `rename`, `backlinks`, `unresolved`, `base:query`, `tasks`): it needs the app running and is absent in Cowork and claude.ai, so read/write/search stay on plain files and path-less `[[links]]` survive moves without it.

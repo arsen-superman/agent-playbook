@@ -1,7 +1,7 @@
 ```base
 filters:
   and:
-    - file.inFolder("ideas")
+    - file.inFolder("_ideas")
     - file.hasProperty("status")
 views:
   - type: table

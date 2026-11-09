@@ -7,7 +7,7 @@ argument-hint: "[short-name]"
 
 A stash is **ephemeral session memory** — also the way to carry a task-less exploration or chat into a fresh session instead of compacting: what is in your head right now that is not yet worth writing into task files. It is consumed once by `unstash` and then removed. Durable task state belongs in `task.md` (`/dev:handoff`, `/dev:park`), not here.
 
-**Locate the KB root:** the nearest `.ai/` folder from the current directory upward (a project knowledge base); if there is none, the personal vault from `~/.claude/CLAUDE.md` (`Personal vault:` line); if neither exists, ask.
+**Locate the KB root:** the nearest `.ai/` folder from the current directory upward (a project knowledge base); if there is none, the personal vault from `~/.claude/CLAUDE.md` (`Personal vault:` line); if neither exists, ask. Vault service folders carry a `_` prefix: there `inbox/`, `ideas/`, `raw/`, `stash/` below mean `_inbox/`, `_ideas/`, `_raw/`, `_stash/`.
 
 1. Write `<kb>/stash/YYYY-MM-DD-HHMM-<short-name>.md` (≤40 lines):
    ```markdown

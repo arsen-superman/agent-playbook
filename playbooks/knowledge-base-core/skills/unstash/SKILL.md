@@ -5,7 +5,7 @@ argument-hint: "[short-name]"
 ---
 # Restore a stash
 
-**Locate the KB root:** the nearest `.ai/` folder from the current directory upward (a project knowledge base); if there is none, the personal vault from `~/.claude/CLAUDE.md` (`Personal vault:` line); if neither exists, ask.
+**Locate the KB root:** the nearest `.ai/` folder from the current directory upward (a project knowledge base); if there is none, the personal vault from `~/.claude/CLAUDE.md` (`Personal vault:` line); if neither exists, ask. Vault service folders carry a `_` prefix: there `inbox/`, `ideas/`, `raw/`, `stash/` below mean `_inbox/`, `_ideas/`, `_raw/`, `_stash/`.
 
 1. No name given → list `<kb>/stash/*.md` (name · created · task · first line) and ask which one.
 2. Read the stash (and its `.raw.md` only if the next step needs it). If it references a task, read that task's `task.md` too.

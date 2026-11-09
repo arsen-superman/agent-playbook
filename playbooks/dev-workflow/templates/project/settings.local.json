@@ -1,4 +1,7 @@
 {
+  "enabledPlugins": {
+    "dev@agent-playbook": true
+  },
   "permissions": {
     "deny": [
       "Read(**/.env)",

@@ -7,7 +7,7 @@ argument-hint: "<file | url | pasted text>"
 
 Principle (from Karpathy's LLM Wiki): sources are immutable raw material; the knowledge base holds compiled, current-truth knowledge with links back to sources.
 
-**Locate the KB root:** the nearest `.ai/` folder from the current directory upward (a project knowledge base); if there is none, the personal vault from `~/.claude/CLAUDE.md` (`Personal vault:` line); if neither exists, ask.
+**Locate the KB root:** the nearest `.ai/` folder from the current directory upward (a project knowledge base); if there is none, the personal vault from `~/.claude/CLAUDE.md` (`Personal vault:` line); if neither exists, ask. Vault service folders carry a `_` prefix: there `inbox/`, `ideas/`, `raw/`, `stash/` below mean `_inbox/`, `_ideas/`, `_raw/`, `_stash/`.
 
 1. **Keep the source.** Save it verbatim to `<kb>/raw/YYYY-MM-DD-<slug>.md` (or note the URL if it lives in Drive/Confluence/Jira — don't copy what has an owner). Never edit raw files later. A web page → `defuddle parse <url> --md` if installed (full clean text); else WebFetch, and mark the raw file `summary, not verbatim`.
 2. **Extract** into four lists and show them to the user before writing:

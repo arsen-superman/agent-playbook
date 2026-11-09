@@ -20,5 +20,5 @@ A parked task stays in `.ai/tasks/` (paths and links stay valid); only its statu
    - **Resume with:** <first action once unblocked>
    ```
 4. Waiting on a person → draft the follow-up message (Jira comment / Slack) in the reply; post only on OK.
-5. `STATUS.md`: move the row from Active to **Parked** (task · since · waiting for).
+5. `STATUS.md`: move the row from Active to **Parked** (task · repos · since · waiting for).
 6. Reply ≤4 lines: parked, why, what unblocks it.

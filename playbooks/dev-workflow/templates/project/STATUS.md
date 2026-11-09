@@ -1,12 +1,12 @@
 # STATUS — <project> · updated YYYY-MM-DD
 
 ## Active
-| Task | Status | Next |
-|---|---|---|
+| Task | Repos | Status | Next |
+|---|---|---|---|
 
 ## Parked
-| Task | Since | Waiting for |
-|---|---|---|
+| Task | Repos | Since | Waiting for |
+|---|---|---|---|
 
 ## Waiting on
 - <who / what> — since YYYY-MM-DD

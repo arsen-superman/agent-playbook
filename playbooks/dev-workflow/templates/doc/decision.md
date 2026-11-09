@@ -1,8 +1,13 @@
+---
+status: accepted | superseded
+superseded-by: NNNN
+repos: [repo-a]
+date: YYYY-MM-DD
+decided-by: <who>
+---
 # NNNN. <Decision as a statement>
 
-- **Status:** accepted | superseded by NNNN
-- **Date:** YYYY-MM-DD · **Origin:** KEY-123 / meeting / research
-- **Decided by:** <who>
+Origin: [KEY-123](../tasks/KEY-123-slug/task.md) <!-- or: meeting YYYY-MM-DD / research link. superseded-by: only when superseded. repos: names from the Repositories table, or [all]. -->
 
 ## Context
 <!-- 2-5 lines: the problem and the constraint that forced a choice. -->

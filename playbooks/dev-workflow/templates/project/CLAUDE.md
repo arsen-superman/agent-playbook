@@ -25,7 +25,13 @@ Each repo may have its own `CLAUDE.md` (code conventions) — it loads when you 
 - <anything the agent got wrong twice>
 
 ## Context index (read on demand)
+<!-- One area per file, grouped by repo. Repo docs are linked here, not copied into context/. -->
+**Cross-repo**
 - `context/glossary.md` — business terms → code
+
+**<repo-a>**
+- `<repo-a>/docs/` — <what the repo's own docs cover>
+- `context/<repo-a>/<area>.md` — <what only this repo needs, not in its docs>
 
 <!-- agent-playbook:kb:begin -->
 <!-- Managed by agent-playbook. Filled from templates/project/kb-section.md by /dev:init-project and replaced by /dev:upgrade-project. Edit outside these markers only. -->

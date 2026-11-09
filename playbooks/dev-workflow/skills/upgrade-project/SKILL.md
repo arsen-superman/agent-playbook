@@ -15,6 +15,7 @@ Plugin files (two levels up from this skill's folder): `migrations/CURRENT`, `mi
    - each migration in order, following its Steps; run its Check; on failure stop that project and report — no partial schema bump.
    - replace everything between `<!-- agent-playbook:kb:begin -->` and `<!-- agent-playbook:kb:end -->` with `kb-section.md`. Markers missing → insert the block at the end and tell the user to delete the old hand-written KB section if there is one (show it; don't delete yourself).
    - `.ai/.ignore`, `settings.local.json`: add missing entries from `templates/project/`, never remove the user's.
+   - `"obsidian": true` in `.playbook.json` → replace `.ai/views.md` with `templates/project/obsidian/views.md` (the user's own views go in other files).
    - update `.ai/.playbook.json`: `schema`, `playbook` (from the dev plugin.json version), `upgraded`.
 5. **Report** ≤8 lines per project: from → to schema, what changed, manual follow-ups.
 Never touch repositories, task content, context, or decisions beyond what a migration explicitly says.

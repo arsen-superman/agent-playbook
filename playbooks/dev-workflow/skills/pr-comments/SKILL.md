@@ -1,6 +1,6 @@
 ---
 name: pr-comments
-description: Workflow — pull review comments from a task's open pull request(s), triage them with the user, fix what needs fixing through the implementer, and draft replies — the loop between "PR opened" and "merged". Use when the user says PR comments, review comments, коменти в PR, опрацюй рев'ю, reviewers left feedback, or when start finds new comments on the task's PR.
+description: Workflow — pull review comments from a task's open PR, triage them with the user, fix through the implementer, draft replies. Triggers: PR comments, review comments, коменти в PR, опрацюй рев'ю.
 argument-hint: "[task-key]"
 ---
 # Handle PR review comments — orchestrator

@@ -26,3 +26,5 @@ updated: YYYY-MM-DD
 
 ## Links
 - [spec](spec.md) · [plan](plan.md) · [test cases](test-cases.md) · Jira · PR
+<!-- Also link: research/ files, the idea it was promoted from (../../ideas/<slug>.md), decision records it produced. Relative markdown links only. -->
+

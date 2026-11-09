@@ -1,7 +1,8 @@
 ---
 name: init-project
-description: Set up (or refresh) the AI infrastructure for a project folder — scan its repositories and stack, create the .ai/ knowledge base, the project CLAUDE.md and local settings, asking the user only what can't be inferred. Use when the user says init project, розгорни базу знань, set up .ai, onboard this project, or points at a project folder; with "refresh" after repos were added or changed.
+description: Set up or refresh the AI infrastructure of a project folder — scan repos, create .ai/, project CLAUDE.md and local settings. Manual: /dev:init-project; "refresh" after repos change.
 argument-hint: "[project-folder] [refresh]"
+disable-model-invocation: true
 ---
 # Initialise a project knowledge base
 
@@ -16,7 +17,7 @@ A project = one folder that contains one or more repositories (e.g. `Repos/Super
 - Tool check (read-only): installed (`<tool> --version`) and signed in (`gh auth status`, `glab auth status`, `az account show` + `az extension show -n azure-devops`; `gk` → its login status). Missing → recommend the install + login commands; never install yourself.
 - Stack per repo: `*.sln`/`*.csproj` (.NET + target framework), `package.json` (Angular/Vue/React, scripts), `angular.json`, `docker-compose*`, `*.bicep`/`*.tf`, test projects, CI files (`.github/workflows`, `azure-pipelines.yml`).
 - Build / test commands: from README, CI files, package.json scripts.
-- Existing `.ai/` → stop and suggest `/dev:upgrade-project` (structure) or `refresh` (re-scan repos into CLAUDE.md incl. `Host · tool`, create `worktrees/`, add missing tool `ask` rules — nothing else).
+- Existing `.ai/` → stop and suggest `/dev:upgrade-project` (structure) or `refresh` (re-scan repos into CLAUDE.md incl. `Host · tool`, create `worktrees/`, add missing tool `ask` rules, offer the Obsidian add-on if `.playbook.json` has no `obsidian` key — nothing else).
 
 ## 2. Ask (one batch, only what you couldn't infer)
 Show a short scan summary, then ask together:
@@ -26,6 +27,7 @@ Show a short scan summary, then ask together:
 4. Paths or commands the agent must never touch; paths it may read but never edit (generated code, frozen/legacy packages, applied migrations) — propose candidates from the scan.
 5. Discovery-phase project (no code yet)? → add `assumptions.md`.
 6. Confirm the detected build/test commands and the git host + tool per repo.
+7. Obsidian add-on for browsing `.ai/` (tables by repo/status, archive search, graph)? Optional, removable; default no.
 
 ## 3. Create
 - `.ai/` with `STATUS.md`, `context/glossary.md`, `decisions/`, `tasks/`, `inbox/`, `ideas/`, `stash/`, `raw/`, `archive/`, `qa/regression.md` (from `templates/project/regression.md`), and `.ai/.ignore` from `templates/project/ignore`. Add `.gitkeep` to empty folders only if the project folder is itself a git repo (otherwise nothing tracks them; skills create missing folders on demand).
@@ -35,6 +37,7 @@ Show a short scan summary, then ask together:
 - Repositories table in CLAUDE.md gets each repo's host link and tool.
 - `worktrees/` folder at the project root (all task worktrees live there, see the KB rules). Worktrees found elsewhere → list them with the `git worktree move <old> <project>/worktrees/<repo>--<KEY>` command; move only on OK. Project folder is a git repo → add `worktrees/` to its `.gitignore` together with `.ai/`.
 - `.claude/settings.local.json` from `templates/project/settings.local.json` + the user's never-touch paths as `deny` rules (`Read(…)`) + read-only paths as `deny` `Edit(…)` and `Write(…)` rules + `ask` rules for the detected tools' write commands (`glab mr create/merge`, `az repos pr create/update`, `gk` PR create — `gh` is in the template).
+- Obsidian add-on (only on yes): `.ai/views.md` from `templates/project/obsidian/views.md`, `.obsidian/` appended to `.ai/.ignore`, `"obsidian": true` in `.ai/.playbook.json`; print `templates/project/obsidian/setup.md` for the user to click through. No → `"obsidian": false`.
 - Databases: don't write connection strings anywhere. Suggest the command to register each allowed DB as a local MCP server (`claude mcp add --scope local …`, secrets via env vars or 1Password `op run`) and put only the server names into CLAUDE.md.
 
 ## 4. Suggest, don't write

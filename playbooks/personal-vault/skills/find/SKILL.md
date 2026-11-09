@@ -7,7 +7,7 @@ argument-hint: "<question>"
 
 Access mode as in `/me:save`: local path from `~/.claude/CLAUDE.md`, else the Google Drive connector folder `Vault` (search by title and full text, read with the connector).
 
-1. **Search** outside `raw/`, `templates/`, `attachments/`: key terms, synonyms and the other language (борщ / borscht, undervolt / андервольт) — file names, frontmatter `aliases`, `summary`, `tags`, headings, then full text. Files mode: Grep; Drive mode: connector search.
+1. **Search** outside `_raw/`, `_templates/`, `_attachments/`: key terms, synonyms and the other language (борщ / borscht, undervolt / андервольт) — file names, frontmatter `aliases`, `summary`, `tags`, headings, then full text. Files mode: Grep; Drive mode: connector search.
 2. **On a miss** (no or too many hits): pick the domain from the vault `CLAUDE.md` list and scan that folder's `summary:` lines (`grep -r "^summary:" <Domain>/`). Kind-of-note questions ("all my prompts") → grep `categories` for that category across domains. There are no index files.
 3. Read only matching notes. Answer from them, citing `[[note-name]]`. If `applies-to` doesn't match the user's situation (other device, version), say so.
 4. Nothing found → answer normally, then offer `/me:save`.

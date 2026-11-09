@@ -3,7 +3,7 @@ filters:
   and:
     - categories.contains(link("<Category>"))
     - not:
-        - file.inFolder("templates")
+        - file.inFolder("_templates")
 views:
   - type: table
     name: All

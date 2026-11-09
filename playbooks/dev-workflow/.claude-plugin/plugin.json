@@ -1,7 +1,7 @@
 {
   "name": "dev",
   "displayName": "Dev Workflow",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Software development playbook: init a project knowledge base, run tasks spec → plan → implement → verify → close, park and resume.",
   "author": {
     "name": "Arsen Superman"

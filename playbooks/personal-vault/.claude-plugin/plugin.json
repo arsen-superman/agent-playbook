@@ -1,7 +1,7 @@
 {
   "name": "me",
   "displayName": "Personal Vault",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Personal knowledge vault: save and find recipes, how-tos, prompts and answers as Markdown notes, with Obsidian as the UI.",
   "author": {
     "name": "Arsen Superman"

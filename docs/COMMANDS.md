@@ -10,7 +10,7 @@ For you and for any agent. Kept in sync with `playbooks/` (see *Maintenance* at 
 
 | Situation | Do |
 |---|---|
-| New project folder | `/dev:init-project` once |
+| New project folder | `claude plugin enable dev@agent-playbook --scope local`, then `/dev:init-project` once |
 | Continue earlier work | `/dev:start [KEY]` (not needed when starting something new) |
 | Work with no ticket yet | `/dev:new-task "description"` → `LOCAL-n`, then as usual |
 | New ticket, do it all in one go | `/dev:feature-workflow KEY` · `/dev:bugfix-workflow KEY` · `/dev:spike-workflow "question"` |
@@ -46,8 +46,8 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 ### Project setup and maintenance
 | Command | When | What happens |
 |---|---|---|
-| 🤖 `/dev:init-project [folder] [refresh]` | first time in a project folder; `refresh` after repos change or a playbook update adds project settings (hosts, worktrees) | scans repos, stack and git host per repo (link + tool `gh` / `glab` / `az repos` / `gk`, checks it's installed and signed in, recommends install), asks what it can't infer, creates `.ai/`, `worktrees/`, project `CLAUDE.md`, `.claude/settings.local.json`, `.ai/.playbook.json`; suggests (doesn't write) repo CLAUDE.md files and DB MCP setup |
-| ⌨ `/dev:upgrade-project [folder \| all] [dry-run]` | after agent-playbook changed project-side structure; when start/lint says "outdated" | applies pending migrations, refreshes the managed KB block in CLAUDE.md, bumps `.ai/.playbook.json` |
+| ⌨ `/dev:init-project [folder] [refresh]` | first time in a project folder; `refresh` after repos change or a playbook update adds project settings (hosts, worktrees) | scans repos, stack and git host per repo (link + tool `gh` / `glab` / `az repos` / `gk`, checks it's installed and signed in, recommends install), asks what it can't infer, creates `.ai/`, `worktrees/`, project `CLAUDE.md`, `.claude/settings.local.json`, `.ai/.playbook.json`; optional Obsidian add-on on request (`.ai/views.md` + setup checklist); suggests (doesn't write) repo CLAUDE.md files and DB MCP setup |
+| ⌨ `/dev:upgrade-project [folder \| all] [dry-run]` | after agent-playbook changed project-side structure; when start/lint says "outdated" | applies pending migrations, refreshes the managed KB block in CLAUDE.md (and `.ai/views.md` if the Obsidian add-on is on), bumps `.ai/.playbook.json` |
 
 ### Session and task lifecycle
 | Command | When | What happens |
@@ -87,16 +87,16 @@ Every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`.
 |---|---|---|
 | 🤖 `/kb:capture <what>` | your idea ("ідея: …"); something outside the current task: bug, todo, question, finding | your idea → `ideas/<slug>.md` (`status: raw`), reply `💡 title`; a plain todo in the vault → `- [ ]` in today's `daily/` note, reply `☑️`; anything else (incl. ideas Claude noticed itself) → one small file in `inbox/`, reply `📥 title`; work continues. Works from claude.ai on the phone (vault via Google Drive) |
 | 🤖 `/kb:brainstorm [idea]` | time to think an idea through | no argument → lists ideas of the current KB (project `.ai/` or vault, never both) and asks which; dialogue on goal, options, risks, cheapest test → rewrites the idea file: status, verdict, value, effort, next; in the vault an idea with material becomes `ideas/<slug>/` (card + files); offers promote (`/dev:new-task`, new project) on OK. Works from the phone |
-| 🤖 `/kb:triage [filter]` | inbox grew / free time | table of items, one proposed outcome each (now / task / ticket / checklist (vault) / knowledge / decision / idea / ask / park / drop); you confirm in one reply |
+| ⌨ `/kb:triage [filter]` | inbox grew / free time | table of items, one proposed outcome each (now / task / ticket / checklist (vault) / knowledge / decision / idea / ask / park / drop); you confirm in one reply |
 | 🤖 `/kb:stash [name]` | switching context; task-less exploration to continue in a fresh session instead of compacting | ≤40-line snapshot in `stash/` |
 | 🤖 `/kb:unstash [name]` | coming back | restores it into the session, reports drift, consumes it (kept 14 days in `.consumed/`) |
 | 🤖 `/kb:ingest <file \| url \| text>` | meeting notes, transcript, doc, epic | keeps source in `raw/` (web pages via `defuddle` if installed), proposes facts / decisions / todos / questions, files them on OK |
-| 🤖 `/kb:lint [fix]` | weekly | sizes, history-instead-of-truth, contradictions, stale/orphan items, old inbox/stash, secrets, outdated KB structure; vault: broken links (Obsidian CLI), notes without `summary`/`categories`, stray folders |
+| ⌨ `/kb:lint [fix]` | weekly | sizes (incl. context files ≤300), history-instead-of-truth, contradictions, copies of repo docs, contradicting or dangling superseded decisions, missing or unknown repo tags, stale/orphan items, old inbox/stash, secrets, outdated KB structure; vault: broken links (Obsidian CLI), notes without `summary`/`categories`, stray folders |
 
 ## me — personal vault (`G:\My Drive\Vault`; in claude.ai chat via the Drive connector)
 | Command | When | What happens |
 |---|---|---|
-| 🤖 `/me:init-vault [path]` | once; again after a plugin update or to upgrade an older layout | creates capitalized domain folders with folder-note Bases, service folders, `categories/`, `tasks.md`, vault `templates/`; moves an older layout (lowercase areas, index files, type folders) on OK; registers the path in `~/.claude/CLAUDE.md`; walks through Obsidian setup (settings, Folder Notes, CLI, phone sync, optional kepano skills) |
+| ⌨ `/me:init-vault [path]` | once; again after a plugin update or to upgrade an older layout | creates capitalized domain folders with folder-note Bases, `_`-prefixed service folders (sorted above domains), `_categories/`, `tasks.md`, vault `templates/`; moves an older layout (unprefixed service folders, lowercase areas, index files, type folders) on OK; registers the path in `~/.claude/CLAUDE.md`; walks through Obsidian setup (settings, Folder Notes, CLI, phone sync, optional kepano skills) |
 | 🤖 `/me:save [what] [domain]` | "збережи рецепт / інструкцію / промпт / це" | note in its domain folder with a category (Recipes / How-tos with Check+Rollback / Prompts / Notes), `summary`, `aliases`; merged with an existing one; never creates a top-level folder without OK |
 | 🤖 `/me:find <question>` | "як я робив…", "де мій рецепт…" | searches names, `aliases`, `summary`, tags, then full text; on a miss scans one domain's `summary` lines; answers with `[[note]]` citations; offers to save new syntheses |
 

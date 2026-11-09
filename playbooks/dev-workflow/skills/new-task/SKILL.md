@@ -1,6 +1,6 @@
 ---
 name: new-task
-description: Create a task folder in the project knowledge base for a Jira ticket or ad-hoc work without a ticket (feature, bug, research, chore); also link a ticket to an existing LOCAL task. Use when the user gives a ticket key or URL, says "new task" / "нова задача", describes work with no ticket yet, says a LOCAL task now has a ticket, or triage promotes an inbox item to a task.
+description: Create a task folder for a Jira ticket or ad-hoc work (feature, bug, research, chore), or link a ticket to a LOCAL task. Triggers: a ticket key or URL, new task, нова задача, work with no ticket yet.
 argument-hint: "<JIRA-KEY | short description> [from LOCAL-n]"
 ---
 # Create a task
@@ -12,7 +12,7 @@ Templates: `templates/doc/` in this plugin (two levels up from this skill's fold
 3. `task.md` from `templates/doc/task.md`: frontmatter, Goal (your 2-line paraphrase), `repos:` (which repos are likely touched), `status: spec`, Next = `/dev:spec` (bug → `/dev:fix-bug`, research → `/dev:research`).
 4. `spec.md` from `templates/doc/spec.md` with only **Raw requirement** (verbatim) and links. No analysis yet.
 5. Branch name per the project CLAUDE.md convention → `branch:`. Don't create the branch. Same repo already busy with another active task → suggest a worktree at `worktrees/<repo>--<KEY>/` (KB rules).
-6. Add a row to `.ai/STATUS.md` → Active.
+6. Add a row to `.ai/STATUS.md` → Active (Repos = `repos:` from task.md).
 7. Reply: folder, goal in 2 lines, next command.
 
 ## No ticket yet → LOCAL task
