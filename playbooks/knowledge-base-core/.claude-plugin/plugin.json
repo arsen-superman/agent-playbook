@@ -1,0 +1,18 @@
+{
+  "name": "kb",
+  "displayName": "Knowledge Base Core",
+  "version": "0.1.2",
+  "description": "Knowledge-base core: capture, triage, stash/unstash, ingest, lint. Works on the nearest .ai/ folder or the personal vault.",
+  "author": {
+    "name": "Arsen Superman"
+  },
+  "keywords": [
+    "knowledge-base",
+    "inbox",
+    "ideas",
+    "brainstorm",
+    "stash",
+    "ingest",
+    "lint"
+  ]
+}

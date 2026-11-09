@@ -7,14 +7,14 @@ The repo holds the **method** — skills, templates, rules. The **content** live
 agent-playbook/                    ← this repo = a Claude Code plugin marketplace
   .claude-plugin/marketplace.json
   playbooks/
-    kb/     core for every knowledge base: capture · triage · stash · unstash · ingest · lint
-    dev/    software development
+    knowledge-base-core/  (kb)   core for every knowledge base: capture · triage · stash · unstash · ingest · lint
+    dev-workflow/         (dev)  software development
             workflows (orchestrators): feature · bugfix · spike
             stages:    init-project · upgrade-project · start · new-task · spec · plan · implement
                        fix-bug · verify · research · handoff · park · resume · close-task
             agents:    analyst · planner · implementer · debugger · reviewer · verifier · researcher
             migrations/  project KB structure changes
-    me/     personal vault: init-vault · save · find
+    personal-vault/       (me)   personal vault: init-vault · save · find
   user/CLAUDE.md.example          ← your global ~/.claude/CLAUDE.md
   docs/COMMANDS.md                ← cheat sheet of every command (keep current)
   docs/design.md                  ← principles and why
@@ -55,7 +55,7 @@ Two ways, both under **Customize → Plugins**:
 
 ## Configure the workflow agents
 
-Every agent in the `/dev:feature-workflow`, `/dev:bugfix-workflow` and `/dev:spike-workflow` workflows is one Markdown file in [`playbooks/dev/agents/`](playbooks/dev/agents/). Its frontmatter controls how it runs:
+Every agent in the `/dev:feature-workflow`, `/dev:bugfix-workflow` and `/dev:spike-workflow` workflows is one Markdown file in [`playbooks/dev-workflow/agents/`](playbooks/dev-workflow/agents/). Its frontmatter controls how it runs:
 
 ```yaml
 model: opus        # opus | sonnet | haiku | a full model ID
@@ -105,13 +105,13 @@ open Repos/SuperProject in VS Code → Claude Code or in Claude CLI from project
 ```
 
 The session you type in is the orchestrator: it only reads each agent's STATUS block and `task.md`, so its context stays small.
-Each agent has its own model, effort, tools and turn limit (`playbooks/dev/agents/*.md`). Single stages stay available as skills (`/dev:spec`, `/dev:plan`, …) for manual work.
+Each agent has its own model, effort, tools and turn limit (`playbooks/dev-workflow/agents/*.md`). Single stages stay available as skills (`/dev:spec`, `/dev:plan`, …) for manual work.
 
 ## Updating projects after changing this repo
 
 - Skills, agents, rules → nothing to do: every project uses them from the plugin (next session / `/reload-plugins`).
 - Project-side structure (`.ai/` layout, the managed KB block in the project CLAUDE.md, `.ai/.ignore`) → `/dev:upgrade-project` (one project) or `/dev:upgrade-project all`. Each project records its schema in `.ai/.playbook.json`; `/dev:start` and `/kb:lint` tell you when it is behind.
-- When you change project-side structure: add `playbooks/dev/migrations/NNNN-*.md`, bump `migrations/CURRENT` (see `migrations/README.md`).
+- When you change project-side structure: add `playbooks/dev-workflow/migrations/NNNN-*.md`, bump `migrations/CURRENT` (see `migrations/README.md`).
 
 ## Add a playbook
 

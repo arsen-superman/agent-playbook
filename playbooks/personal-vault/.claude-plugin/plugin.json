@@ -1,0 +1,17 @@
+{
+  "name": "me",
+  "displayName": "Personal Vault",
+  "version": "0.1.2",
+  "description": "Personal knowledge vault: save and find recipes, how-tos, instructions and answers as Markdown notes.",
+  "author": {
+    "name": "Arsen Superman"
+  },
+  "keywords": [
+    "personal-knowledge",
+    "notes",
+    "recipes",
+    "how-to",
+    "obsidian",
+    "google-drive"
+  ]
+}

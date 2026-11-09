@@ -1,6 +1,0 @@
-{
-  "name": "dev",
-  "version": "0.1.1",
-  "description": "Software development playbook: init a project knowledge base, run tasks spec → plan → implement → verify → close, park and resume.",
-  "author": { "name": "Arsen Superman" }
-}

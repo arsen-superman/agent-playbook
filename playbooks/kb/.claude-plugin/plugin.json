@@ -1,6 +1,0 @@
-{
-  "name": "kb",
-  "version": "0.1.1",
-  "description": "Knowledge-base core: capture, triage, stash/unstash, ingest, lint. Works on the nearest .ai/ folder or the personal vault.",
-  "author": { "name": "Arsen Superman" }
-}
