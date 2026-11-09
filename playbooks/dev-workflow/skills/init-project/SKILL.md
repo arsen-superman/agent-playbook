@@ -23,7 +23,7 @@ Show a short scan summary, then ask together:
 1. Project name and one-line purpose; your role.
 2. Tracker (Jira project key / URL), docs (Confluence / Drive), chat channels.
 3. Environments: which databases/services exist (names only), which are allowed (local / test read-only), which are off-limits.
-4. Paths or commands the agent must never touch.
+4. Paths or commands the agent must never touch; paths it may read but never edit (generated code, frozen/legacy packages, applied migrations) — propose candidates from the scan.
 5. Discovery-phase project (no code yet)? → add `assumptions.md`.
 6. Confirm the detected build/test commands and the git host + tool per repo.
 
@@ -34,7 +34,7 @@ Show a short scan summary, then ask together:
   - If the project folder **is** a git repo, write it as `CLAUDE.local.md` instead and add `CLAUDE.local.md` and `.ai/` to that repo's `.gitignore` (ask first) — client knowledge must not be committed by accident.
 - Repositories table in CLAUDE.md gets each repo's host link and tool.
 - `worktrees/` folder at the project root (all task worktrees live there, see the KB rules). Worktrees found elsewhere → list them with the `git worktree move <old> <project>/worktrees/<repo>--<KEY>` command; move only on OK. Project folder is a git repo → add `worktrees/` to its `.gitignore` together with `.ai/`.
-- `.claude/settings.local.json` from `templates/project/settings.local.json` + the user's never-touch paths as `deny` rules + `ask` rules for the detected tools' write commands (`glab mr create/merge`, `az repos pr create/update`, `gk` PR create — `gh` is in the template).
+- `.claude/settings.local.json` from `templates/project/settings.local.json` + the user's never-touch paths as `deny` rules (`Read(…)`) + read-only paths as `deny` `Edit(…)` and `Write(…)` rules + `ask` rules for the detected tools' write commands (`glab mr create/merge`, `az repos pr create/update`, `gk` PR create — `gh` is in the template).
 - Databases: don't write connection strings anywhere. Suggest the command to register each allowed DB as a local MCP server (`claude mcp add --scope local …`, secrets via env vars or 1Password `op run`) and put only the server names into CLAUDE.md.
 
 ## 4. Suggest, don't write

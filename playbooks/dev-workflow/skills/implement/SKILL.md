@@ -14,9 +14,9 @@ Per step:
 2. Run the step's verify check (build + relevant tests at minimum).
 3. Commit in that repo: English, `<KEY>: <imperative summary>`.
 4. Step automated test cases → fill `Automated by` (test name) for those TC IDs in `test-cases.md`.
-5. Tick: `- [x] … (abc1234)`; update `**Next:**`.
+5. Tick: `- [x] … (abc1234)`; update `**Next:**`. Done differently from the step text (other files, other approach) → rewrite the step to what was done and add `(changed: <why>)`, in the same commit as the code.
 6. Noticed something else → `/kb:capture`, keep going.
 
-Stop and report when: a check fails after two different fix attempts; the plan contradicts the code; a step needs a decision not in the spec. Write it in `task.md §Open questions`, `status: blocked`. Small reordering is fine (note it); bigger plan changes need OK.
+Stop and report when: a check fails after two different fix attempts; the plan contradicts the code; a step needs a decision not in the spec. Write it in `task.md §Open questions`, `status: blocked`. Small reordering or a changed step is fine (noted as in 5); bigger plan changes need OK. Bug task: never edit the `<KEY>: failing test for …` test — fix the code.
 
 Done → `status: review`; draft the PR description (What / Why / How tested / Risks / ticket link) in the reply. Never push or open a PR without explicit OK. Suggest `/dev:verify` in a fresh session.

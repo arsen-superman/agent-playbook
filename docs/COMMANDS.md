@@ -75,7 +75,7 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 | `dev:planner` | opus / medium | spec → test design + plan (symbol checks via scouts) | test-cases.md, plan.md |
 | `dev:implementer` | sonnet / medium | one phase of the plan | code, commits, plan ticks |
 | `dev:debugger` | opus / high | repro, root cause, failing test (no fix); wide searches via scouts | spec AS-IS, test-cases.md TC-01, test commit |
-| `dev:reviewer` | opus / medium; fix rounds sonnet, fix commits only | code review of the diff | nothing (returns findings) |
+| `dev:reviewer` | opus / medium; fix rounds sonnet, fix commits only | code review of the diff vs spec and plan; applies `<repo>/REVIEW.md` if present; blocks edits to a bug's failing test; ≤5 minor findings | nothing (returns findings) |
 | `dev:verifier` | sonnet / medium | executes test cases, proposes missing ones | nothing (orchestrator records the run in test-cases.md) |
 | `dev:researcher` | sonnet / high | one research question | research/<topic>.md |
 | `dev:scout` | sonnet / low | one narrow read-only question about code, answered with `file:line` facts; called by analyst, planner, debugger, researcher | nothing (returns facts) |
