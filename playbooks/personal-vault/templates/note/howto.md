@@ -1,17 +1,23 @@
 ---
-tags: [howto]
-source: <conversation YYYY-MM-DD | URL>
+categories:
+  - "[[How-tos]]"
+summary: <one line — what it does>
+tags: []
+aliases: []
 applies-to: <device / model / OS / version>
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
+source: <conversation YYYY-MM-DD | URL>
+created: {{date:YYYY-MM-DD}}
+updated: {{date:YYYY-MM-DD}}
 ---
-# How to <do the thing>
+# {{title}}
 
 <!-- TL;DR: goal and expected result in 1-3 lines -->
 
 ## Before you start
 - Prerequisites, tools, backups
-- Risks
+
+> [!warning] Risks
+> What can go wrong and how bad it is.
 
 ## Steps
 1. 

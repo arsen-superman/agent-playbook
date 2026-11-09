@@ -18,7 +18,7 @@
     {
       "name": "me",
       "source": "./playbooks/personal-vault",
-      "description": "Personal knowledge vault: save recipes, how-tos and answers from conversations as Markdown notes; find them later."
+      "description": "Personal knowledge vault: save recipes, how-tos, prompts and answers from conversations as Markdown notes; find them later. Obsidian as the UI."
     }
   ]
 }

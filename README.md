@@ -12,7 +12,7 @@ agent-playbook/                    ← this repo = a Claude Code plugin marketpl
             workflows (orchestrators): feature · bugfix · spike
             stages:    init-project · upgrade-project · start · new-task · spec · plan · implement
                        fix-bug · verify · research · handoff · park · resume · close-task
-            agents:    analyst · planner · implementer · debugger · reviewer · verifier · researcher
+            agents:    analyst · planner · implementer · debugger · reviewer · verifier · researcher · scout
             migrations/  project KB structure changes
     personal-vault/       (me)   personal vault: init-vault · save · find
   user/CLAUDE.md.example          ← your global ~/.claude/CLAUDE.md
@@ -36,7 +36,7 @@ Or clone the repo and add the local folder instead (`claude plugin marketplace a
 
 Optional: copy [`user/CLAUDE.md.example`](user/CLAUDE.md.example) into your `~/.claude/CLAUDE.md` (merge if you have one; you don't need to clone the repo — just copy the text from GitHub) and fill in the `<placeholders>`. The playbooks work without it; `/me:init-vault` adds the vault path for you.
 
-Skills are namespaced by playbook: `/dev:start`, `/kb:capture`, `/me:save`. Most also trigger on their own from what you say.
+Skills are namespaced by the plugin's `name`, not its folder or display name: Dev Workflow → `/dev:start`, Knowledge Base Core → `/kb:capture`, Personal Vault → `/me:save`. Most also trigger on their own from what you say.
 
 **Keep [`docs/COMMANDS.md`](docs/COMMANDS.md) handy** — it is the cheat sheet of every command and agent (arguments, triggers, gates, models, outputs). Bookmark it on GitHub or save a copy next to your notes; it is the quickest way to remember what to type.
 
@@ -44,14 +44,14 @@ Skills are namespaced by playbook: `/dev:start`, `/kb:capture`, `/me:save`. Most
 
 Two ways, both under **Customize → Plugins**:
 
-- **From the GitHub repo** — add this repo as a marketplace (`<github-user>/agent-playbook`), then install `kb`, `dev`, `me`.
+- **From the GitHub repo** — add this repo as a marketplace (`<github-user>/agent-playbook`), then install **Knowledge Base Core** (`kb`), **Dev Workflow** (`dev`) and **Personal Vault** (`me`).
 - **From a zip (`dist`)** — build it yourself and upload:
   ```bash
   python scripts/pack.py me kb dev      # → dist/<name>-<version>.zip (default: me)
   ```
   Then **Customize → Plugins → Add → Upload plugin** and pick a zip. `dist/` is git-ignored, so each person builds their own; re-pack and re-upload after you change a playbook.
 
-`dev` and `kb` lean on file access and subagents, so they are at their best in Claude Code; `me` (personal vault) works well in Desktop.
+Dev Workflow and Knowledge Base Core lean on file access and subagents, so they are at their best in Claude Code; Personal Vault works well in Desktop.
 
 ## Configure the workflow agents
 
@@ -92,10 +92,13 @@ open Repos/SuperProject in VS Code → Claude Code or in Claude CLI from project
 **Personal vault**:
 
 ```
-/me:init-vault ~/Documents/Vault     once
+/me:init-vault ~/Documents/Vault     once; again after a plugin update (refreshes templates, upgrades an older layout)
 "save this recipe" / /me:save        from any session
 "how did I undervolt the CPU?"         /me:find
+"купити фільтр" / /kb:capture         plain todo → today's daily note; tasks.md collects all open ones
 ```
+
+The vault is plain Markdown in a Google Drive folder, with [Obsidian](https://obsidian.md) as the main UI: one level of capitalized domain folders (`Tech/`, `Cooking/`, …), each opening as a table (Folder Notes + Bases); `categories` (Recipes, How-tos, Prompts, Notes) cut across domains. `/me:init-vault` walks you through the Obsidian side: settings, the Folder Notes plugin, the Obsidian CLI (keeps links intact when agents move or rename notes), Android sync, and optional [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) (`obsidian-bases`, `defuddle`). Without Obsidian everything still works — agents and claude.ai read the same files.
 
 ## Workflows — one session, every stage in a subagent
 
@@ -116,10 +119,10 @@ Each agent has its own model, effort, tools and turn limit (`playbooks/dev-workf
 
 ## Add a playbook
 
-1. `playbooks/<name>/.claude-plugin/plugin.json` (`name` = folder name).
+1. `playbooks/<display-name>/.claude-plugin/plugin.json`: the folder is the kebab-case `displayName` (`Personal Vault` → `personal-vault/`); `name` is the short slash prefix (`me`).
 2. `skills/<skill>/SKILL.md`, templates in `templates/`, agents in `agents/`.
-3. Add an entry to `.claude-plugin/marketplace.json`, then `claude plugin install <name>@agent-playbook`.
-Reuse `kb` for inbox/stash/ingest/lint instead of copying them.
+3. Add an entry to `.claude-plugin/marketplace.json` (`name` + `source` folder), then `claude plugin install <name>@agent-playbook`.
+Reuse Knowledge Base Core (`kb`) for inbox/stash/ingest/lint instead of copying them.
 
 ## Safety
 

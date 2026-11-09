@@ -30,18 +30,28 @@
 ## Borrowed ideas
 | From | Taken | Not taken |
 |---|---|---|
-| [Karpathy, LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) | immutable `raw/` + compiled knowledge with source links; `ingest`, `lint`; good answers filed back; `index.md` (vault) | append-only `log.md`; concepts/entities taxonomy |
+| [Karpathy, LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) | immutable `raw/` + compiled knowledge with source links; `ingest`, `lint`; good answers filed back | append-only `log.md`; concepts/entities taxonomy; `index.md` catalogs (vault uses `summary` + Bases) |
 | [agamarora/second-brain](https://github.com/agamarora/second-brain) | template repo + first-run setup (`init-project`, `init-vault`); private folders out of git; inbox | journal/NOW/TODO/DONE, people pages |
+| [kepano, vault](https://stephango.com/vault) | `categories` as links to Base-backed category notes; properties via templates; plural tags; `YYYY-MM-DD`; path-less links | notes in the vault root (we keep one level of domain folders for agent paths and the Drive connector) |
 | [Memory Bank](https://tweag.github.io/agentic-coding-handbook/WORKFLOW_MEMORY_BANK) | activeContext/progress → `STATUS.md`; techContext → project CLAUDE.md | reading every file every session; one-repo scope |
 
 What is ours: task lifecycle (spec → plan → implement → verify → close) that feeds the KB; project = multi-repo isolation boundary; capture/triage for side findings; ideas as long-lived files with a status, apart from the inbox; stash and park as distinct temporary states; method separated from content.
 
 ## Ideas
 - **Not inbox items.** Inbox items are short, get triaged and deleted, and age out after 60 days; an idea lives for months, grows with brainstorming and carries `status` (raw → explored → promoted / shelved / dropped) and a verdict. Hence `ideas/`, one file each, never deleted by age.
+- **Vault ideas grow into folders.** Once material outgrows the card (research, MVP scope, sketches) the idea becomes `ideas/<slug>/<slug>.md` + files; on promotion the material moves into the new project's `.ai/`. Project ideas stay one file each (no layout change in projects).
 - **An idea lives where it would be implemented.** About a project → `<project>/.ai/ideas/` (client details stay inside the project boundary; promote with `/dev:new-task`). Personal, cross-project or "could become a project" → `Vault/ideas/`. Skills work on one KB at a time and never mix the two.
 - **Only the user's ideas go to `ideas/`.** Improvements Claude notices during other work go to the inbox; triage can move them to `ideas/`.
 - **Phone:** `capture` and `brainstorm` fall back to the Google Drive connector when there is no file system, so ideas and inbox items reach the vault from claude.ai; triage and project work happen on the PC.
-- No `todo/` (the inbox already holds todos; tasks and the tracker hold planned work) and no `howto/` (vault how-tos are a note shape filed by topic; project how-tos belong in `.ai/context/` or the repo README).
+- No `todo/` (the inbox holds todos that need routing; in the vault a plain todo is a `- [ ]` line in today's daily note, collected by `tasks.md`) and no `howto/` (vault how-tos are a category filed by topic; project how-tos belong in `.ai/context/` or the repo README).
+
+## Personal vault
+- **Obsidian is the UI, files are the truth.** Everything an agent needs is in Markdown and frontmatter; Bases only render it. Nothing exists only inside a Base.
+- **Two axes.** Folder = what it is about (capitalized domain, one level, fixed list in the vault `CLAUDE.md`); `categories` = what kind of note (Recipes, How-tos, Prompts, Notes). A folder named after a kind (`prompts/`) is the mistake this prevents. New domains and subfolders (past ~50–100 notes) only with the user's OK.
+- **No index files.** `summary` in frontmatter is the catalog: Bases show it to the user, grep shows it to agents. Folder note `<Domain>/<Domain>.md` = the domain's Base.
+- **Service folders are lowercase** (`inbox`, `ideas`, `daily`, `raw`, `categories`, `templates`, `attachments`) so domains stand out.
+- **Obsidian CLI for the link graph only** (`move`, `rename`, `backlinks`, `unresolved`, `base:query`, `tasks`): it needs the app running and is absent in Cowork and claude.ai, so read/write/search stay on plain files and path-less `[[links]]` survive moves without it.
+- Templates: the plugin's `templates/note/` is the source, in Obsidian Templates syntax; `/me:init-vault` copies them into the vault's `templates/`.
 
 ## Workflows and agents
 - **Workflow = orchestrator skill** (`dev:feature-workflow`, `dev:bugfix-workflow`, `dev:spike-workflow`), run in the main session because it needs the user at the gates.
@@ -94,5 +104,5 @@ Method updates itself (plugins). What lives in projects is versioned by `.ai/.pl
 ## Prompts and tools
 - No `prompts/` folder. A reusable prompt is a skill (procedure) or a CLAUDE.md line (rule).
 - Scripts a skill needs live in that skill's folder (`scripts/`).
-- Subagents ship in a playbook's `agents/` (e.g. `dev/agents/verifier.md`).
+- Subagents ship in a playbook's `agents/` (e.g. `playbooks/dev-workflow/agents/verifier.md`).
 - MCP servers are per machine and per project (`claude mcp add --scope local`) — never in this repo, because they carry credentials and environment specifics.

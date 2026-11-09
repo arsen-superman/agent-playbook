@@ -11,7 +11,7 @@ argument-hint: "[idea]"
 
 Idea file format: `templates/idea.md` in this plugin.
 
-1. **Pick.** Argument → match it in `<kb>/ideas/` (file name, title, tags); several matches → ask. Not there → offer to capture it as an idea first (`/kb:capture`). No argument → list `<kb>/ideas/*.md` as a table: title · status · verdict · updated — `raw` first, then `explored`, oldest first; leave out `promoted` and `dropped`. Ask which one to take.
+1. **Pick.** Argument → match it in `<kb>/ideas/` (file name, title, tags; an idea card is `ideas/<slug>.md` or, in the vault, `ideas/<slug>/<slug>.md`); several matches → ask. Not there → offer to capture it as an idea first (`/kb:capture`). No argument → list the idea cards as a table: title · status · verdict · updated — `raw` first, then `explored`, oldest first; leave out `promoted` and `dropped`. Ask which one to take.
 2. **Read** the idea. In a project KB, read only what the options need (`context/`, `decisions/`, code — through `dev:scout` if available).
 3. **Brainstorm** with the user, a few questions at a time, not a questionnaire:
    - the goal, who benefits, what "done" looks like;
@@ -20,5 +20,6 @@ Idea file format: `templates/idea.md` in this plugin.
    - the cheapest test that teaches the most.
    Give your own view and recommendation; push back on weak points.
 4. **Record.** Show the proposed Verdict section and frontmatter; on OK rewrite the file in current-truth form: `## Idea` untouched; `## Why / context`, `## Brainstorm` (≤40 lines) and `## Verdict` rewritten; frontmatter `status` (`explored`, or `shelved` / `dropped` if the user decides so), `verdict` with reason, `value`, `effort`, `next`, `updated`.
-5. **Next.** Offer: promote — project KB → `/dev:new-task` from the idea; vault → a new project folder (`/dev:init-project`) or a vault note — then set `status: promoted` and `promoted-to:` with the link; or keep it `explored`; or shelve. Never promote without an explicit OK.
+   **Vault: material that outgrows the card** (research, competitors, MVP scope, sketches) → the idea becomes a folder: move the card to `ideas/<slug>/<slug>.md` (Obsidian CLI `move` when available) and put each piece of material beside it as its own file, linked from the card. The card stays ≤80 lines.
+5. **Next.** Offer: promote — project KB → `/dev:new-task` from the idea; vault → a new project folder (`/dev:init-project`; the idea folder's material moves into its `.ai/`, the card stays in the vault) or a vault note — then set `status: promoted` and `promoted-to:` with the link; or keep it `explored`; or shelve. Never promote without an explicit OK.
 6. Reply in ≤5 lines: verdict, next step, file path.

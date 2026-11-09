@@ -21,5 +21,6 @@ Check and report as a table (issue · file · suggested fix):
 9. **Safety** — secrets, connection strings, personal data outside `raw/`.
 10. **Structure version** — project KB: `.ai/.playbook.json` missing or `schema` older than the dev playbook's current → suggest `/dev:upgrade-project`; managed block markers in CLAUDE.md missing or hand-edited.
 11. **Repetition** — the same instruction repeated across CLAUDE.md files or skills.
+12. **Personal vault** — broken links and orphans via the Obsidian CLI (`unresolved`, `backlinks`) when available; notes without `summary` or `categories`; top-level folders missing from the vault `CLAUDE.md` domain list (or type folders like `prompts/`); leftover `index.md` files (→ `/me:init-vault`); a domain past ~100 notes → suggest subfolders.
 
 Default: report only. With `fix`: apply the mechanical fixes (links, purges, STATUS sync) and list the judgement calls for the user.

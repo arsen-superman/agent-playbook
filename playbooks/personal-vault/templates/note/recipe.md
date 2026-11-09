@@ -1,12 +1,16 @@
 ---
-tags: [recipe]
-source: <conversation YYYY-MM-DD | URL>
+categories:
+  - "[[Recipes]]"
+summary: <one line — what it is>
+tags: []
+aliases: []
 servings: 4
 time: <prep + cook>
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
+source: <conversation YYYY-MM-DD | URL>
+created: {{date:YYYY-MM-DD}}
+updated: {{date:YYYY-MM-DD}}
 ---
-# <Dish>
+# {{title}}
 
 <!-- 1-2 lines: what it is, what makes this version work -->
 

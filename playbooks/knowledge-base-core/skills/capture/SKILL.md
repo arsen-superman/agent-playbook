@@ -11,6 +11,7 @@ argument-hint: "<what>"
 
 **Where it goes**
 - The **user** offers an idea ("ідея: …", "запиши ідею") → `<kb>/ideas/<kebab-slug>.md` from `templates/idea.md` in this plugin, `status: raw`. `## Idea` = the user's words (or a tight summary of the idea discussed in this conversation); fill `## Why / context` only from what was said. Ask at most one question, and only if no title is possible.
+- **Personal vault, files mode:** a plain todo from the user that needs no thinking ("купити фільтр") → append `- [ ] <what>` under `## Tasks` in `daily/YYYY-MM-DD.md` (today; create it from the vault's `templates/daily.md` if missing), reply `☑️ <what>`. In Drive mode it goes to the inbox (the connector can't append).
 - Anything else, and **everything you notice yourself** (incl. improvement ideas during other work) → inbox item below.
 
 **Inbox item** `<kb>/inbox/YYYY-MM-DD-<kebab-slug>.md` (≤15 lines):
@@ -31,6 +32,6 @@ created: YYYY-MM-DD
 Type guide: `todo` work to do · `finding` fact learned · `bug` defect · `idea` possible improvement · `question` someone must answer.
 
 Steps:
-1. Duplicate check: grep `<kb>/inbox/`, `<kb>/ideas/` and active tasks for the same subject. Found → append one evidence line to that item and stop.
+1. Duplicate check: grep `<kb>/inbox/`, `<kb>/ideas/` (incl. idea folders) and active tasks for the same subject. Found → append one evidence line to that item and stop.
 2. Write the file. It must be readable in a month without this conversation: include paths, names, links.
 3. Reply with one line — `📥 <title>` (inbox) or `💡 <title>` (idea) — and continue the current work. Do not start working on the item.

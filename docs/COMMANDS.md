@@ -85,20 +85,20 @@ Every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`.
 ## kb — any knowledge base (project `.ai/` or the personal vault)
 | Command | When | What happens |
 |---|---|---|
-| 🤖 `/kb:capture <what>` | your idea ("ідея: …"); something outside the current task: bug, todo, question, finding | your idea → `ideas/<slug>.md` (`status: raw`), reply `💡 title`; anything else (incl. ideas Claude noticed itself) → one small file in `inbox/`, reply `📥 title`; work continues. Works from claude.ai on the phone (vault via Google Drive) |
-| 🤖 `/kb:brainstorm [idea]` | time to think an idea through | no argument → lists ideas of the current KB (project `.ai/` or vault, never both) and asks which; dialogue on goal, options, risks, cheapest test → rewrites the idea file: status, verdict, value, effort, next; offers promote (`/dev:new-task`, new project) on OK. Works from the phone |
-| 🤖 `/kb:triage [filter]` | inbox grew / free time | table of items, one proposed outcome each (now / task / ticket / knowledge / decision / idea / ask / park / drop); you confirm in one reply |
+| 🤖 `/kb:capture <what>` | your idea ("ідея: …"); something outside the current task: bug, todo, question, finding | your idea → `ideas/<slug>.md` (`status: raw`), reply `💡 title`; a plain todo in the vault → `- [ ]` in today's `daily/` note, reply `☑️`; anything else (incl. ideas Claude noticed itself) → one small file in `inbox/`, reply `📥 title`; work continues. Works from claude.ai on the phone (vault via Google Drive) |
+| 🤖 `/kb:brainstorm [idea]` | time to think an idea through | no argument → lists ideas of the current KB (project `.ai/` or vault, never both) and asks which; dialogue on goal, options, risks, cheapest test → rewrites the idea file: status, verdict, value, effort, next; in the vault an idea with material becomes `ideas/<slug>/` (card + files); offers promote (`/dev:new-task`, new project) on OK. Works from the phone |
+| 🤖 `/kb:triage [filter]` | inbox grew / free time | table of items, one proposed outcome each (now / task / ticket / checklist (vault) / knowledge / decision / idea / ask / park / drop); you confirm in one reply |
 | 🤖 `/kb:stash [name]` | switching context; task-less exploration to continue in a fresh session instead of compacting | ≤40-line snapshot in `stash/` |
 | 🤖 `/kb:unstash [name]` | coming back | restores it into the session, reports drift, consumes it (kept 14 days in `.consumed/`) |
-| 🤖 `/kb:ingest <file \| url \| text>` | meeting notes, transcript, doc, epic | keeps source in `raw/`, proposes facts / decisions / todos / questions, files them on OK |
-| 🤖 `/kb:lint [fix]` | weekly | sizes, history-instead-of-truth, contradictions, stale/orphan items, old inbox/stash, secrets, outdated KB structure |
+| 🤖 `/kb:ingest <file \| url \| text>` | meeting notes, transcript, doc, epic | keeps source in `raw/` (web pages via `defuddle` if installed), proposes facts / decisions / todos / questions, files them on OK |
+| 🤖 `/kb:lint [fix]` | weekly | sizes, history-instead-of-truth, contradictions, stale/orphan items, old inbox/stash, secrets, outdated KB structure; vault: broken links (Obsidian CLI), notes without `summary`/`categories`, stray folders |
 
 ## me — personal vault (`G:\My Drive\Vault`; in claude.ai chat via the Drive connector)
 | Command | When | What happens |
 |---|---|---|
-| 🤖 `/me:init-vault [path]` | once; again to split an old flat index | creates vault structure (root `index.md` = areas, `<area>/index.md` = notes), registers the path in `~/.claude/CLAUDE.md` |
-| 🤖 `/me:save [what] [area]` | "збережи рецепт / інструкцію / це" | note (recipe / howto with Check+Rollback / note) in the right folder, merged with an existing one, area index updated |
-| 🤖 `/me:find <question>` | "як я робив…", "де мій рецепт…" | searches first, reads only the relevant area index on a miss; answers with `[[note]]` citations; offers to save new syntheses |
+| 🤖 `/me:init-vault [path]` | once; again after a plugin update or to upgrade an older layout | creates capitalized domain folders with folder-note Bases, service folders, `categories/`, `tasks.md`, vault `templates/`; moves an older layout (lowercase areas, index files, type folders) on OK; registers the path in `~/.claude/CLAUDE.md`; walks through Obsidian setup (settings, Folder Notes, CLI, phone sync, optional kepano skills) |
+| 🤖 `/me:save [what] [domain]` | "збережи рецепт / інструкцію / промпт / це" | note in its domain folder with a category (Recipes / How-tos with Check+Rollback / Prompts / Notes), `summary`, `aliases`; merged with an existing one; never creates a top-level folder without OK |
+| 🤖 `/me:find <question>` | "як я робив…", "де мій рецепт…" | searches names, `aliases`, `summary`, tags, then full text; on a miss scans one domain's `summary` lines; answers with `[[note]]` citations; offers to save new syntheses |
 
 ## Command line (outside a session)
 ```

@@ -12,7 +12,8 @@ argument-hint: "[filter: type | priority]"
    - **now** — tiny (<15 min), do it in this session
    - **task** — create a task (`/dev:new-task` in a project KB)
    - **ticket** — draft a tracker ticket (summary, type, description with evidence); create only after explicit OK
-   - **knowledge** — merge the fact into the right `context/` file (or vault note), current-truth form
+   - **checklist** — personal vault only, a plain todo: append `- [ ] <title>` to today's `daily/YYYY-MM-DD.md`
+   - **knowledge** — merge the fact into the right `context/` file (or vault note via `/me:save` rules), current-truth form
    - **decision** — write a decision record
    - **idea** — worth thinking through later: move to `<kb>/ideas/<kebab-slug>.md` from `templates/idea.md` in this plugin, `status: raw`, `## Idea` = the item's What, `source` = the item's source
    - **ask** — draft the question for the person who knows
