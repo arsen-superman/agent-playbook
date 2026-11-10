@@ -37,10 +37,10 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 
 | Command | When | What happens |
 |---|---|---|
-| ⌨ `/dev:feature-workflow <KEY \| task \| description> [auto]` | a feature end to end | analyst → **GATE A** questions → planner → **GATE B** plan → implementer per phase → reviewer (≤2 fix rounds) → verifier → **GATE C** push/PR. `auto` skips B for small plans. Resumable: `/dev:start` continues at the saved stage |
+| ⌨ `/dev:feature-workflow <KEY \| task \| description> [auto]` | a feature end to end | analyst → **GATE A** questions → planner → **GATE B** plan → implementer per phase → reviewer → you pick minors to fix (≤2 fix rounds, logged in `review.md`) → verifier → **GATE C** push/PR. `auto` skips B for small plans. Resumable: `/dev:start` continues at the saved stage |
 | ⌨ `/dev:bugfix-workflow <KEY \| task \| description>` | a bug end to end | debugger (repro, root cause, failing test) → **GATE A** pick fix → implementer → reviewer → verifier → **GATE C** |
 | 🤖 `/dev:amend <KEY> <text \| file \| url>` | new requirements, clarifications, edge cases after the spec (also with a PR open) | appends a dated Update to Raw requirement → analyst classifies items (covered+tested / no test / new / conflict) and sizes them → **GATE A** → planner adds TCs + one Amend phase (**GATE B** unless ≤3 steps) → implementer → reviewer (whole PR diff, focus on amend) → verifier (full regression) → **GATE C** PR update + Jira |
-| 🤖 `/dev:pr-comments [KEY]` | PR has review comments | fetches unresolved threads (`gh` / connector / paste) → triage table fix / reply / discuss / amend / follow-up → **GATE** → PR-feedback phase via implementer (+ reviewer and verifier for logic changes) → drafted replies → **GATE C** push, reply, resolve |
+| 🤖 `/dev:pr-comments [KEY]` | PR has review comments | fetches unresolved threads (`gh` / connector / paste) → one `review.md` row each: fix / reply / discuss / amend / follow-up → **GATE** → PR-feedback phase by F-ID via implementer (+ reviewer verifying those rows and verifier for logic changes) → drafted replies → **GATE C** push, reply, resolve → proposed `<repo>/REVIEW.md` lines for team conventions |
 | ⌨ `/dev:spike-workflow <question \| KEY> [timebox]` | choose between options before building | frame + sub-questions → **GATE A** → researcher ×N in parallel → synthesis → **GATE B** → decision record in `.ai/decisions/`, follow-ups |
 
 ### Project setup and maintenance
@@ -62,8 +62,9 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 ### Single stages (manual, in this session — the workflows use the same procedures)
 | Command | What it produces |
 |---|---|
-| 🤖 `/dev:spec [KEY]` | `spec.md`: AS-IS with file:line, rules, AC, edge cases, open questions. No code |
-| 🤖 `/dev:plan [KEY]` | `test-cases.md` (cases per AC, level unit/integration/e2e/manual) + `plan.md`: phased, commit-sized steps each with a verify check; asks approval |
+| 🤖 `/dev:spec [KEY]` | `spec.md`: AS-IS with file:line, rules (permission matrix when claims are touched), AC (every endpoint returning a new field), edge cases, open questions. No code |
+| 🤖 `/dev:plan [KEY]` | scouts reuse, class sizes, call frequency first → `test-cases.md` (cases per AC, level unit/integration/e2e/manual) + `plan.md`: approach, placement, cross-cutting risk classes, phased commit-sized steps each with a verify check, every risk closed by a step or your decision; asks approval |
+| 🤖 `/dev:review [KEY]` | `review.md`: every finding (F-ID, risk class, severity, file:line, fix) from a review of the branch diff against spec, plan, risk classes and `<repo>/REVIEW.md`; delegates to `dev:reviewer` if this session wrote the code |
 | 🤖 `/dev:implement [KEY] [all \| phase N]` | code + one commit per step, ticks with hashes; one phase per call by default; never pushes |
 | 🤖 `/dev:fix-bug [KEY]` | reproduce → root cause → failing test → minimal fix → verification note |
 | 🤖 `/dev:verify [KEY]` | executes `test-cases.md` (automated + what it can run itself), adds missing cases, records a run, leaves UI/human cases `⏳ for QA` and drafts a QA handoff (Jira comment on OK); delegates to `dev:verifier` if this session wrote the code |
@@ -73,10 +74,10 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 | Agent | Model / effort | Does | Writes |
 |---|---|---|---|
 | `dev:analyst` | opus / medium | requirements vs code → spec (code reading via scouts) | spec.md |
-| `dev:planner` | opus / medium | spec → test design + plan (symbol checks via scouts) | test-cases.md, plan.md |
+| `dev:planner` | opus / medium | spec → test design + plan (reuse, class-size, frequency and symbol checks via scouts) | test-cases.md, plan.md |
 | `dev:implementer` | sonnet / medium | one phase of the plan | code, commits, plan ticks |
 | `dev:debugger` | opus / high | repro, root cause, failing test (no fix); wide searches via scouts | spec AS-IS, test-cases.md TC-01, test commit |
-| `dev:reviewer` | opus / medium; fix rounds sonnet, fix commits only | code review of the diff vs spec and plan; applies `<repo>/REVIEW.md` if present; blocks edits to a bug's failing test; ≤5 minor findings | nothing (returns findings) |
+| `dev:reviewer` | opus / high; fix rounds the same, whole diff with focus on fix commits | `/dev:review`: conformance to spec and plan plus independent quality over the risk classes (plan-level flaws flagged); reuse search; applies `<repo>/REVIEW.md`; blocks edits to a bug's failing test; no cap on findings | review.md |
 | `dev:verifier` | sonnet / medium | executes test cases, proposes missing ones | nothing (orchestrator records the run in test-cases.md) |
 | `dev:researcher` | sonnet / high | one research question | research/<topic>.md |
 | `dev:scout` | sonnet / low | one narrow read-only question about code, answered with `file:line` facts; called by analyst, planner, debugger, researcher | nothing (returns facts) |
@@ -96,7 +97,7 @@ Every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`.
 ## me — personal vault (`G:\My Drive\Vault`; in claude.ai chat via the Drive connector)
 | Command | When | What happens |
 |---|---|---|
-| ⌨ `/me:init-vault [path]` | once; again after a plugin update or to upgrade an older layout | creates capitalized domain folders with folder-note Bases, `_`-prefixed service folders (sorted above domains), `_categories/`, `tasks.md`, vault `templates/`; moves an older layout (unprefixed service folders, lowercase areas, index files, type folders) on OK; registers the path in `~/.claude/CLAUDE.md`; walks through Obsidian setup (settings, Folder Notes, CLI, phone sync, optional kepano skills) |
+| ⌨ `/me:init-vault [path]` | once; again after a plugin update or to upgrade an older layout | creates capitalized domain folders with folder-note Bases, `_`-prefixed service folders (sorted above domains), `_categories/`, `_tasks.md`, vault `_templates/`; moves an older layout (unprefixed service folders, lowercase areas, index files, type folders) on OK; registers the path in `~/.claude/CLAUDE.md`; walks through Obsidian setup (settings, Folder Notes, CLI, phone sync, optional kepano skills) |
 | 🤖 `/me:save [what] [domain]` | "збережи рецепт / інструкцію / промпт / це" | note in its domain folder with a category (Recipes / How-tos with Check+Rollback / Prompts / Notes), `summary`, `aliases`; merged with an existing one; never creates a top-level folder without OK |
 | 🤖 `/me:find <question>` | "як я робив…", "де мій рецепт…" | searches names, `aliases`, `summary`, tags, then full text; on a miss scans one domain's `summary` lines; answers with `[[note]]` citations; offers to save new syntheses |
 

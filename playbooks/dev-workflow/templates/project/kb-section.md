@@ -6,7 +6,7 @@ Everything else on demand.
 .ai/context/         durable cross-repo knowledge: glossary.md, architecture.md, data.md, …   (index below)
 .ai/context/<repo>/  knowledge about one repo only (folder name = Repositories table)
 .ai/decisions/       NNNN-slug.md — decisions with their why and Repos (grep before re-deciding)
-.ai/tasks/<KEY-slug>/ task.md · spec.md · plan.md · test-cases.md · research/ (raw/ = dumps)
+.ai/tasks/<KEY-slug>/ task.md · spec.md · plan.md · test-cases.md · review.md · research/ (raw/ = dumps)
 .ai/qa/regression.md  regression suite promoted from closed tasks (for QA and future changes)
 .ai/inbox/           captured, unprocessed items — never read at session start
 .ai/ideas/           ideas about this project: raw → explored → promoted / shelved (/kb:capture, /kb:brainstorm)

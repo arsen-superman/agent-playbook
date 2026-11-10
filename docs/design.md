@@ -51,7 +51,7 @@ What is ours: task lifecycle (spec → plan → implement → verify → close) 
 - **An idea lives where it would be implemented.** About a project → `<project>/.ai/ideas/` (client details stay inside the project boundary; promote with `/dev:new-task`). Personal, cross-project or "could become a project" → `Vault/_ideas/`. Skills work on one KB at a time and never mix the two.
 - **Only the user's ideas go to `ideas/`.** Improvements Claude notices during other work go to the inbox; triage can move them to `ideas/`.
 - **Phone:** `capture` and `brainstorm` fall back to the Google Drive connector when there is no file system, so ideas and inbox items reach the vault from claude.ai; triage and project work happen on the PC.
-- No `todo/` (the inbox holds todos that need routing; in the vault a plain todo is a `- [ ]` line in today's daily note, collected by `tasks.md`) and no `howto/` (vault how-tos are a category filed by topic; project how-tos belong in the repo's docs/README, or in `.ai/context/` only when no repo covers them).
+- No `todo/` (the inbox holds todos that need routing; in the vault a plain todo is a `- [ ]` line in today's daily note, collected by `_tasks.md`) and no `howto/` (vault how-tos are a category filed by topic; project how-tos belong in the repo's docs/README, or in `.ai/context/` only when no repo covers them).
 
 ## Personal vault
 - **Obsidian is the UI, files are the truth.** Everything an agent needs is in Markdown and frontmatter; Bases only render it. Nothing exists only inside a Base.
@@ -68,7 +68,10 @@ What is ours: task lifecycle (spec → plan → implement → verify → close) 
 - **Contract**: every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`; evidence goes into files. The orchestrator never reads transcripts or code.
 - **After the PR** the task stays `review` until merged: `dev:amend` (requirements changed — delta spec/plan, never rewrite done work), `dev:pr-comments` (review loop, fixes as a plan phase linked to comments), `dev:close-task` (merged → promote, archive, git cleanup).
 - **Gates**: A — blocking questions (never skipped); B — plan/decision approval (skippable with `auto` for small plans); C — anything external: push, PR, Jira, Slack (never skipped).
-- Model choice: judgement on `opus` (analyst, planner, reviewer at medium; debugger at high); execution and evidence gathering on `sonnet` (implementer, verifier at medium; researcher at high); code reading delegated to `dev:scout` (`sonnet`/low) so expensive agents keep small contexts — the built-in Explore runs on the caller's model, so it saves nothing. Review fix rounds re-review only the fix commits on `sonnet`. Within a session an agent is continued (SendMessage) for follow-ups on its own work; reviewer and verifier are always fresh. Change in the agent file.
+- **Risk classes, one list for three stages** (`templates/checklists/risk-classes.md`): batch invariants, permission matrix, every consumer of a new field, cache and time zones, placement, reuse, call frequency, error disclosure, concurrency. The analyst turns them into rules and edge cases, the planner answers the applicable ones in `plan.md §Cross-cutting` (shown at GATE B), the reviewer checks them against the diff. One file so the three never drift; born from PR comments the workflow missed.
+- **The plan is not the reference for correctness.** The reviewer checks conformance to the plan *and* quality independently; a flaw the plan prescribed is a `plan-level` finding, not an approval.
+- **`review.md` = one findings log per task** for every source — reviewer rounds, PR comments, the user. Rows carry an F-ID, risk class, decision and status (open → fixed `hash` → verified / reopened · replied). Nothing is capped or dropped: minor rows go to the user at the review gate. Fix phases name F-IDs, fix-round reviewers verify those rows, replies are drafted from them, and `convention` rows become proposed `<repo>/REVIEW.md` lines.
+- Model choice: judgement on `opus` (analyst, planner at medium; reviewer and debugger at high); execution and evidence gathering on `sonnet` (implementer, verifier at medium; researcher at high); code reading delegated to `dev:scout` (`sonnet`/low) so expensive agents keep small contexts — the built-in Explore runs on the caller's model, so it saves nothing. Review fix rounds stay on `opus` and re-read the whole diff, focused on the fix commits — fixes break things through how they interact with the rest. Within a session an agent is continued (SendMessage) for follow-ups on its own work; reviewer and verifier are always fresh. Change in the agent file.
 - Worktrees live in `<project>/worktrees/<repo>--<KEY>/`; git-host operations use the per-repo tool recorded in the project CLAUDE.md.
 - Plugin agents ignore `hooks`, `mcpServers`, `permissionMode` — those come from the session/project.
 - Orchestrators stay in `skills/` next to stage skills: a plugin's `workflows/` folder is reserved by Claude Code for JS workflows, and the folder doesn't change the slash name anyway.
@@ -87,9 +90,9 @@ flowchart TD
     GB -->|"edits, SendMessage"| P
     GB --> I["dev:implementer · sonnet / medium<br/>one per phase · commits + plan ticks"]
     I -->|"next phase → fresh implementer"| I
-    I --> R["dev:reviewer · opus / medium · fresh<br/>whole base...branch diff"]
-    R -->|"blocker / major → same implementer, SendMessage"| I2["fix round"]
-    I2 --> R2["dev:reviewer · sonnet · fresh<br/>fix commits only · max 2 rounds"]
+    I --> R["dev:reviewer · opus / high · fresh<br/>whole base...branch diff → review.md"]
+    R -->|"blocker / major + chosen minors → same implementer, SendMessage"| I2["fix round"]
+    I2 --> R2["dev:reviewer · opus · fresh<br/>whole diff, focus on fix commits · max 2 rounds"]
     R2 --> V
     R -->|"approve"| V["dev:verifier · sonnet / medium · fresh<br/>runs test-cases.md"]
     V -->|"fail → same implementer, max 2"| I2

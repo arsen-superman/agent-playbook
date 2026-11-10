@@ -10,10 +10,10 @@ Read `task.md`, `plan.md`, and only the spec sections the current step reference
 Default scope: one phase, then report. `all` → until done or blocked.
 
 Per step:
-1. Make the change — nothing beyond the step.
+1. Make the change — nothing beyond the step. Before writing a helper, check or service, grep for an existing one and use it (the plan's Placement names what to reuse).
 2. Run the step's verify check (build + relevant tests at minimum).
 3. Commit in that repo: English, `<KEY>: <imperative summary>`.
-4. Step automated test cases → fill `Automated by` (test name) for those TC IDs in `test-cases.md`.
+4. Step automated test cases → fill `Automated by` (test name) for those TC IDs in `test-cases.md`. Step names F-IDs → set their Status in `review.md` to `fixed <hash>`.
 5. Tick: `- [x] … (abc1234)`; update `**Next:**`. Done differently from the step text (other files, other approach) → rewrite the step to what was done and add `(changed: <why>)`, in the same commit as the code.
 6. Noticed something else → `/kb:capture`, keep going.
 

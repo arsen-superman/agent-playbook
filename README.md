@@ -11,7 +11,7 @@ agent-playbook/                    ← this repo = a Claude Code plugin marketpl
     dev-workflow/         (dev)  software development
             workflows (orchestrators): feature · bugfix · spike
             stages:    init-project · upgrade-project · start · new-task · spec · plan · implement
-                       fix-bug · verify · research · handoff · park · resume · close-task
+                       review · fix-bug · verify · research · handoff · park · resume · close-task
             agents:    analyst · planner · implementer · debugger · reviewer · verifier · researcher · scout
             migrations/  project KB structure changes
     personal-vault/       (me)   personal vault: init-vault · save · find
@@ -73,7 +73,7 @@ maxTurns: 60       # turn limit for one run
 tools: Read, Grep, Glob, Bash, Write, Edit
 ```
 
-Defaults: `opus`/`high` for analyst, planner, implementer, debugger and reviewer (the stages where quality matters most); `sonnet` for the lighter ones. Want cheaper or faster runs? Drop a stage to `sonnet`/`medium`. Want deeper analysis? Raise `effort`.
+Defaults: judgement on `opus` — analyst and planner at `medium`, reviewer and debugger at `high`; execution and evidence on `sonnet` — implementer and verifier at `medium`, researcher at `high`, scout at `low`. Want cheaper or faster runs? Drop a stage to `sonnet`/`medium`. Want deeper analysis? Raise `effort`.
 
 Where to edit depends on how you installed:
 
@@ -104,7 +104,7 @@ open Repos/SuperProject in VS Code → Claude Code or in Claude CLI from project
 /me:init-vault ~/Documents/Vault     once; again after a plugin update (refreshes templates, upgrades an older layout)
 "save this recipe" / /me:save        from any session
 "how did I undervolt the CPU?"         /me:find
-"купити фільтр" / /kb:capture         plain todo → today's daily note; tasks.md collects all open ones
+"купити фільтр" / /kb:capture         plain todo → today's daily note; _tasks.md collects all open ones
 ```
 
 The vault is plain Markdown in a Google Drive folder, with [Obsidian](https://obsidian.md) as the main UI: one level of capitalized domain folders (`Tech/`, `Cooking/`, …), each opening as a table (Folder Notes + Bases); `categories` (Recipes, How-tos, Prompts, Notes) cut across domains. `/me:init-vault` walks you through the Obsidian side: settings, the Folder Notes plugin, the Obsidian CLI (keeps links intact when agents move or rename notes), Android sync, and optional [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) (`obsidian-bases`, `defuddle`). Without Obsidian everything still works — agents and claude.ai read the same files.

@@ -11,8 +11,8 @@ skills:
 ---
 You are a stage worker in an orchestrated workflow. You start with no conversation history: everything you know comes from the task folder path in your prompt, the files there, the project CLAUDE.md, and the code. Never ask the user directly — put questions in QUESTIONS and return. Out-of-scope findings → /kb:capture, never fix them.
 
-Job: write `test-cases.md` and `plan.md` for the task folder you are given, following the `/dev:plan` procedure (preloaded; if not, invoke the skill). Do not ask for approval — the orchestrator does that. Verify every file and symbol you name exists — batch those checks into `dev:scout` subagents instead of reading code yourself.
-SUMMARY must contain: approach in ≤3 lines, phase list with step counts, test cases count by level (unit / integration / e2e / manual), top risks.
+Job: write `test-cases.md` and `plan.md` for the task folder you are given, following the `/dev:plan` procedure (preloaded; if not, invoke the skill). Do not ask for approval — the orchestrator does that. Verify every file and symbol you name exists — batch those checks, and the reuse / class-size / call-frequency questions of the procedure, into `dev:scout` subagents instead of reading code yourself.
+SUMMARY must contain: approach in ≤3 lines, placement in 1 line, phase list with step counts, test cases count by level (unit / integration / e2e / manual), cross-cutting classes covered, risks marked `accept?` (each also in QUESTIONS).
 
 ## Return to the orchestrator — exactly this, nothing else
 ```

@@ -30,7 +30,7 @@ Subfolders (`Tech/network/`) only once a domain passes ~50–100 notes, and only
 - `_templates/` — note templates (Obsidian Templates syntax)
 - `_attachments/` — images and files
 - `_stash/` — temporary session context (`/kb:stash`), created on demand
-- `tasks.md` — every open `- [ ]` in the vault
+- `_tasks.md` — every open `- [ ]` in the vault
 
 Skills shared with project KBs (`/kb:*`) say `inbox/`, `ideas/`, `raw/`… — in this vault that means the `_` folder.
 Search skips `_raw/`, `_templates/`, `_attachments/` unless asked.
