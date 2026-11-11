@@ -11,8 +11,10 @@
 | 5 | **Client state, cache, time** | Cache: lifetime, invalidation, never cache a failure, refresh when the day/month/period changes. Time: whose time zone (server, browser, business), period boundaries, defaults from "now". |
 | 6 | **Placement and design** | Where does the code live; how much does each class grow (past ~300 lines or a second responsibility → a new service, per repo convention)? Named types over bool flags; validation in the layer the repo uses. `<repo>/REVIEW.md` wins. |
 | 7 | **Reuse** | Does a service, helper, endpoint or permission check already do this? Search before writing; never re-implement a check another service owns. |
-| 8 | **Cost and frequency** | How often does it run — app start, every page, every item? Same data loaded twice in one request? N+1, unbounded queries, UI blocked on a non-essential call? |
+| 8 | **Cost and frequency** | How often does it run — app start, every page, every item? Same data loaded twice in one request? N+1, unbounded queries, a new query or filter without an index, UI blocked on a non-essential call? |
 | 9 | **Error disclosure** | Do "not found" and "forbidden" look the same to a user without access? Do messages, codes or ids reveal data or existence? |
 | 10 | **Concurrency** | Parallel or repeated requests, double submit, stale reads between check and save. |
+| 11 | **Silent failure** | What happens when each new call fails? Empty or broad catch, log-and-continue, default/null/mock returned on error, `?.`/`??` skipping a step that must run, retries exhausted without a signal — does the failure reach a log with context and the caller or user? |
+| 12 | **Rollout** | Old and new versions run side by side during deploy — API clients, queues, caches, stored data still work? DB migration reversible or safe to run twice? Behind a feature flag? How is it rolled back, and what does rollback do to data written meanwhile? |
 
 Not a miss: an old bug in shared code the change only calls (capture it); a decision recorded in spec §Decisions.

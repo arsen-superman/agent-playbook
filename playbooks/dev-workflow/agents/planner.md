@@ -5,7 +5,7 @@ model: opus
 effort: medium
 maxTurns: 40
 color: purple
-tools: Read, Grep, Glob, Bash, Write, Edit, Agent, Skill
+tools: Read, Grep, Glob, Bash, LSP, Write, Edit, Agent, Skill
 skills:
   - dev:plan
 ---

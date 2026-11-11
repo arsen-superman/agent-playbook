@@ -16,6 +16,7 @@ Origin: [KEY-123](../tasks/KEY-123-slug/task.md) <!-- or: meeting YYYY-MM-DD / r
 <!-- 1-3 lines. -->
 
 ## Consequences
+<!-- What becomes easier · what becomes harder · what to revisit, and when. -->
 -
 
 ## Alternatives rejected

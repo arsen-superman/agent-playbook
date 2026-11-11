@@ -16,8 +16,9 @@ A project = one folder that contains one or more repositories (e.g. `Repos/Super
 - **Git host** per repo from the remote: web URL of the repo and the tool — `github.com`/GHE → `gh`; GitLab → `glab`; `dev.azure.com`/`*.visualstudio.com` → `az repos` (azure-devops extension); Bitbucket or mixed hosts → `gk` (GitKraken CLI/MCP, multi-provider). CLI first (cheaper, scriptable); an MCP server only when no CLI fits. Unknown/self-hosted host → ask.
 - Tool check (read-only): installed (`<tool> --version`) and signed in (`gh auth status`, `glab auth status`, `az account show` + `az extension show -n azure-devops`; `gk` → its login status). Missing → recommend the install + login commands; never install yourself.
 - Stack per repo: `*.sln`/`*.csproj` (.NET + target framework), `package.json` (Angular/Vue/React, scripts), `angular.json`, `docker-compose*`, `*.bicep`/`*.tf`, test projects, CI files (`.github/workflows`, `azure-pipelines.yml`).
+- Language servers: map every repo's stack to its LSP plugin via `templates/project/lsp.md`; check (read-only) the binary is on PATH and the plugin installed (`claude plugin list`). Agents navigate symbols through them, so every detected language gets one.
 - Build / test commands: from README, CI files, package.json scripts.
-- Existing `.ai/` → stop and suggest `/dev:upgrade-project` (structure) or `refresh` (re-scan repos into CLAUDE.md incl. `Host · tool`, create `worktrees/`, add missing tool `ask` rules, offer the Obsidian add-on if `.playbook.json` has no `obsidian` key — nothing else).
+- Existing `.ai/` → stop and suggest `/dev:upgrade-project` (structure) or `refresh` (re-scan repos into CLAUDE.md incl. `Host · tool`, create `worktrees/`, add missing tool `ask` rules, add language servers for stacks without one, offer the Obsidian add-on if `.playbook.json` has no `obsidian` key — nothing else).
 
 ## 2. Ask (one batch, only what you couldn't infer)
 Show a short scan summary, then ask together:
@@ -36,7 +37,7 @@ Show a short scan summary, then ask together:
   - If the project folder **is** a git repo, write it as `CLAUDE.local.md` instead and add `CLAUDE.local.md` and `.ai/` to that repo's `.gitignore` (ask first) — client knowledge must not be committed by accident.
 - Repositories table in CLAUDE.md gets each repo's host link and tool.
 - `worktrees/` folder at the project root (all task worktrees live there, see the KB rules). Worktrees found elsewhere → list them with the `git worktree move <old> <project>/worktrees/<repo>--<KEY>` command; move only on OK. Project folder is a git repo → add `worktrees/` to its `.gitignore` together with `.ai/`.
-- `.claude/settings.local.json` from `templates/project/settings.local.json` + the user's never-touch paths as `deny` rules (`Read(…)`) + read-only paths as `deny` `Edit(…)` and `Write(…)` rules + `ask` rules for the detected tools' write commands (`glab mr create/merge`, `az repos pr create/update`, `gk` PR create — `gh` is in the template).
+- `.claude/settings.local.json` from `templates/project/settings.local.json` + the user's never-touch paths as `deny` rules (`Read(…)`) + read-only paths as `deny` `Edit(…)` and `Write(…)` rules + `ask` rules for the detected tools' write commands (`glab mr create/merge`, `az repos pr create/update`, `gk` PR create — `gh` is in the template) + an `enabledPlugins` entry `<plugin>@claude-plugins-official: true` per detected language server.
 - Obsidian add-on (only on yes): `.ai/views.md` from `templates/project/obsidian/views.md`, `.obsidian/` appended to `.ai/.ignore`, `"obsidian": true` in `.ai/.playbook.json`; print `templates/project/obsidian/setup.md` for the user to click through. No → `"obsidian": false`.
 - Databases: don't write connection strings anywhere. Suggest the command to register each allowed DB as a local MCP server (`claude mcp add --scope local …`, secrets via env vars or 1Password `op run`) and put only the server names into CLAUDE.md.
 
@@ -45,4 +46,4 @@ Show a short scan summary, then ask together:
 - Seed `context/` from what you saw: `architecture.md` (repos and how they talk to each other) — show the draft, write on OK.
 
 ## 5. Finish
-Print the created tree, the open TODOs left in CLAUDE.md, and how to start: open the project folder in VS Code (the folder itself, so Claude starts there) and run `/dev:start`.
+Print the created tree, the open TODOs left in CLAUDE.md, the install commands for missing language-server binaries and plugins (never install yourself; restart Claude afterwards), and how to start: open the project folder in VS Code (the folder itself, so Claude starts there) and run `/dev:start`.

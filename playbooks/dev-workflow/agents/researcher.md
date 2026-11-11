@@ -5,7 +5,7 @@ model: sonnet
 effort: high
 maxTurns: 60
 color: yellow
-tools: Read, Grep, Glob, Bash, Write, Edit, WebSearch, WebFetch, Agent, Skill
+tools: Read, Grep, Glob, Bash, LSP, Write, Edit, WebSearch, WebFetch, Agent, Skill
 skills:
   - dev:research
 ---

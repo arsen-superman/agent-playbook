@@ -46,7 +46,7 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 ### Project setup and maintenance
 | Command | When | What happens |
 |---|---|---|
-| ⌨ `/dev:init-project [folder] [refresh]` | first time in a project folder; `refresh` after repos change or a playbook update adds project settings (hosts, worktrees) | scans repos, stack and git host per repo (link + tool `gh` / `glab` / `az repos` / `gk`, checks it's installed and signed in, recommends install), asks what it can't infer, creates `.ai/`, `worktrees/`, project `CLAUDE.md`, `.claude/settings.local.json`, `.ai/.playbook.json`; optional Obsidian add-on on request (`.ai/views.md` + setup checklist); suggests (doesn't write) repo CLAUDE.md files and DB MCP setup |
+| ⌨ `/dev:init-project [folder] [refresh]` | first time in a project folder; `refresh` after repos change or a playbook update adds project settings (hosts, worktrees) | scans repos, stack and git host per repo (link + tool `gh` / `glab` / `az repos` / `gk`, checks it's installed and signed in, recommends install), language server per stack (LSP plugin enabled in `settings.local.json`, install commands for missing binaries/plugins), asks what it can't infer, creates `.ai/`, `worktrees/`, project `CLAUDE.md`, `.claude/settings.local.json`, `.ai/.playbook.json`; optional Obsidian add-on on request (`.ai/views.md` + setup checklist); suggests (doesn't write) repo CLAUDE.md files and DB MCP setup |
 | ⌨ `/dev:upgrade-project [folder \| all] [dry-run]` | after agent-playbook changed project-side structure; when start/lint says "outdated" | applies pending migrations, refreshes the managed KB block in CLAUDE.md (and `.ai/views.md` if the Obsidian add-on is on), bumps `.ai/.playbook.json` |
 
 ### Session and task lifecycle
@@ -63,7 +63,7 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 | Command | What it produces |
 |---|---|
 | 🤖 `/dev:spec [KEY]` | `spec.md`: AS-IS with file:line, rules (permission matrix when claims are touched), AC (every endpoint returning a new field), edge cases, open questions. No code |
-| 🤖 `/dev:plan [KEY]` | scouts reuse, class sizes, call frequency first → `test-cases.md` (cases per AC, level unit/integration/e2e/manual) + `plan.md`: approach, placement, cross-cutting risk classes, phased commit-sized steps each with a verify check, every risk closed by a step or your decision; asks approval |
+| 🤖 `/dev:plan [KEY]` | scouts reuse, class sizes, call frequency and the closest existing feature first → `test-cases.md` (cases per AC, level unit/integration/e2e/manual) + `plan.md`: options (only for a real choice), approach, placement, cross-cutting risk classes, phased commit-sized steps each with a verify check, every risk closed by a step or your decision; asks approval |
 | 🤖 `/dev:review [KEY]` | `review.md`: every finding (F-ID, risk class, severity, file:line, fix) from a review of the branch diff against spec, plan, risk classes and `<repo>/REVIEW.md`; delegates to `dev:reviewer` if this session wrote the code |
 | 🤖 `/dev:implement [KEY] [all \| phase N]` | code + one commit per step, ticks with hashes; one phase per call by default; never pushes |
 | 🤖 `/dev:fix-bug [KEY]` | reproduce → root cause → failing test → minimal fix → verification note |
@@ -81,7 +81,7 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 | `dev:verifier` | sonnet / medium | executes test cases, proposes missing ones | nothing (orchestrator records the run in test-cases.md) |
 | `dev:researcher` | sonnet / high | one research question | research/<topic>.md |
 | `dev:scout` | sonnet / low | one narrow read-only question about code, answered with `file:line` facts; called by analyst, planner, debugger, researcher | nothing (returns facts) |
-Every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`.
+Every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`. Code-reading agents use the `LSP` tool for symbols (definitions, references, callers) when the project has a language server, grep for the rest.
 
 ## kb — any knowledge base (project `.ai/` or the personal vault)
 | Command | When | What happens |

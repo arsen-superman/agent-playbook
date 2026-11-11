@@ -3,7 +3,11 @@
 **Next:** <!-- copy of the first unchecked step; /implement and /handoff keep it current -->
 
 ## Approach
-<!-- ≤10 lines: what changes, what deliberately does not, why. -->
+<!-- Options only when the approach is a real choice: 2–3 lines "option · trade-off · effort", pick marked; delete otherwise. -->
+**Options:**
+- **A (pick)** — <option> · <trade-off> · <effort>
+
+<!-- ≤10 lines: what changes, what deliberately does not, why. Follows the closest existing feature (name it); deviations explained. -->
 
 **Placement:** <!-- ≤5 lines: where new code lives, how each touched class grows (≈ lines), what is reused instead of written. -->
 
