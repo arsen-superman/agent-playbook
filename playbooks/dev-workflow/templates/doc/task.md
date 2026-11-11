@@ -6,6 +6,7 @@ status: spec | planned | in-progress | review | blocked | parked | done
 jira: https://...
 repos: [repo-a]
 branch: feature/KEY-123-slug
+base: develop          # branch the task starts from and merges into; main/master for a production hotfix
 updated: YYYY-MM-DD
 ---
 # KEY-123 — Short title

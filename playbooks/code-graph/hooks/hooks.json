@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/crg.mjs", "index-background", "--project", "${CLAUDE_PROJECT_DIR}"],
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

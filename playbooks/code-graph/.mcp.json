@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "code-graph": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/crg.mjs", "serve", "--index", "${CLAUDE_PROJECT_DIR}/.ai/.index"]
+    }
+  }
+}

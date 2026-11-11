@@ -1,0 +1,15 @@
+{
+  "name": "code-graph",
+  "displayName": "Code Graph",
+  "version": "0.1.0",
+  "description": "Code graph across all repositories of a project (cross-repo-graph MCP server): symbols, callers and cross-repo HTTP / config / package links with file:line evidence. Re-indexes in the background at session start.",
+  "author": {
+    "name": "Arsen Superman"
+  },
+  "keywords": [
+    "code-graph",
+    "mcp",
+    "polyrepo",
+    "impact-analysis"
+  ]
+}

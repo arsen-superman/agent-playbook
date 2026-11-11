@@ -15,6 +15,7 @@ agent-playbook/                    ← this repo = a Claude Code plugin marketpl
             agents:    analyst · planner · implementer · debugger · reviewer · verifier · researcher · scout
             migrations/  project KB structure changes
     personal-vault/       (me)   personal vault: init-vault · save · find
+    code-graph/   (code-graph)   optional: cross-repo code graph MCP server for a project · reindex
   user/CLAUDE.md.example          ← your global ~/.claude/CLAUDE.md
   docs/COMMANDS.md                ← cheat sheet of every command (keep current)
   docs/design.md                  ← principles and why
@@ -38,6 +39,8 @@ claude plugin install me@agent-playbook
 claude plugin disable dev@agent-playbook --scope user    # once
 claude plugin enable dev@agent-playbook --scope local    # in each project folder, before /dev:init-project
 ```
+
+`code-graph` (optional, for projects with several repos) is never installed for the user — only per project, from the project folder: `claude plugin install code-graph@agent-playbook --scope local`. `/dev:init-project` prints that command when you accept the code graph. It runs the [`cross-repo-graph`](https://github.com/arsen-superman/cross-repo-graph) MCP server and needs Node 22+ and [uv](https://docs.astral.sh/uv/).
 
 `/dev:init-project` also writes the enablement into the project's `.claude/settings.local.json`, so existing projects get it from `/dev:upgrade-project`.
 
@@ -119,6 +122,23 @@ The vault is plain Markdown in a Google Drive folder, with [Obsidian](https://ob
 
 The session you type in is the orchestrator: it only reads each agent's STATUS block and `task.md`, so its context stays small.
 Each agent has its own model, effort, tools and turn limit (`playbooks/dev-workflow/agents/*.md`). Single stages stay available as skills (`/dev:spec`, `/dev:plan`, …) for manual work.
+
+## Code graph — optional, for projects with several repos
+
+The `code-graph` plugin gives agents a graph of every repo in the project: classes, methods and calls, plus the links *between* repos. Those links are HTTP calls from client to endpoint, service addresses from config, and NuGet/npm packages, each with `file:line` on both sides. Scouts and reviewers then answer "who calls this endpoint, who reads this field, in which repo" from the graph instead of grepping every repo. The graph also catches calls grep misses: URLs assembled from config and generated clients. It is the [`cross-repo-graph`](https://github.com/arsen-superman/cross-repo-graph) MCP server, local, with no LLM.
+
+```
+/dev:init-project                   say yes to "Code graph" (default with 2+ repos) → it enables the plugin for the project
+claude plugin install code-graph@agent-playbook --scope local    once, in the project folder (never --scope user)
+restart Claude                      /mcp lists plugin:code-graph:code-graph; the first index builds in the background
+/code-graph:reindex                 rebuild now and see the result (normally not needed)
+```
+
+- **Requirements.** Node 22+ and [uv](https://docs.astral.sh/uv/) (`winget install astral-sh.uv`). The indexer runs [Graphify](https://github.com/Graphify-Labs/graphify) through `uvx`.
+- **What is indexed.** Every repo one or two levels below the project folder, read **from git, not from your clones**, so it doesn't matter which branch you have checked out or whether you work in `worktrees/`. There are two scopes. `dev` is `develop`, used for features, bugs and spikes. `prod` is `main`/`master`, i.e. production, used for hotfixes. A task picks its scope from `base:` in `task.md`. Repos with other branches are set in `.ai/.index/config.json`.
+- **Freshness.** Each session start fetches the scope branches (`origin/*` only, at most every 30 min, never asks for a password — a remote that needs one is skipped with a warning and indexed from local refs) and re-indexes in the background only what moved. A first index of ~10 repos takes ~3 min, and an unchanged project re-checks in seconds. Background log: `.ai/.index/index.log`.
+- **What it doesn't show.** The task's own branch. Reviewers read the diff for what changed and use the graph for who *outside* the diff depends on it.
+- **Turn it off.** `claude plugin disable code-graph@agent-playbook --scope local` and delete `.ai/.index/`, which is derived and rebuilt on demand.
 
 ## Updating projects after changing this repo
 

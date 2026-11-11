@@ -27,6 +27,7 @@ For you and for any agent. Kept in sync with `playbooks/` (see *Maintenance* at 
 | Meeting notes / doc / epic to digest | `/kb:ingest <file or paste>` |
 | Weekly | `/kb:lint` |
 | After changing agent-playbook structure | `/dev:upgrade-project all` |
+| Code graph looks stale / after a big merge | `/code-graph:reindex` (normally re-indexed at session start) |
 | "Save this recipe / instruction" | `/me:save` |
 | "How did I … ?" | `/me:find` |
 
@@ -46,14 +47,14 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 ### Project setup and maintenance
 | Command | When | What happens |
 |---|---|---|
-| ⌨ `/dev:init-project [folder] [refresh]` | first time in a project folder; `refresh` after repos change or a playbook update adds project settings (hosts, worktrees) | scans repos, stack and git host per repo (link + tool `gh` / `glab` / `az repos` / `gk`, checks it's installed and signed in, recommends install), language server per stack (LSP plugin enabled in `settings.local.json`, install commands for missing binaries/plugins), asks what it can't infer, creates `.ai/`, `worktrees/`, project `CLAUDE.md`, `.claude/settings.local.json`, `.ai/.playbook.json`; optional Obsidian add-on on request (`.ai/views.md` + setup checklist); suggests (doesn't write) repo CLAUDE.md files and DB MCP setup |
+| ⌨ `/dev:init-project [folder] [refresh]` | first time in a project folder; `refresh` after repos change or a playbook update adds project settings (hosts, worktrees) | scans repos, stack and git host per repo (link + tool `gh` / `glab` / `az repos` / `gk`, checks it's installed and signed in, recommends install), language server per stack (LSP plugin enabled in `settings.local.json`, install commands for missing binaries/plugins), asks what it can't infer, creates `.ai/`, `worktrees/`, project `CLAUDE.md`, `.claude/settings.local.json`, `.ai/.playbook.json`; optional Obsidian add-on on request (`.ai/views.md` + setup checklist); code graph add-on (default yes with 2+ repos: enables `code-graph` per project); suggests (doesn't write) repo CLAUDE.md files and DB MCP setup |
 | ⌨ `/dev:upgrade-project [folder \| all] [dry-run]` | after agent-playbook changed project-side structure; when start/lint says "outdated" | applies pending migrations, refreshes the managed KB block in CLAUDE.md (and `.ai/views.md` if the Obsidian add-on is on), bumps `.ai/.playbook.json` |
 
 ### Session and task lifecycle
 | Command | When | What happens |
 |---|---|---|
 | 🤖 `/dev:start [KEY]` | beginning of every session | reads STATUS + task card + plan up to Next; reports where things are, inbox/stash counts, staleness, outdated KB; task in review → PR merged / new comments |
-| 🤖 `/dev:new-task <KEY \| description> [from LOCAL-n]` | new ticket; work with no ticket yet (→ `LOCAL-n`, tracked like any task); a LOCAL task got a ticket (`IPR-123 from LOCAL-2`) | fetches Jira, creates `.ai/tasks/<KEY-slug>/` with `task.md` and raw requirement, adds to STATUS; on `from` renames the LOCAL task to the ticket key (can draft the Jira ticket for you, created only on OK) |
+| 🤖 `/dev:new-task <KEY \| description> [from LOCAL-n]` | new ticket; work with no ticket yet (→ `LOCAL-n`, tracked like any task); a LOCAL task got a ticket (`IPR-123 from LOCAL-2`) | fetches Jira, creates `.ai/tasks/<KEY-slug>/` with `task.md` (incl. `branch:` and `base:` — `main`/`master` for a production hotfix) and raw requirement, adds to STATUS; on `from` renames the LOCAL task to the ticket key (can draft the Jira ticket for you, created only on OK) |
 | 🤖 `/dev:handoff [KEY]` | end of every session, or when context gets long | rewrites task Now/Next, ticks plan, promotes decisions/knowledge, captures leftovers, updates STATUS |
 | 🤖 `/dev:park <KEY> [reason]` | blocked / missing data / priorities changed | handoff + WIP commit on the branch + **Parked** block (why, unblocks when, volatile facts) + STATUS → Parked |
 | 🤖 `/dev:resume <KEY>` | coming back to a parked task | "while you were away": Jira, branch drift, re-checked facts → updates spec/plan → back to Active |
@@ -94,6 +95,13 @@ Every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`. Code-
 | 🤖 `/kb:ingest <file \| url \| text>` | meeting notes, transcript, doc, epic | keeps source in `raw/` (web pages via `defuddle` if installed), proposes facts / decisions / todos / questions, files them on OK |
 | ⌨ `/kb:lint [fix]` | weekly | sizes (incl. context files ≤300), history-instead-of-truth, contradictions, copies of repo docs, contradicting or dangling superseded decisions, missing or unknown repo tags, stale/orphan items, old inbox/stash, secrets, outdated KB structure; vault: broken links (Obsidian CLI), notes without `summary`/`categories`, stray folders |
 
+## code-graph — code graph across a project's repos (optional add-on, installed per project: `--scope local`)
+The [`cross-repo-graph`](https://github.com/arsen-superman/cross-repo-graph) MCP server: an AST graph of every repo plus cross-repo links (HTTP client → endpoint with `used` / `declared-only`, config addresses per environment, NuGet/npm packages) with `file:line`. Index in `.ai/.index/`, one graph per scope read from git (not from the clones on disk): `dev` = `develop`, `prod` = `main`/`master` — agents use `prod` when the task's `base:` is `main`/`master` (hotfix). At session start, in the background: `git fetch` of the scope branches (only `origin/*`, at most every 30 min, never prompts; a remote that needs a password is skipped and indexed from local refs) and re-indexing of what moved. Branch overrides per repo: `.ai/.index/config.json`. Needs Node 22+ and uv. Agents (scout, analyst, planner, researcher, reviewer) use its tools for cross-repo questions: `dependencies`, `get_neighbors`, `query_graph`, `get_node`, `shortest_path`, `architecture_hubs`, `list_repos`.
+
+| Command | When | What happens |
+|---|---|---|
+| ⌨ `/code-graph:reindex [force]` | the graph looks stale, after a big merge, or to see indexing errors | fetches the scope branches and rebuilds `.ai/.index/` in the foreground (`force` re-parses every repo); reports fetch, repos per scope, links, failures; the server picks it up without a restart |
+
 ## me — personal vault (`G:\My Drive\Vault`; in claude.ai chat via the Drive connector)
 | Command | When | What happens |
 |---|---|---|
@@ -105,6 +113,7 @@ Every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`. Code-
 ```
 claude plugin marketplace add C:\Users\user\Documents\Repos\personal\agent-playbook   # once
 claude plugin install kb@agent-playbook        # also dev@, me@
+claude plugin install code-graph@agent-playbook --scope local   # in a project folder only
 claude plugin list                              # what is installed and enabled
 claude plugin details dev                       # tokens each plugin costs per session
 claude plugin validate C:\Users\user\Documents\Repos\personal\agent-playbook

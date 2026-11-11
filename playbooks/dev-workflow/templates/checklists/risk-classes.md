@@ -7,7 +7,7 @@
 | 1 | **Collections and batch** | Does every invariant (limit, total, daily cap, uniqueness) hold for all items of one request together, not only per item? Duplicates or swapped values inside one batch? Partial failure — what is saved? |
 | 2 | **Fix on fix** | Does the fix interact with the rest of the diff: checks done twice, a retry lost after an error, a race between parallel requests, an existence leak through ordering? |
 | 3 | **Permission matrix** | Every role/permission combination (none / read / write / read+write × admin or not, owner or not) × every affected operation and list. Write-only users? Inactive or disabled entities, "show inactive" filters? |
-| 4 | **New or changed field** | Every endpoint, DTO and mapping that returns the entity — create, edit, batch, list, search, export — and every client that reads it. |
+| 4 | **New or changed field** | Every endpoint, DTO and mapping that returns the entity — create, edit, batch, list, search, export — and every client that reads it, in every repo (code-graph `dependencies`: `used` links). |
 | 5 | **Client state, cache, time** | Cache: lifetime, invalidation, never cache a failure, refresh when the day/month/period changes. Time: whose time zone (server, browser, business), period boundaries, defaults from "now". |
 | 6 | **Placement and design** | Where does the code live; how much does each class grow (past ~300 lines or a second responsibility → a new service, per repo convention)? Named types over bool flags; validation in the layer the repo uses. `<repo>/REVIEW.md` wins. |
 | 7 | **Reuse** | Does a service, helper, endpoint or permission check already do this? Search before writing; never re-implement a check another service owns. |

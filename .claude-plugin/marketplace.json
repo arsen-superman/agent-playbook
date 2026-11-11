@@ -19,6 +19,11 @@
       "name": "me",
       "source": "./playbooks/personal-vault",
       "description": "Personal knowledge vault: save recipes, how-tos, prompts and answers from conversations as Markdown notes; find them later. Obsidian as the UI."
+    },
+    {
+      "name": "code-graph",
+      "source": "./playbooks/code-graph",
+      "description": "Code graph across all repositories of a project (cross-repo-graph MCP server): callers, cross-repo HTTP/config/package links with file:line, re-indexed at session start. Enabled per project by /dev:init-project."
     }
   ]
 }
