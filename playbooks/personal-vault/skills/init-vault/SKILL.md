@@ -1,6 +1,6 @@
 ---
 name: init-vault
-description: Create the personal vault (Markdown, Obsidian as the UI), upgrade an older layout, register where it lives. Manual: /me:init-vault.
+description: "Create the personal vault (Markdown, Obsidian as the UI), upgrade an older layout, register where it lives. Manual: /me:init-vault."
 argument-hint: "[path]"
 disable-model-invocation: true
 ---

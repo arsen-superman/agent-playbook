@@ -5,8 +5,8 @@ summary: <one line — what it is>
 tags: []
 aliases: []
 source: <conversation YYYY-MM-DD | URL | book>
-created: {{date:YYYY-MM-DD}}
-updated: {{date:YYYY-MM-DD}}
+created: "{{date:YYYY-MM-DD}}"
+updated: "{{date:YYYY-MM-DD}}"
 ---
 # {{title}}
 

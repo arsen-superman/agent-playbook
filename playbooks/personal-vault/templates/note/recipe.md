@@ -7,8 +7,8 @@ aliases: []
 servings: 4
 time: <prep + cook>
 source: <conversation YYYY-MM-DD | URL>
-created: {{date:YYYY-MM-DD}}
-updated: {{date:YYYY-MM-DD}}
+created: "{{date:YYYY-MM-DD}}"
+updated: "{{date:YYYY-MM-DD}}"
 ---
 # {{title}}
 

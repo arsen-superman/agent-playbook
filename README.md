@@ -19,7 +19,7 @@ agent-playbook/                    ← this repo = a Claude Code plugin marketpl
   user/CLAUDE.md.example          ← your global ~/.claude/CLAUDE.md
   docs/COMMANDS.md                ← cheat sheet of every command (keep current)
   docs/design.md                  ← principles and why
-  scripts/                        ← pack.py (zip for claude.ai), check_commands.py
+  scripts/                        ← pack.py (zip for claude.ai), check_commands.py, check_frontmatter.py
 ```
 
 ## Install (once per machine)

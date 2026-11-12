@@ -5,6 +5,7 @@ Read `docs/design.md` before changing behaviour; README for layout.
 
 ## Rules for editing
 - A skill = `playbooks/<p>/skills/<name>/SKILL.md` with frontmatter `name` (= folder), `description` (when to use + trigger phrases, EN + UA), optional `argument-hint`. Body ≤40 lines, imperative steps.
+- Frontmatter must be valid YAML: always wrap `description` in double quotes (it contains `: ` in "Triggers:"/"Manual:"); quote any value with `{{…}}`, `: ` or `#`. Run `python scripts/check_frontmatter.py` after editing any `.md` (the pre-commit hook in `.githooks/` runs it too; enable once per clone: `git config core.hooksPath .githooks`).
 - Templates: referenced from skills as "`templates/...` in this plugin". Keep them short; comments in `<!-- -->`.
 - Cross-plugin references by slash name (`/kb:capture`), never by file path.
 - Shared conventions (`.ai/` layout, limits, current-truth rule) live in `playbooks/dev-workflow/templates/project/CLAUDE.md` and `docs/design.md` — change both together.

@@ -1,6 +1,6 @@
 ---
 name: save
-description: Save a recipe, how-to, prompt, explanation or useful answer from the conversation as a vault note, merged with an existing one on the same topic. Triggers: save this, збережи, запиши в базу, save the recipe, save this prompt.
+description: "Save a recipe, how-to, prompt, explanation or useful answer from the conversation as a vault note, merged with an existing one on the same topic. Triggers: save this, збережи, запиши в базу, save the recipe, save this prompt."
 argument-hint: "[what] [domain]"
 ---
 # Save to the personal vault

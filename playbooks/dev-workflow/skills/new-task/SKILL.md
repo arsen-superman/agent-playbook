@@ -1,6 +1,6 @@
 ---
 name: new-task
-description: Create a task folder for a Jira ticket or ad-hoc work (feature, bug, research, chore), or link a ticket to a LOCAL task. Triggers: a ticket key or URL, new task, нова задача, work with no ticket yet.
+description: "Create a task folder for a Jira ticket or ad-hoc work (feature, bug, research, chore), or link a ticket to a LOCAL task. Triggers: a ticket key or URL, new task, нова задача, work with no ticket yet."
 argument-hint: "<JIRA-KEY | short description> [from LOCAL-n]"
 ---
 # Create a task

@@ -1,6 +1,6 @@
 ---
 name: pr-comments
-description: Workflow — pull review comments from a task's open PR, triage them with the user, fix through the implementer, draft replies. Triggers: PR comments, review comments, коменти в PR, опрацюй рев'ю.
+description: "Workflow — pull review comments from a task's open PR, triage them with the user, fix through the implementer, draft replies. Triggers: PR comments, review comments, коменти в PR, опрацюй рев'ю."
 argument-hint: "[task-key]"
 ---
 # Handle PR review comments — orchestrator

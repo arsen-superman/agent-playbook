@@ -1,0 +1,2 @@
+#!/bin/sh
+python scripts/check_frontmatter.py && python scripts/check_commands.py

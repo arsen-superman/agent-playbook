@@ -6,8 +6,8 @@ tags: []
 aliases: []
 model: <model or tool it was tuned for>
 source: <conversation YYYY-MM-DD | URL>
-created: {{date:YYYY-MM-DD}}
-updated: {{date:YYYY-MM-DD}}
+created: "{{date:YYYY-MM-DD}}"
+updated: "{{date:YYYY-MM-DD}}"
 ---
 # {{title}}
 

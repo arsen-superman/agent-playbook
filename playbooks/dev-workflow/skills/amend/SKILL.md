@@ -1,6 +1,6 @@
 ---
 name: amend
-description: Workflow — bring new requirements or edge cases into a task past the spec stage: record, analyse impact, plan and deliver only the delta. Triggers: new requirements, clarification, уточнення, нові вимоги, додай edge case.
+description: "Workflow — bring new requirements or edge cases into a task past the spec stage: record, analyse impact, plan and deliver only the delta. Triggers: new requirements, clarification, уточнення, нові вимоги, додай edge case."
 argument-hint: "<task-key> <clarification text | file | url>"
 ---
 # Amend a task — orchestrator

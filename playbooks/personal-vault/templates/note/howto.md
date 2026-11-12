@@ -6,8 +6,8 @@ tags: []
 aliases: []
 applies-to: <device / model / OS / version>
 source: <conversation YYYY-MM-DD | URL>
-created: {{date:YYYY-MM-DD}}
-updated: {{date:YYYY-MM-DD}}
+created: "{{date:YYYY-MM-DD}}"
+updated: "{{date:YYYY-MM-DD}}"
 ---
 # {{title}}
 

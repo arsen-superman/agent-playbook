@@ -1,6 +1,6 @@
 ---
 name: reindex
-description: Fetch the scope branches and rebuild the project's code graph (.ai/.index) now; report repos, cross-repo links, errors. Manual: /code-graph:reindex [force]; normally the SessionStart hook keeps it fresh.
+description: "Fetch the scope branches and rebuild the project's code graph (.ai/.index) now; report repos, cross-repo links, errors. Manual: /code-graph:reindex [force]; normally the SessionStart hook keeps it fresh."
 argument-hint: "[force]"
 disable-model-invocation: true
 ---

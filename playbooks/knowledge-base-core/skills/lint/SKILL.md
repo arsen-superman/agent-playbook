@@ -1,6 +1,6 @@
 ---
 name: lint
-description: Health check of a knowledge base — contradictions, oversized or stale files, broken links, forgotten tasks, aging inbox, leftover stashes, secrets. Manual: /kb:lint, weekly.
+description: "Health check of a knowledge base — contradictions, oversized or stale files, broken links, forgotten tasks, aging inbox, leftover stashes, secrets. Manual: /kb:lint, weekly."
 argument-hint: "[fix]"
 disable-model-invocation: true
 ---

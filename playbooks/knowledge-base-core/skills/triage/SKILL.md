@@ -1,6 +1,6 @@
 ---
 name: triage
-description: Process inbox items one by one into tasks, tickets, knowledge, decisions or the bin. Manual: /kb:triage.
+description: "Process inbox items one by one into tasks, tickets, knowledge, decisions or the bin. Manual: /kb:triage."
 argument-hint: "[filter: type | priority]"
 disable-model-invocation: true
 ---

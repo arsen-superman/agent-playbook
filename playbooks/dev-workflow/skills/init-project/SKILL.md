@@ -1,6 +1,6 @@
 ---
 name: init-project
-description: Set up or refresh the AI infrastructure of a project folder — scan repos, create .ai/, project CLAUDE.md and local settings. Manual: /dev:init-project; "refresh" after repos change.
+description: "Set up or refresh the AI infrastructure of a project folder — scan repos, create .ai/, project CLAUDE.md and local settings. Manual: /dev:init-project; \"refresh\" after repos change."
 argument-hint: "[project-folder] [refresh]"
 disable-model-invocation: true
 ---

@@ -1,6 +1,6 @@
 ---
 name: capture
-description: Capture an idea, todo, finding, bug or question for later without acting on it — ideas to ideas/, the rest to the inbox. Also proactively for anything outside the current task. Triggers: note this, new idea, запиши, на потім, закинь в інбокс, ідея.
+description: "Capture an idea, todo, finding, bug or question for later without acting on it — ideas to ideas/, the rest to the inbox. Also proactively for anything outside the current task. Triggers: note this, new idea, запиши, на потім, закинь в інбокс, ідея."
 argument-hint: "<what>"
 ---
 # Capture
