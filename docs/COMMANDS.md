@@ -110,12 +110,12 @@ The [`cross-repo-graph`](https://github.com/arsen-superman/cross-repo-graph) MCP
 
 ## Command line (outside a session)
 ```
-claude plugin marketplace add C:\Users\user\Documents\Repos\personal\agent-playbook   # once
+claude plugin marketplace add <path-to-agent-playbook>   # once, path to your clone of this repo
 claude plugin install kb@agent-playbook        # also dev@, me@
 claude plugin install code-graph@agent-playbook --scope local   # in a project folder only
 claude plugin list                              # what is installed and enabled
 claude plugin details dev                       # tokens each plugin costs per session
-claude plugin validate C:\Users\user\Documents\Repos\personal\agent-playbook
+claude plugin validate .                        # from the repo root
 /reload-plugins                                 # inside a session, after editing the repo
 python scripts/pack.py me                     # zip for claude.ai upload → dist/
 python scripts/check_commands.py                # is this file complete?
