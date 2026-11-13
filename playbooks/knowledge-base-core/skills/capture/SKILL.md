@@ -14,11 +14,11 @@ argument-hint: "<what>"
 - **Personal vault, files mode:** a plain todo from the user that needs no thinking ("купити фільтр") → append `- [ ] <what>` under `## Tasks` in `_daily/YYYY-MM-DD.md` (today; create it from the vault's `_templates/daily.md` if missing), reply `☑️ <what>`. In Drive mode it goes to the inbox (the connector can't append).
 - Anything else, and **everything you notice yourself** (incl. improvement ideas during other work) → inbox item below.
 
-**Inbox item** `<kb>/inbox/YYYY-MM-DD-<kebab-slug>.md` from `templates/inbox-item.md` in this plugin (≤20 lines). Every field is filled; no value → `n/a`. `area` is required and never `n/a`: infer it from `Where` or the current task, ask only if impossible.
+**Inbox item** `<kb>/inbox/YYYY-MM-DD-<kebab-slug>.md` from `templates/inbox-item.md` in this plugin (≤20 lines). Every field is filled; no value → `n/a`. `area` is required and never `n/a`: in a project KB the repo name exactly as in the Repositories table (backend and web client are separate repos → separate areas; the same name as in `repos:` of tasks), `all` when it spans several repos; in the vault the domain folder. Infer it from `Where` or the current task, ask only if impossible.
 Type guide: `todo` work to do · `finding` fact learned · `bug` defect · `chore` upkeep, no behaviour change · `idea` possible improvement · `question` someone must answer.
 No priority — it is decided at triage. `severity` only for `bug`: `high` data loss, security hole or blocks users · `medium` wrong behaviour with a workaround · `low` cosmetic or rare edge.
 
 Steps:
-1. Duplicate check: grep `<kb>/inbox/`, `<kb>/ideas/` (incl. idea folders) and active tasks for the same subject. Found → append one evidence line to that item and stop.
+1. Duplicate check: grep `<kb>/inbox/` **and `<kb>/inbox/_done/`** (the ignore file hides it from plain searches), `<kb>/ideas/` (incl. idea folders) and active tasks for the same subject. Found in `inbox/` → append one evidence line to that item and stop. Found in `_done/` → write nothing, reply `already handled: <resolution>`. New items get `status: new`, `updated` = `created`.
 2. Write the file. It must be readable in a month without this conversation: include paths, names, links.
 3. Reply with one line — `📥 <title>` (inbox) or `💡 <title>` (idea) — and continue the current work. Do not start working on the item.

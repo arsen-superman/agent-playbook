@@ -17,7 +17,7 @@ Check and report as a table (issue · file · suggested fix):
 4. **Staleness** — `updated:` older than 60 days on active tasks; STATUS rows that disagree with task.md; facts with dates older than 6 months in fast-moving areas.
 5. **Broken links** — relative links to files that don't exist (often a task moved to `archive/`); `[[wikilinks]]` in a project KB.
 6. **Orphans** — task folders not in STATUS, STATUS rows without folders, decision records nothing links to.
-7. **Inbox** — items >60 days, parked twice, `_done/` leftovers; frontmatter off `templates/inbox-item.md` (missing, empty or unknown field, value outside the enum, leftover `priority`, `area` missing or `n/a`, `severity` on a non-bug or missing on a bug).
+7. **Inbox** — (skip the generated `INDEX.md`) items >60 days, `in-progress` without update for >30 days, `_done/` items with `updated` >90 days (purge), `status: done` outside `_done/` or any other status inside it, `done` without `resolution`; frontmatter off `templates/inbox-item.md` (missing, empty or unknown field, value outside the enum, leftover `priority`, `area` missing, `n/a` or (project KB) not a name from the Repositories table / `all`, `severity` on a non-bug or missing on a bug).
    **Ideas** — never proposed for deletion by age; `raw` >90 days → suggest `/kb:brainstorm`; `promoted` without `promoted-to`.
 8. **Stash** — stashes >14 days (ask: unstash or drop), `.consumed/` >14 days (delete).
 9. **Safety** — secrets, connection strings, personal data outside `raw/`.

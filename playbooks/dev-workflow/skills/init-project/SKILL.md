@@ -18,8 +18,9 @@ A project = one folder that contains one or more repositories (e.g. `Repos/Super
 - Stack per repo: `*.sln`/`*.csproj` (.NET + target framework), `package.json` (Angular/Vue/React, scripts), `angular.json`, `docker-compose*`, `*.bicep`/`*.tf`, test projects, CI files (`.github/workflows`, `azure-pipelines.yml`).
 - Language servers: map every repo's stack to its LSP plugin via `templates/project/lsp.md`; check (read-only) the binary is on PATH and the plugin installed (`claude plugin list`). Agents navigate symbols through them, so every detected language gets one.
 - Code graph inputs (read-only): per repo the `dev` branch (`origin/develop`, else default) and `prod` branch (`origin/main`/`master`, else default); `node --version`, `uv --version`; is `code-graph@agent-playbook` installed (`claude plugin list`).
+- Python 3 (read-only): `python3 --version`, else `python --version`. Only the generated `inbox/INDEX.md` needs it (hook after `/kb:capture`); missing → recommend `winget install Python.Python.3.13` (Windows) / `brew install python` (macOS) / `sudo apt install python3` (Linux), say the index is simply skipped without it, never install yourself.
 - Build / test commands: from README, CI files, package.json scripts.
-- Existing `.ai/` → stop and suggest `/dev:upgrade-project` (structure) or `refresh` (re-scan repos into CLAUDE.md incl. `Host · tool`, create `worktrees/`, add missing tool `ask` rules, add language servers for stacks without one, offer the Obsidian add-on if `.playbook.json` has no `obsidian` key and the code graph if it has no `codeGraph` key (question 8, its Create step and checklist) — nothing else).
+- Existing `.ai/` → stop and suggest `/dev:upgrade-project` (structure) or `refresh` (re-scan repos into CLAUDE.md incl. `Host · tool`, create `worktrees/`, add missing tool `ask` rules, report a missing Python 3, add language servers for stacks without one, offer the Obsidian add-on if `.playbook.json` has no `obsidian` key and the code graph if it has no `codeGraph` key (question 8, its Create step and checklist) — nothing else).
 
 ## 2. Ask (one batch, only what you couldn't infer)
 Show a short scan summary, then ask together:
@@ -49,4 +50,4 @@ Show a short scan summary, then ask together:
 - Seed `context/` from what you saw: `architecture.md` (repos and how they talk to each other) — show the draft, write on OK.
 
 ## 5. Finish
-Print the created tree, the open TODOs left in CLAUDE.md, the install commands for missing language-server binaries and plugins (never install yourself; restart Claude afterwards), the code graph checklist `templates/project/code-graph.md` filled from the scan (on yes), and how to start: open the project folder in VS Code (the folder itself, so Claude starts there) and run `/dev:start-task`.
+Print the created tree, the open TODOs left in CLAUDE.md, the install commands for missing language-server binaries and plugins (never install yourself; restart Claude afterwards), the Python install command if it was missing, the code graph checklist `templates/project/code-graph.md` filled from the scan (on yes), and how to start: open the project folder in VS Code (the folder itself, so Claude starts there) and run `/dev:start-task`.

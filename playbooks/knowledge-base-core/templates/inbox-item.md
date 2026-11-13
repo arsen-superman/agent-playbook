@@ -1,12 +1,13 @@
 ---
 type: todo           # todo | finding | bug | chore | idea | question
 severity: n/a        # bug only: high | medium | low — otherwise n/a
-area: <area>         # required, never n/a: one lowercase word — repo or module (project KB), domain folder (vault)
-source: <session or conversation, no personal names>
-ref: n/a             # ticket / MR key (IPR-1234, LOCAL-2, !401) or n/a
+area: <area>         # required, never n/a: project KB — repo name as in the Repositories table, `all` if several; vault — domain folder
+source: <ticket/MR key first if any, then session or conversation — no personal names>   # e.g. IPR-4145 MR2 review
 created: YYYY-MM-DD
-verified: n/a        # YYYY-MM-DD <what was confirmed> once checked, else n/a
-parked: n/a          # set by /kb:triage: YYYY-MM-DD <reason>
+updated: YYYY-MM-DD  # last status change; = created for a new item
+status: new          # new | in-progress (triaged, stays in inbox) | done (moved to inbox/_done/)
+next: n/a            # in-progress: what is awaited and from whom
+resolution: n/a      # done: task <KEY> | ticket <KEY>
 ---
 # <one-line title>
 

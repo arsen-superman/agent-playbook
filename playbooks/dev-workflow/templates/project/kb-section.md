@@ -8,7 +8,7 @@ Everything else on demand.
 .ai/decisions/       NNNN-slug.md — decisions with their why and Repos (grep before re-deciding)
 .ai/tasks/<KEY-slug>/ task.md · spec.md · plan.md · test-cases.md · review.md · research/ (raw/ = dumps)
 .ai/qa/regression.md  regression suite promoted from closed tasks (for QA and future changes)
-.ai/inbox/           captured, unprocessed items — never read at session start
+.ai/inbox/           captured, unprocessed items — never read at session start; `INDEX.md` is generated for human viewing (hook after capture) — never edit or read it
 .ai/ideas/           ideas about this project: raw → explored → promoted / shelved (/kb:capture, /kb:brainstorm)
 .ai/stash/           temporary consume-once session context
 .ai/raw/             ingested sources, immutable
