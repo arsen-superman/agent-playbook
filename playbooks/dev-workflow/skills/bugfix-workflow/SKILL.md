@@ -13,6 +13,6 @@ You orchestrate; stages run in subagents. Follow the **Orchestration rules** of 
 1. **Diagnose** → `dev:debugger`: reproduce, root cause, other places with the same flaw, failing test committed (no fix).
    **GATE A** — always show: root cause (2 lines), fix options with risk, affected users/data. User picks (default: minimal fix). `needs-input` (can't reproduce) → gate with what is needed.
 2. **Fix** → `dev:implementer` with steps: "make `<failing test>` pass with <chosen option>; run related suites; one commit". More than 3 steps or several repos → `dev:planner` first, then implementer per phase.
-3. **Review** → `dev:reviewer` (focus: the fix is minimal, no behaviour change outside the bug, test asserts the right thing). Max 2 fix rounds.
+3. **Review** → `dev:reviewer` (focus: the fix is minimal, no behaviour change outside the bug, test asserts the right thing). Max 2 fix rounds, then gate: the user decides each remaining row (fix / follow-up / won't fix + why); running out of rounds is never the reason for `won't fix`.
 4. **Verify** → `dev:verifier` — the original repro steps + regression neighbours. Results into `test-cases.md` (Status + Runs), verdict into `task.md §Verification`; manual cases → QA handoff at GATE C. Note whether stored data needs correction (code fix ≠ data fix) → `/kb:capture` if so.
 5. **Finish** — `status: review`, PR description. **GATE C** — external actions only on explicit OK. Next = "comments → `/dev:pr-comments`; merged → `/dev:close-task`". `/dev:handoff`.

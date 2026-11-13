@@ -14,22 +14,9 @@ argument-hint: "<what>"
 - **Personal vault, files mode:** a plain todo from the user that needs no thinking ("купити фільтр") → append `- [ ] <what>` under `## Tasks` in `_daily/YYYY-MM-DD.md` (today; create it from the vault's `_templates/daily.md` if missing), reply `☑️ <what>`. In Drive mode it goes to the inbox (the connector can't append).
 - Anything else, and **everything you notice yourself** (incl. improvement ideas during other work) → inbox item below.
 
-**Inbox item** `<kb>/inbox/YYYY-MM-DD-<kebab-slug>.md` (≤15 lines):
-```markdown
----
-type: todo | finding | bug | idea | question
-priority: low | normal | high
-source: <task key / session date / conversation>
-created: YYYY-MM-DD
----
-# <one-line title>
-
-**What:** <self-contained description>
-**Where:** <file:line, query, link, person>
-**Why it matters:** <impact>
-**Suggested action:** <task / ticket / knowledge / ask someone>
-```
-Type guide: `todo` work to do · `finding` fact learned · `bug` defect · `idea` possible improvement · `question` someone must answer.
+**Inbox item** `<kb>/inbox/YYYY-MM-DD-<kebab-slug>.md` from `templates/inbox-item.md` in this plugin (≤20 lines). Every field is filled; no value → `n/a`. `area` is required and never `n/a`: infer it from `Where` or the current task, ask only if impossible.
+Type guide: `todo` work to do · `finding` fact learned · `bug` defect · `chore` upkeep, no behaviour change · `idea` possible improvement · `question` someone must answer.
+No priority — it is decided at triage. `severity` only for `bug`: `high` data loss, security hole or blocks users · `medium` wrong behaviour with a workaround · `low` cosmetic or rare edge.
 
 Steps:
 1. Duplicate check: grep `<kb>/inbox/`, `<kb>/ideas/` (incl. idea folders) and active tasks for the same subject. Found → append one evidence line to that item and stop.

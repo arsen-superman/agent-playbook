@@ -1,14 +1,14 @@
 ---
 name: triage
 description: "Process inbox items one by one into tasks, tickets, knowledge, decisions or the bin. Manual: /kb:triage."
-argument-hint: "[filter: type | priority]"
+argument-hint: "[filter: type | severity | area]"
 disable-model-invocation: true
 ---
 # Triage the inbox
 
 **Locate the KB root:** the nearest `.ai/` folder from the current directory upward (a project knowledge base); if there is none, the personal vault from `~/.claude/CLAUDE.md` (`Personal vault:` line); if neither exists, ask. Vault service folders carry a `_` prefix: there `inbox/`, `ideas/`, `raw/`, `stash/` below mean `_inbox/`, `_ideas/`, `_raw/`, `_stash/`.
 
-1. List `<kb>/inbox/*.md` as a table — title · type · priority · age · source — high priority and oldest first.
+1. List `<kb>/inbox/*.md` as a table — title · type · severity · area · ref · age — grouped by area, high severity and oldest first within a group.
 2. Propose exactly one outcome per item, with a one-line reason:
    - **now** — tiny (<15 min), do it in this session
    - **task** — create a task (`/dev:new-task` in a project KB)
@@ -18,7 +18,7 @@ disable-model-invocation: true
    - **decision** — write a decision record
    - **idea** — worth thinking through later: move to `<kb>/ideas/<kebab-slug>.md` from `templates/idea.md` in this plugin, `status: raw`, `## Idea` = the item's What, `source` = the item's source
    - **ask** — draft the question for the person who knows
-   - **park** — keep; add `parked: YYYY-MM-DD <reason>` to frontmatter
+   - **park** — keep; replace `parked: n/a` with `parked: YYYY-MM-DD <reason>`
    - **drop** — no longer relevant
 3. The user confirms or edits the whole batch in one reply. Then apply.
 4. Processed items: delete the file. If deleting is not permitted, move it to `<kb>/inbox/_done/` (lint purges it later).

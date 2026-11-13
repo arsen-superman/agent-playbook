@@ -15,6 +15,7 @@ Principle (from Karpathy's LLM Wiki): sources are immutable raw material; the kn
    - **Decisions** (choice + why + who) → decision records
    - **Actions / todos** → inbox items or tasks
    - **Open questions** → inbox items type `question`, with who should answer
+   Inbox items follow `templates/inbox-item.md` in this plugin (as in `/kb:capture`); `source` = the raw file.
 3. After OK: merge facts into existing files in current-truth form (rewrite, don't append "UPDATE"); when a fact contradicts an existing one, show both and ask which is true. Every merged fact gets a source link: `(src: raw/2026-11-02-sync.md)`.
 4. Update the KB's index if it has one. Personal vault: no index files — new notes follow `/me:save` rules (domain folder, `categories`, `summary`).
 5. Reply: what went where, in ≤8 lines, plus anything that contradicted existing knowledge.
