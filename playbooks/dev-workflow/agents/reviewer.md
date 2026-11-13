@@ -1,6 +1,6 @@
 ---
 name: reviewer
-description: Workflow stage — independent code review of a task's diff against its spec, plan and the risk classes (correctness, design, reuse, permissions, performance, conventions); logs findings in review.md. Never edits code. Used by /dev:feature-workflow, /dev:bugfix-workflow, /dev:amend and /dev:pr-comments.
+description: Workflow stage — independent code review of a task's diff against its spec, plan and the risk classes (correctness, design, reuse, permissions, performance, conventions); logs findings in review.md. Never edits code. Used by /dev:feature-workflow, /dev:bugfix-workflow, /dev:change-request and /dev:pr-comments.
 model: opus
 effort: high
 maxTurns: 60

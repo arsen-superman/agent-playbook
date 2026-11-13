@@ -49,4 +49,4 @@ Show a short scan summary, then ask together:
 - Seed `context/` from what you saw: `architecture.md` (repos and how they talk to each other) — show the draft, write on OK.
 
 ## 5. Finish
-Print the created tree, the open TODOs left in CLAUDE.md, the install commands for missing language-server binaries and plugins (never install yourself; restart Claude afterwards), the code graph checklist `templates/project/code-graph.md` filled from the scan (on yes), and how to start: open the project folder in VS Code (the folder itself, so Claude starts there) and run `/dev:start`.
+Print the created tree, the open TODOs left in CLAUDE.md, the install commands for missing language-server binaries and plugins (never install yourself; restart Claude afterwards), the code graph checklist `templates/project/code-graph.md` filled from the scan (on yes), and how to start: open the project folder in VS Code (the folder itself, so Claude starts there) and run `/dev:start-task`.

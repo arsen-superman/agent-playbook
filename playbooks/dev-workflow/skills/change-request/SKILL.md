@@ -1,9 +1,9 @@
 ---
-name: amend
+name: change-request
 description: "Workflow — bring new requirements or edge cases into a task past the spec stage: record, analyse impact, plan and deliver only the delta. Triggers: new requirements, clarification, уточнення, нові вимоги, додай edge case."
 argument-hint: "<task-key> <clarification text | file | url>"
 ---
-# Amend a task — orchestrator
+# Change request — orchestrator
 
 You orchestrate; stages run in the same agents as `/dev:feature-workflow` and follow its **Orchestration rules** (gates, questions, recording answers in `spec.md §Decisions`), with `workflow: amend`. Never rewrite finished work — add to it.
 

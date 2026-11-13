@@ -25,7 +25,7 @@
 | | Lives in | Lifetime | Created by |
 |---|---|---|---|
 | Task state | `task.md` Now/Next, `plan.md` ticks, STATUS | until the task closes | `/dev:handoff` |
-| Frozen task | `task.md` **Parked** block, WIP commit on branch | weeks/months | `/dev:park` → `/dev:resume` |
+| Frozen task | `task.md` **Paused** block, WIP commit on branch | weeks/months | `/dev:pause-task` → `/dev:start-task` |
 | Session thinking | `.ai/stash/*.md` | until restored once | `/kb:stash` → `/kb:unstash` |
 
 ## Borrowed ideas
@@ -39,7 +39,7 @@
 | [kepano, vault](https://stephango.com/vault) | `categories` as links to Base-backed category notes; properties via templates; plural tags; `YYYY-MM-DD`; path-less links | notes in the vault root (we keep one level of domain folders for agent paths and the Drive connector) |
 | [Memory Bank](https://tweag.github.io/agentic-coding-handbook/WORKFLOW_MEMORY_BANK) | activeContext/progress → `STATUS.md`; techContext → project CLAUDE.md | reading every file every session; one-repo scope |
 
-What is ours: task lifecycle (spec → plan → implement → verify → close) that feeds the KB; project = multi-repo isolation boundary; capture/triage for side findings; ideas as long-lived files with a status, apart from the inbox; stash and park as distinct temporary states; method separated from content.
+What is ours: task lifecycle (spec → plan → implement → verify → close) that feeds the KB; project = multi-repo isolation boundary; capture/triage for side findings; ideas as long-lived files with a status, apart from the inbox; stash and pause as distinct temporary states; method separated from content.
 
 ## Project knowledge: context and decisions
 - **`context/` stays small per file.** Files are rewritten in place, so they only grow: one area per file, ≤300 lines, split by sub-area past that. A grep hit opens the whole file, so a big file costs tokens on every hit.
@@ -69,7 +69,7 @@ What is ours: task lifecycle (spec → plan → implement → verify → close) 
 - **Workflow = orchestrator skill** (`dev:feature-workflow`, `dev:bugfix-workflow`, `dev:spike-workflow`), run in the main session because it needs the user at the gates.
 - **Stage = agent** (`playbooks/dev-workflow/agents/`): its own model, effort, tools, maxTurns, color; preloads the matching stage skill (`skills:`) so the procedure has one source of truth.
 - **Contract**: every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`; evidence goes into files. The orchestrator never reads transcripts or code.
-- **After the PR** the task stays `review` until merged: `dev:amend` (requirements changed — delta spec/plan, never rewrite done work), `dev:pr-comments` (review loop, fixes as a plan phase linked to comments), `dev:close-task` (merged → promote, archive, git cleanup).
+- **After the PR** the task stays `review` until merged: `dev:change-request` (requirements changed — delta spec/plan, never rewrite done work), `dev:pr-comments` (review loop, fixes as a plan phase linked to comments), `dev:close-task` (merged → promote, archive, git cleanup).
 - **Gates**: A — blocking questions (never skipped); B — plan/decision approval (skippable with `auto` for small plans); C — anything external: push, PR, Jira, Slack (never skipped).
 - **Risk classes, one list for three stages** (`templates/checklists/risk-classes.md`): batch invariants, permission matrix, every consumer of a new field, cache and time zones, placement, reuse, call frequency, error disclosure, concurrency, silent failures, rollout. The analyst turns them into rules and edge cases, the planner answers the applicable ones in `plan.md §Cross-cutting` (shown at GATE B), the reviewer checks them against the diff. One file so the three never drift; born from PR comments the workflow missed.
 - **The plan is not the reference for correctness.** The reviewer checks conformance to the plan *and* quality independently; a flaw the plan prescribed is a `plan-level` finding, not an approval.
@@ -104,7 +104,7 @@ flowchart TD
     V --> GC{{"GATE C · push / PR / Jira"}}
     GC --> H["/dev:handoff · status: review"]
     H -.->|"PR comments"| PC["/dev:pr-comments"]
-    H -.->|"new requirements"| AM["/dev:amend"]
+    H -.->|"new requirements"| AM["/dev:change-request"]
     H -.->|"merged"| CT["/dev:close-task"]
 ```
 Solid arrows: stage order. Dotted: scouts (cheap reading) and what follows the PR. `SendMessage` = the same agent continues in this session; everything else starts fresh and learns from the task files. Gates are you.

@@ -4,23 +4,26 @@ Personal playbooks for working with AI agents (Claude Code first, portable to an
 The repo holds the **method** — skills, templates, rules. The **content** lives elsewhere: a `.ai/` knowledge base inside each project, and a personal vault for everyday knowledge.
 
 ```
-agent-playbook/                    ← this repo = a Claude Code plugin marketplace
-  .claude-plugin/marketplace.json
-  playbooks/
-    knowledge-base-core/  (kb)   core for every knowledge base: capture · brainstorm · triage · stash · unstash · ingest · lint
-    dev-workflow/         (dev)  software development
-            workflows (orchestrators): feature · bugfix · spike
-            stages:    init-project · upgrade-project · start · new-task · spec · plan · implement
-                       review · fix-bug · verify · research · handoff · park · resume · close-task
-            agents:    analyst · planner · implementer · debugger · reviewer · verifier · researcher · scout
-            migrations/  project KB structure changes
-    personal-vault/       (me)   personal vault: init-vault · save · find
-    code-graph/   (code-graph)   optional: cross-repo code graph MCP server for a project · reindex
-  user/CLAUDE.md.example          ← your global ~/.claude/CLAUDE.md
-  docs/COMMANDS.md                ← cheat sheet of every command (keep current)
-  docs/design.md                  ← principles and why
-  scripts/                        ← pack.py (zip for claude.ai), check_commands.py, check_frontmatter.py
+agent-playbook/                       this repo = a Claude Code plugin marketplace
+├── .claude-plugin/marketplace.json
+├── playbooks/                        one folder per plugin
+│   ├── knowledge-base-core/          /kb
+│   ├── dev-workflow/                 /dev  (+ agents/, migrations/ for project KB changes)
+│   ├── personal-vault/               /me
+│   └── code-graph/                   /code-graph  (optional)
+├── user/CLAUDE.md.example            your global ~/.claude/CLAUDE.md
+├── docs/
+│   ├── COMMANDS.md                   cheat sheet of every command (keep current)
+│   └── design.md                     principles and why
+└── scripts/                          pack.py (zip for claude.ai), check_commands.py, check_frontmatter.py
 ```
+
+| Plugin | What it is for | Skills and agents |
+|---|---|---|
+| **Knowledge Base Core** `/kb` | core for every knowledge base | capture · brainstorm · triage · stash · unstash · ingest · lint |
+| **Dev Workflow** `/dev` | software development | **Workflows:** feature-workflow · bugfix-workflow · spike-workflow · change-request<br>**Project:** init-project · upgrade-project<br>**Task:** new-task · start-task · pause-task · handoff · close-task<br>**Stages:** spec · plan · implement · review · pr-comments · fix-bug · verify · research<br>**Agents:** analyst · planner · implementer · debugger · reviewer · verifier · researcher · scout |
+| **Personal Vault** `/me` | personal vault | init-vault · save · find |
+| **Code Graph** `/code-graph` | optional cross-repo code graph MCP server for a project | reindex |
 
 ## Install (once per machine)
 
@@ -48,7 +51,7 @@ Or clone the repo and add the local folder instead (`claude plugin marketplace a
 
 Optional: copy [`user/CLAUDE.md.example`](user/CLAUDE.md.example) into your `~/.claude/CLAUDE.md` (merge if you have one; you don't need to clone the repo — just copy the text from GitHub) and fill in the `<placeholders>`. The playbooks work without it; `/me:init-vault` adds the vault path for you.
 
-Skills are namespaced by the plugin's `name`, not its folder or display name: Dev Workflow → `/dev:start`, Knowledge Base Core → `/kb:capture`, Personal Vault → `/me:save`. Most also trigger on their own from what you say; rare, deliberate ones (`init-project`, `upgrade-project`, `init-vault`, `lint`, `triage`, the `*-workflow` orchestrators) are manual-only — type them, their descriptions stay out of the context.
+Skills are namespaced by the plugin's `name`, not its folder or display name: Dev Workflow → `/dev:start-task`, Knowledge Base Core → `/kb:capture`, Personal Vault → `/me:save`. Most also trigger on their own from what you say; rare, deliberate ones (`init-project`, `upgrade-project`, `init-vault`, `lint`, `triage`, the `*-workflow` orchestrators) are manual-only — type them, their descriptions stay out of the context.
 
 **Keep [`docs/COMMANDS.md`](docs/COMMANDS.md) handy** — it is the cheat sheet of every command and agent (arguments, triggers, gates, models, outputs). Bookmark it on GitHub or save a copy next to your notes; it is the quickest way to remember what to type.
 
@@ -93,9 +96,9 @@ Bump `version` in the plugin's `plugin.json` after changing agents so installs p
 open Repos/SuperProject in VS Code → Claude Code or in Claude CLI from project folder
 /dev:init-project                 once: scans repos, creates .ai/, CLAUDE.md, local settings
 /dev:new-task IPR-4001            → /dev:spec → /dev:plan → /dev:implement → /dev:verify → /dev:close-task
-/dev:start IPR-4001               every session        /dev:handoff   end of every session (optional)
+/dev:start-task IPR-4001          every session        /dev:handoff   end of every session (optional)
 /kb:stash  /kb:unstash            switch context for a while (consume-once)
-/dev:park  /dev:resume            freeze a task for weeks
+/dev:pause-task /dev:start-task   freeze a task for weeks
 /kb:capture  /kb:triage           side findings → inbox → sorted later
 /kb:capture  /kb:brainstorm       "ідея: …" → ideas/ → think it through, verdict, promote
 /kb:ingest  /kb:lint              meeting notes/docs into the KB · weekly health check
@@ -143,7 +146,7 @@ restart Claude                      /mcp lists plugin:code-graph:code-graph; the
 ## Updating projects after changing this repo
 
 - Skills, agents, rules → nothing to do: every project uses them from the plugin (next session / `/reload-plugins`).
-- Project-side structure (`.ai/` layout, the managed KB block in the project CLAUDE.md, `.ai/.ignore`) → `/dev:upgrade-project` (one project) or `/dev:upgrade-project all`. Each project records its schema in `.ai/.playbook.json`; `/dev:start` and `/kb:lint` tell you when it is behind.
+- Project-side structure (`.ai/` layout, the managed KB block in the project CLAUDE.md, `.ai/.ignore`) → `/dev:upgrade-project` (one project) or `/dev:upgrade-project all`. Each project records its schema in `.ai/.playbook.json`; `/dev:start-task` and `/kb:lint` tell you when it is behind.
 - When you change project-side structure: add `playbooks/dev-workflow/migrations/NNNN-*.md`, bump `migrations/CURRENT` (see `migrations/README.md`).
 
 ## Add a playbook

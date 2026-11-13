@@ -2,7 +2,7 @@
 id: KEY-123
 title: Short title
 type: feature | bug | research | chore
-status: spec | planned | in-progress | review | blocked | parked | done
+status: spec | planned | in-progress | review | blocked | paused | done
 jira: https://...
 repos: [repo-a]
 branch: feature/KEY-123-slug

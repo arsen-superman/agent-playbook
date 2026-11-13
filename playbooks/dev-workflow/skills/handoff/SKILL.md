@@ -5,7 +5,7 @@ argument-hint: "[task-key]"
 ---
 # Handoff
 
-Where state goes: **`task.md` (Now/Next, open questions) + `plan.md` (ticks, Next) + `.ai/STATUS.md`**. Nothing else is needed for the next session to resume with `/dev:start`.
+Where state goes: **`task.md` (Now/Next, open questions) + `plan.md` (ticks, Next) + `.ai/STATUS.md`**. Nothing else is needed for the next session to resume with `/dev:start-task`.
 
 **No task in this session** (exploration, a chat-style investigation): don't invent a task — run `/kb:stash` instead; durable findings from it go to `.ai/context/` or `/kb:capture` first.
 
@@ -18,4 +18,4 @@ Where state goes: **`task.md` (Now/Next, open questions) + `plan.md` (ticks, Nex
 7. **Clean up** — scratch condensed or deleted; long outputs → `raw/`; size limits.
 8. **STATUS.md** — task row, Waiting on, inbox count, date.
 9. **Self-improvement** — the user corrected the same behaviour twice → propose the exact line for CLAUDE.md or the skill.
-10. Reply ≤6 lines: what's saved, Next, and the opening command (`/dev:start <KEY>`).
+10. Reply ≤6 lines: what's saved, Next, and the opening command (`/dev:start-task <KEY>`).

@@ -11,16 +11,16 @@ For you and for any agent. Kept in sync with `playbooks/` (see *Maintenance* at 
 | Situation | Do |
 |---|---|
 | New project folder | `claude plugin enable dev@agent-playbook --scope local`, then `/dev:init-project` once |
-| Continue earlier work | `/dev:start [KEY]` (not needed when starting something new) |
+| Continue earlier work | `/dev:start-task [KEY]` (not needed when starting something new) |
 | Work with no ticket yet | `/dev:new-task "description"` → `LOCAL-n`, then as usual |
 | New ticket, do it all in one go | `/dev:feature-workflow KEY` · `/dev:bugfix-workflow KEY` · `/dev:spike-workflow "question"` |
 | New ticket, step by step | `/dev:new-task KEY` → `/dev:spec` → `/dev:plan` → `/dev:implement` → `/dev:verify` → `/dev:close-task` |
-| New requirements / clarifications for a task in progress or in review | `/dev:amend KEY "…"` |
+| New requirements / clarifications for a task in progress or in review | `/dev:change-request KEY "…"` |
 | Reviewers left comments on the PR | `/dev:pr-comments KEY` |
 | PR merged | `/dev:close-task KEY` (archive, STATUS, branches and worktrees) |
 | End of every session | `/dev:handoff` (no task in the session → `/kb:stash`) |
 | Switch to something else for a while | `/kb:stash name` … later `/kb:unstash name` |
-| Task blocked for days/weeks | `/dev:park KEY reason` … later `/dev:resume KEY` |
+| Task blocked for days/weeks | `/dev:pause-task KEY reason` … later `/dev:start-task KEY` |
 | Noticed something unrelated | just say "запиши на потім" → `/kb:capture` |
 | Free half hour | `/kb:triage` |
 | An idea came up (also from the phone) | just say "ідея: …" → `/kb:capture`; later `/kb:brainstorm` |
@@ -38,9 +38,9 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 
 | Command | When | What happens |
 |---|---|---|
-| ⌨ `/dev:feature-workflow <KEY \| task \| description> [auto]` | a feature end to end | analyst → **GATE A** questions → planner → **GATE B** plan → implementer per phase → reviewer → you pick minors to fix (≤2 fix rounds, logged in `review.md`) → verifier → **GATE C** push/PR. `auto` skips B for small plans. Resumable: `/dev:start` continues at the saved stage |
+| ⌨ `/dev:feature-workflow <KEY \| task \| description> [auto]` | a feature end to end | analyst → **GATE A** questions → planner → **GATE B** plan → implementer per phase → reviewer → you pick minors to fix (≤2 fix rounds, logged in `review.md`) → verifier → **GATE C** push/PR. `auto` skips B for small plans. Resumable: `/dev:start-task` continues at the saved stage |
 | ⌨ `/dev:bugfix-workflow <KEY \| task \| description>` | a bug end to end | debugger (repro, root cause, failing test) → **GATE A** pick fix → implementer → reviewer → verifier → **GATE C** |
-| 🤖 `/dev:amend <KEY> <text \| file \| url>` | new requirements, clarifications, edge cases after the spec (also with a PR open) | appends a dated Update to Raw requirement → analyst classifies items (covered+tested / no test / new / conflict) and sizes them → **GATE A** → planner adds TCs + one Amend phase (**GATE B** unless ≤3 steps) → implementer → reviewer (whole PR diff, focus on amend) → verifier (full regression) → **GATE C** PR update + Jira |
+| 🤖 `/dev:change-request <KEY> <text \| file \| url>` | new requirements, clarifications, edge cases after the spec (also with a PR open) | appends a dated Update to Raw requirement → analyst classifies items (covered+tested / no test / new / conflict) and sizes them → **GATE A** → planner adds TCs + one Amend phase (**GATE B** unless ≤3 steps) → implementer → reviewer (whole PR diff, focus on amend) → verifier (full regression) → **GATE C** PR update + Jira |
 | 🤖 `/dev:pr-comments [KEY]` | PR has review comments | fetches unresolved threads (`gh` / connector / paste) → one `review.md` row each: fix / reply / discuss / amend / follow-up → **GATE** → PR-feedback phase by F-ID via implementer (+ reviewer verifying those rows and verifier for logic changes) → drafted replies → **GATE C** push, reply, resolve → proposed `<repo>/REVIEW.md` lines for team conventions |
 | ⌨ `/dev:spike-workflow <question \| KEY> [timebox]` | choose between options before building | frame + sub-questions → **GATE A** → researcher ×N in parallel → synthesis → **GATE B** → decision record in `.ai/decisions/`, follow-ups |
 
@@ -53,11 +53,10 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 ### Session and task lifecycle
 | Command | When | What happens |
 |---|---|---|
-| 🤖 `/dev:start [KEY]` | beginning of every session | reads STATUS + task card + plan up to Next; reports where things are, inbox/stash counts, staleness, outdated KB; task in review → PR merged / new comments |
+| 🤖 `/dev:start-task [KEY]` | beginning of every session | reads STATUS + task card + plan up to Next; reports where things are, inbox/stash counts, staleness, outdated KB; task in review → PR merged / new comments; paused task → "while you were away" (Jira, branch drift, re-checked facts), updates spec/plan, back to Active on OK |
 | 🤖 `/dev:new-task <KEY \| description> [from LOCAL-n]` | new ticket; work with no ticket yet (→ `LOCAL-n`, tracked like any task); a LOCAL task got a ticket (`IPR-123 from LOCAL-2`) | fetches Jira, creates `.ai/tasks/<KEY-slug>/` with `task.md` (incl. `branch:` and `base:` — `main`/`master` for a production hotfix) and raw requirement, adds to STATUS; on `from` renames the LOCAL task to the ticket key (can draft the Jira ticket for you, created only on OK) |
 | 🤖 `/dev:handoff [KEY]` | end of every session, or when context gets long | rewrites task Now/Next, ticks plan, promotes decisions/knowledge, captures leftovers, updates STATUS |
-| 🤖 `/dev:park <KEY> [reason]` | blocked / missing data / priorities changed | handoff + WIP commit on the branch + **Parked** block (why, unblocks when, volatile facts) + STATUS → Parked |
-| 🤖 `/dev:resume <KEY>` | coming back to a parked task | "while you were away": Jira, branch drift, re-checked facts → updates spec/plan → back to Active |
+| 🤖 `/dev:pause-task <KEY> [reason]` | blocked / missing data / priorities changed | handoff + WIP commit on the branch + **Paused** block (why, unblocks when, volatile facts) + STATUS → Paused |
 | 🤖 `/dev:close-task <KEY>` | "PR merged" / done / cancelled | confirms the merge, runs handoff, promotes decisions, knowledge and regression test cases (→ `.ai/qa/regression.md`), writes Outcome, moves to `.ai/archive/`, updates STATUS; on one OK removes the task's worktrees (asks before `--force`), local and remote branches |
 
 ### Single stages (manual, in this session — the workflows use the same procedures)

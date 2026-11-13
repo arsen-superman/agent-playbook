@@ -4,7 +4,7 @@
 | Task | Repos | Status | Next |
 |---|---|---|---|
 
-## Parked
+## Paused
 | Task | Repos | Since | Waiting for |
 |---|---|---|---|
 

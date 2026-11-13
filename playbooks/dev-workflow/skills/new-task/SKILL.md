@@ -16,7 +16,7 @@ Templates: `templates/doc/` in this plugin (two levels up from this skill's fold
 7. Reply: folder, goal in 2 lines, next command.
 
 ## No ticket yet → LOCAL task
-Works exactly like a ticket task (spec, plan, workflows, park, close) with key `LOCAL-<n>` and `jira:` empty. Branch: `feature/LOCAL-<n>-<slug>` until a ticket exists.
+Works exactly like a ticket task (spec, plan, workflows, pause, close) with key `LOCAL-<n>` and `jira:` empty. Branch: `feature/LOCAL-<n>-<slug>` until a ticket exists.
 
 ## LOCAL task gets a ticket (`<JIRA-KEY> from LOCAL-n`)
 1. Fetch the issue; merge anything new into `spec.md §Raw requirement` (keep the original text too).

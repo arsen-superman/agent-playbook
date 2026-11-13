@@ -13,7 +13,7 @@
     {
       "name": "dev",
       "source": "./playbooks/dev-workflow",
-      "description": "Software development playbook: project .ai/ knowledge base, task lifecycle from spec to close, park/resume."
+      "description": "Software development playbook: project .ai/ knowledge base, task lifecycle from spec to close, pause/start."
     },
     {
       "name": "me",

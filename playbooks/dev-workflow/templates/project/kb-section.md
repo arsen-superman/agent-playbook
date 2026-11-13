@@ -2,7 +2,7 @@
 Read at session start only: this file → `.ai/STATUS.md` → the task's `task.md` → its `plan.md` up to **Next**.
 Everything else on demand.
 ```
-.ai/STATUS.md        active / parked tasks, waiting-on, inbox count (≤30 lines, overwritten)
+.ai/STATUS.md        active / paused tasks, waiting-on, inbox count (≤30 lines, overwritten)
 .ai/context/         durable cross-repo knowledge: glossary.md, architecture.md, data.md, …   (index below)
 .ai/context/<repo>/  knowledge about one repo only (folder name = Repositories table)
 .ai/decisions/       NNNN-slug.md — decisions with their why and Repos (grep before re-deciding)
