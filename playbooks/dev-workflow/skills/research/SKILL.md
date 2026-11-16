@@ -1,6 +1,6 @@
 ---
 name: research
-description: Investigate a question (code behaviour, data, technology choice, market, competitors) and produce a conclusion with evidence and confidence. Use for investigate, find out, why does, compare, is it true that, market or competitor research.
+description: "Investigate a technical question (code behaviour, data, technology choice, security, performance) and produce a conclusion with evidence and confidence. Use for investigate, find out, why does, compare, is it true that. Market or competitor research belongs to the product playbook."
 argument-hint: "<question> [task-key]"
 ---
 # Research

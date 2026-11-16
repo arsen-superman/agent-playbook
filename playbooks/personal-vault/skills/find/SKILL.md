@@ -1,6 +1,6 @@
 ---
 name: find
-description: Find and answer from the personal vault — recipes, how-tos, prompts, saved instructions and notes. Use when the user asks "how did I…", "where is my recipe for…", "що я зберігав про…", "find in my notes", or asks something likely already saved.
+description: "Find and answer from the personal vault — recipes, how-tos, prompts, saved instructions and notes. Use when the user asks \"how did I…\", \"where is my recipe for…\", \"що я зберігав про…\", \"find in my notes\", or asks something likely already saved."
 argument-hint: "<question>"
 ---
 # Find in the personal vault

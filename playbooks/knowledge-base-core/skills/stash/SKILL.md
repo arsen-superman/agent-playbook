@@ -1,6 +1,6 @@
 ---
 name: stash
-description: Save the current session's working context into a temporary, consume-once stash so the user can switch to something else and later restore it with unstash. Use when the user says stash, відклади контекст, збережи контекст, switch task, "переключаюсь", or before abandoning a half-finished line of thought.
+description: "Save the current session's working context into a temporary, consume-once stash so the user can switch to something else and later restore it with unstash. Use when the user says stash, відклади контекст, збережи контекст, switch task, \"переключаюсь\", or before abandoning a half-finished line of thought."
 argument-hint: "[short-name]"
 ---
 # Stash the working context

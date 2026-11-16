@@ -11,7 +11,9 @@ For you and for any agent. Kept in sync with `playbooks/` (see *Maintenance* at 
 | Situation | Do |
 |---|---|
 | New project folder | `claude plugin enable dev@agent-playbook --scope local`, then `/dev:init-project` once |
+| Project with no tracker or no review team (own product, personal tool) | in the project `CLAUDE.md`: `Tracker: none` and/or `Delivery: self-merge` — tasks are `LOCAL-n`, the final gate merges into the base branch instead of opening a PR |
 | Continue earlier work | `/dev:start-task [KEY]` (not needed when starting something new) |
+| A feature has to be specified before anyone codes it | `/dev:requirements "feature"` → `.ai/specs/<feature>.md` → tasks |
 | Work with no ticket yet | `/dev:new-task "description"` → `LOCAL-n`, then as usual |
 | New ticket, do it all in one go | `/dev:feature-workflow KEY` · `/dev:bugfix-workflow KEY` · `/dev:spike-workflow "question"` |
 | New ticket, step by step | `/dev:new-task KEY` → `/dev:spec` → `/dev:plan` → `/dev:implement` → `/dev:verify` → `/dev:close-task` |
@@ -40,8 +42,8 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 |---|---|---|
 | ⌨ `/dev:feature-workflow <KEY \| task \| description> [auto]` | a feature end to end | analyst → **GATE A** questions → planner → **GATE B** plan → implementer per phase → reviewer → you pick minors to fix (≤2 fix rounds, logged in `review.md`) → verifier → **GATE C** push/PR. `auto` skips B for small plans. Resumable: `/dev:start-task` continues at the saved stage |
 | ⌨ `/dev:bugfix-workflow <KEY \| task \| description>` | a bug end to end | debugger (repro, root cause, failing test) → **GATE A** pick fix → implementer → reviewer → verifier → **GATE C** |
-| 🤖 `/dev:change-request <KEY> <text \| file \| url>` | new requirements, clarifications, edge cases after the spec (also with a PR open) | appends a dated Update to Raw requirement → analyst classifies items (covered+tested / no test / new / conflict) and sizes them → **GATE A** → planner adds TCs + one Amend phase (**GATE B** unless ≤3 steps) → implementer → reviewer (whole PR diff, focus on amend) → verifier (full regression) → **GATE C** PR update + Jira |
-| 🤖 `/dev:pr-comments [KEY]` | PR has review comments | fetches unresolved threads (`gh` / connector / paste) → one `review.md` row each: fix / reply / discuss / follow-up (requirement-like comments start as discuss; amend only when the user explicitly confirms) → **GATE** → PR-feedback phase by F-ID via implementer (+ reviewer verifying those rows and verifier for logic changes) → drafted replies, one per comment thread → **GATE C** choose push + replies / push only / replies only; resolve on explicit OK → proposed `<repo>/REVIEW.md` lines for team conventions |
+| ⌨ `/dev:change-request <KEY> <text \| file \| url>` | new requirements, clarifications, edge cases after the spec (also with a PR open) | appends a dated Update to Raw requirement → analyst classifies items (covered+tested / no test / new / conflict) and sizes them → **GATE A** → planner adds TCs + one Amend phase (**GATE B** unless ≤3 steps) → implementer → reviewer (whole PR diff, focus on amend) → verifier (full regression) → **GATE C** PR update + Jira |
+| ⌨ `/dev:pr-comments [KEY]` | PR has review comments | fetches unresolved threads (`gh` / connector / paste) → one `review.md` row each: fix / reply / discuss / follow-up (requirement-like comments start as discuss; amend only when the user explicitly confirms) → **GATE** → PR-feedback phase by F-ID via implementer (+ reviewer verifying those rows and verifier for logic changes) → drafted replies, one per comment thread → **GATE C** choose push + replies / push only / replies only; resolve on explicit OK → proposed `<repo>/REVIEW.md` lines for team conventions |
 | ⌨ `/dev:spike-workflow <question \| KEY> [timebox]` | choose between options before building | frame + sub-questions → **GATE A** → researcher ×N in parallel → synthesis → **GATE B** → decision record in `.ai/decisions/`, follow-ups |
 
 ### Project setup and maintenance
@@ -53,8 +55,8 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 ### Session and task lifecycle
 | Command | When | What happens |
 |---|---|---|
-| 🤖 `/dev:start-task [KEY]` | beginning of every session | reads STATUS + task card + plan up to Next; reports where things are, inbox/stash counts, staleness, outdated KB; task in review → PR merged / new comments; paused task → "while you were away" (Jira, branch drift, re-checked facts), updates spec/plan, back to Active on OK |
-| 🤖 `/dev:new-task <KEY \| description> [from LOCAL-n]` | new ticket; work with no ticket yet (→ `LOCAL-n`, tracked like any task); a LOCAL task got a ticket (`IPR-123 from LOCAL-2`) | fetches Jira, creates `.ai/tasks/<KEY-slug>/` with `task.md` (incl. `branch:` and `base:` — `main`/`master` for a production hotfix) and raw requirement, adds to STATUS; on `from` renames the LOCAL task to the ticket key (can draft the Jira ticket for you, created only on OK) |
+| 🤖 `/dev:start-task [KEY]` | beginning of every session | reads STATUS + task card + plan up to Next; reports where things are, inbox/stash counts, staleness, outdated KB; task in review → PR merged / new comments; paused task → "while you were away" (tracker, branch drift, re-checked facts), updates spec/plan, back to Active on OK |
+| 🤖 `/dev:new-task <KEY \| description> [from LOCAL-n]` | new ticket; work with no ticket yet (→ `LOCAL-n`, tracked like any task); a LOCAL task got a ticket (`IPR-123 from LOCAL-2`) | fetches the ticket (project with a tracker), creates `.ai/tasks/<KEY-slug>/` with `task.md` (incl. `branch:` and `base:` — `main`/`master` for a production hotfix) and raw requirement, adds to STATUS; on `from` renames the LOCAL task to the ticket key (can draft the Jira ticket for you, created only on OK) |
 | 🤖 `/dev:handoff [KEY]` | end of every session, or when context gets long | rewrites task Now/Next, ticks plan, promotes decisions/knowledge, captures leftovers, updates STATUS |
 | 🤖 `/dev:pause-task <KEY> [reason]` | blocked / missing data / priorities changed | handoff + WIP commit on the branch + **Paused** block (why, unblocks when, volatile facts) + STATUS → Paused |
 | 🤖 `/dev:close-task <KEY>` | "PR merged" / done / cancelled | confirms the merge, runs handoff (incl. cleanup and self-improvement), promotes decisions, knowledge and regression test cases (→ `.ai/qa/regression.md`), writes Outcome, moves to `.ai/archive/` trimmed to what and why (task Goal/Outcome, spec rules/AC/edge cases/decisions, plan approach), updates STATUS; on one OK removes the task's worktrees (asks before `--force`), local and remote branches |
@@ -62,12 +64,13 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 ### Single stages (manual, in this session — the workflows use the same procedures)
 | Command | What it produces |
 |---|---|
-| 🤖 `/dev:spec [KEY]` | `spec.md`: AS-IS with file:line, rules (permission matrix when claims are touched), AC (every endpoint returning a new field), edge cases, open questions. No code |
+| 🤖 `/dev:requirements <feature \| idea \| ticket \| file>` | `.ai/specs/<feature>.md`: a feature specified before it becomes tasks (you as business analyst) — actors, scenarios, rules with R-IDs, data and states, out of scope, open questions; asks you, pushes back on vague answers; proposes task slices (created on OK); no code. Existing spec → updated in place |
+| 🤖 `/dev:spec [KEY]` | `spec.md`: AS-IS with file:line, rules (cited from the feature spec when one exists) (permission matrix when claims are touched), AC (every endpoint returning a new field), edge cases, open questions. No code |
 | 🤖 `/dev:plan [KEY]` | scouts reuse, class sizes, call frequency and the closest existing feature first → `test-cases.md` (cases per AC, level unit/integration/e2e/manual) + `plan.md`: options (only for a real choice), approach, placement, cross-cutting risk classes, phased commit-sized steps each with a verify check, every risk closed by a step or your decision; asks approval |
 | 🤖 `/dev:review [KEY]` | `review.md`: every finding (F-ID, risk class, severity, file:line, fix) from a review of the branch diff against spec, plan, risk classes and `<repo>/REVIEW.md`; delegates to `dev:reviewer` if this session wrote the code |
 | 🤖 `/dev:implement [KEY] [all \| phase N]` | code + one commit per step, ticks with hashes; one phase per call by default; never pushes |
 | 🤖 `/dev:fix-bug [KEY]` | reproduce → root cause → failing test → minimal fix → verification note |
-| 🤖 `/dev:verify [KEY]` | executes `test-cases.md` (automated + what it can run itself), adds missing cases, records a run, leaves UI/human cases `⏳ for QA` and drafts a QA handoff (Jira comment on OK); delegates to `dev:verifier` if this session wrote the code |
+| 🤖 `/dev:verify [KEY]` | executes `test-cases.md` (automated + what it can run itself), adds missing cases, records a run, leaves UI/human cases `⏳ for QA` and drafts a QA handoff (tracker comment on OK; no QA on the project → your checklist at the final gate); delegates to `dev:verifier` if this session wrote the code |
 | 🤖 `/dev:research <question> [KEY]` | `research/<topic>.md`: answer, evidence, confidence, implications |
 
 ### Agents (called by workflows; you can also say "use dev:reviewer on IPR-123")
@@ -119,6 +122,7 @@ claude plugin validate .                        # from the repo root
 /reload-plugins                                 # inside a session, after editing the repo
 python scripts/pack.py me                     # zip for claude.ai upload → dist/
 python scripts/check_commands.py                # is this file complete?
+python scripts/sync_shared.py                   # after editing shared/: copy into plugins and check
 ```
 
 ## Maintenance (rule for whoever edits agent-playbook)

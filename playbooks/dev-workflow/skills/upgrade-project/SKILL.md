@@ -1,6 +1,6 @@
 ---
 name: upgrade-project
-description: Bring a project's .ai/ knowledge base and project CLAUDE.md up to date with the current agent-playbook version — apply pending migrations and refresh the managed CLAUDE.md block. Use when the user says upgrade project, онови структуру, sync with playbook, or when start/lint reports an outdated KB schema.
+description: "Bring a project's .ai/ knowledge base and project CLAUDE.md up to date with the current agent-playbook version — apply pending migrations and refresh the managed CLAUDE.md block. Use when the user says upgrade project, онови структуру, sync with playbook, or when start/lint reports an outdated KB schema."
 argument-hint: "[project-folder | all] [dry-run]"
 disable-model-invocation: true
 ---

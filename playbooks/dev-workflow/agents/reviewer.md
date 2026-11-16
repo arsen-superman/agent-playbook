@@ -1,6 +1,6 @@
 ---
 name: reviewer
-description: Workflow stage — independent code review of a task's diff against its spec, plan and the risk classes (correctness, design, reuse, permissions, performance, conventions); logs findings in review.md. Never edits code. Used by /dev:feature-workflow, /dev:bugfix-workflow, /dev:change-request and /dev:pr-comments.
+description: "Workflow stage — independent code review of a task's diff against its spec, plan and the risk classes (correctness, design, reuse, permissions, performance, conventions); logs findings in review.md. Never edits code. Used by /dev:feature-workflow, /dev:bugfix-workflow, /dev:change-request and /dev:pr-comments."
 model: opus
 effort: high
 maxTurns: 60
@@ -24,5 +24,5 @@ SUMMARY: <≤10 lines — conclusions, not process>
 QUESTIONS: <numbered; each: question · options with your recommendation · who can answer · [blocking] or [assumed: <option you went with>]> | none
 CAPTURED: <inbox items created via /kb:capture> | none
 ```
-A choice you can make reasonably yourself → make it, record it in `spec.md §Assumptions`, and list it as [assumed]; stop with needs-input only when a wrong guess would waste the next stage.
+A choice you can make reasonably yourself → make it, record it under Assumptions in the file you write (`dev` stage agents: `spec.md §Assumptions`), and list it as [assumed]; stop with needs-input only when a wrong guess would waste the next stage.
 Long evidence goes into files (ARTIFACTS), never into the reply. The orchestrator will not read your transcript.

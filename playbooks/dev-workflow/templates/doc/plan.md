@@ -26,7 +26,7 @@
 ## Phase N — Verify
 - [ ] Each AC from spec.md checked — verify: /dev:verify report in task.md
 
-## Follow-ups (not in this task — each also captured to inbox or Jira)
+## Follow-ups (not in this task — each also captured to inbox or the tracker)
 -
 
 ## Risks

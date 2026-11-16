@@ -1,11 +1,12 @@
 ---
 name: pr-comments
-description: "Workflow — pull review comments from a task's open PR, triage them with the user, fix through the implementer, draft replies. Triggers: PR comments, review comments, коменти в PR, опрацюй рев'ю."
+description: "Workflow — pull review comments from a task's open PR, triage them with the user, fix through the implementer, draft replies. Manual: /dev:pr-comments [KEY]."
 argument-hint: "[task-key]"
+disable-model-invocation: true
 ---
 # Handle PR review comments — orchestrator
 
-You orchestrate; code changes run in `dev:implementer`, follow the **Orchestration rules** of `/dev:feature-workflow`, with `workflow: pr-comments`. Every comment becomes a row in `<task>/review.md` (`templates/doc/review.md` in this plugin) — the one list that fixes, re-review and replies work from.
+You orchestrate; code changes run in `dev:implementer`, follow `templates/shared/orchestration.md` in this plugin (two levels up from this skill's folder; read it first), with `workflow: pr-comments`. Every comment becomes a row in `<task>/review.md` (`templates/doc/review.md` in this plugin) — the one list that fixes, re-review and replies work from.
 
 1. **Fetch** — PR per repo from `task.md` (Links / `branch:`). Use the repo's tool from the Repositories table (`Host · tool`); GitHub: `gh pr view <n> --json state,reviews,comments` and `gh api repos/{owner}/{repo}/pulls/<n>/comments` (inline threads). Tool missing → give the install/login command, or ask the user to paste the comments. PR merged → offer `/dev:close-task` and stop.
 2. **Filter** — unresolved threads and new top-level comments; skip ones whose link already is in `review.md`, bot noise, approvals without text. A follow-up in a thread of an existing row → reopen that row.

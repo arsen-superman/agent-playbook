@@ -6,7 +6,7 @@
 |---|---|---|---|---|---|---|---|
 | F-01 | reviewer R1 | 1 | major | `repo/src/File.cs:42` | <what is wrong, one line> · fix: <suggestion> | fix | open |
 
-- **Source:** `reviewer R<n>` · `PR <link> @author` · `user`.
+- **Source:** `reviewer R<n>` · `PR <link> @author` · `user` · `design` (a check against the task's `design.md`).
 - **Class:** number from `templates/checklists/risk-classes.md` in the dev plugin · `plan-level` prefix when the flaw comes from plan.md or spec.md (prescribed or missed) · `convention` (team rule — candidate for `<repo>/REVIEW.md`) · `other`.
 - **Sev:** blocker · major · minor.
 - **Decision:** fix · reply · discuss · amend · follow-up · won't fix (why).

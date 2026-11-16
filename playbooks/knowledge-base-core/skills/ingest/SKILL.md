@@ -1,6 +1,6 @@
 ---
 name: ingest
-description: Ingest a source (meeting notes, transcript, Confluence/Drive document, Jira epic, article, chat answer) into the knowledge base — split it into facts, decisions, tasks and questions and file each where it belongs. Use when the user pastes or points to material and says ingest, занеси в базу, розклади, save this meeting, process these notes.
+description: "Ingest a source (meeting notes, transcript, Confluence/Drive document, Jira epic, article, chat answer) into the knowledge base — split it into facts, decisions, tasks and questions and file each where it belongs. Use when the user pastes or points to material and says ingest, занеси в базу, розклади, save this meeting, process these notes."
 argument-hint: "<file | url | pasted text>"
 ---
 # Ingest a source

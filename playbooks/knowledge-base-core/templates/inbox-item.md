@@ -1,7 +1,7 @@
 ---
 type: todo           # todo | finding | bug | chore | idea | question
 severity: n/a        # bug only: high | medium | low — otherwise n/a
-area: <area>         # required, never n/a: project KB — repo name as in the Repositories table, `all` if several; vault — domain folder
+area: <area>         # required, never n/a: project KB — repo name as in the Repositories table, `all` if several, or a department (product, design, ops, growth, biz) when not about a repo; vault — domain folder
 source: <ticket/MR key first if any, then session or conversation — no personal names>   # e.g. IPR-4145 MR2 review
 created: YYYY-MM-DD
 updated: YYYY-MM-DD  # last status change; = created for a new item

@@ -1,6 +1,6 @@
 ---
 name: fix-bug
-description: Fix a bug — reproduce, find the root cause, write a failing test, apply the minimal fix, verify. Use for bug tickets, regressions, "this doesn't work", or a bug found while working on another task.
+description: "Fix a bug — reproduce, find the root cause, write a failing test, apply the minimal fix, verify. Use for bug tickets, regressions, \"this doesn't work\", or a bug found while working on another task."
 argument-hint: "[task-key]"
 ---
 # Fix a bug

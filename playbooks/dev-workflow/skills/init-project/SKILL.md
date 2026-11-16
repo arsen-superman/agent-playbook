@@ -24,8 +24,8 @@ A project = one folder that contains one or more repositories (e.g. `Repos/Super
 
 ## 2. Ask (one batch, only what you couldn't infer)
 Show a short scan summary, then ask together:
-1. Project name and one-line purpose; your role.
-2. Tracker (Jira project key / URL), docs (Confluence / Drive), chat channels.
+1. Project name and one-line purpose; your role; profile — `work` (a team and a tracker), `tool` (you are its only user) or `product` (it has an audience or buyers).
+2. Tracker (Jira project key / URL, or none — tasks are then `LOCAL-n`), delivery (PR with team review, or self-merge when you are the only one merging), docs (Confluence / Drive), chat channels.
 3. Environments: which databases/services exist (names only), which are allowed (local / test read-only), which are off-limits.
 4. Paths or commands the agent must never touch; paths it may read but never edit (generated code, frozen/legacy packages, applied migrations) — propose candidates from the scan.
 5. Discovery-phase project (no code yet)? → add `assumptions.md`.
@@ -34,13 +34,13 @@ Show a short scan summary, then ask together:
 8. Code graph across repos (`code-graph` plugin: callers and cross-repo HTTP/config/package links for agents, re-indexed at session start; needs Node 22+ and uv)? Default yes with 2+ repos, else no. On yes, show dev/prod branch per repo and ask only about repos where either is missing or prod is something else (e.g. `release`).
 
 ## 3. Create
-- `.ai/` with `STATUS.md`, `context/glossary.md`, `decisions/`, `tasks/`, `inbox/`, `ideas/`, `stash/`, `raw/`, `archive/`, `qa/regression.md` (from `templates/project/regression.md`), and `.ai/.ignore` from `templates/project/ignore`. Add `.gitkeep` to empty folders only if the project folder is itself a git repo (otherwise nothing tracks them; skills create missing folders on demand).
+- `.ai/` with `STATUS.md`, `context/glossary.md`, `decisions/`, `specs/`, `tasks/`, `inbox/`, `ideas/`, `stash/`, `raw/`, `archive/`, `qa/regression.md` (from `templates/project/regression.md`), and `.ai/.ignore` from `templates/project/ignore`. Add `.gitkeep` to empty folders only if the project folder is itself a git repo (otherwise nothing tracks them; skills create missing folders on demand).
 - Project `CLAUDE.md` from `templates/project/CLAUDE.md`, filled from the scan and answers (≤100 lines). Fill the managed block between `<!-- agent-playbook:kb:begin -->` and `<!-- agent-playbook:kb:end -->` with `templates/project/kb-section.md` verbatim — it is replaced on upgrades, so project-specific text goes outside it.
 - `.ai/.playbook.json` from `templates/project/playbook.json`: `schema` = `migrations/CURRENT`, `playbook` = this plugin's version, dates = today.
   - If the project folder **is** a git repo, write it as `CLAUDE.local.md` instead and add `CLAUDE.local.md` and `.ai/` to that repo's `.gitignore` (ask first) — client knowledge must not be committed by accident.
 - Repositories table in CLAUDE.md gets each repo's host link and tool.
 - `worktrees/` folder at the project root (all task worktrees live there, see the KB rules). Worktrees found elsewhere → list them with the `git worktree move <old> <project>/worktrees/<repo>--<KEY>` command; move only on OK. Project folder is a git repo → add `worktrees/` to its `.gitignore` together with `.ai/`.
-- `.claude/settings.local.json` from `templates/project/settings.local.json` + the user's never-touch paths as `deny` rules (`Read(…)`) + read-only paths as `deny` `Edit(…)` and `Write(…)` rules + `ask` rules for the detected tools' write commands (`glab mr create/merge`, `az repos pr create/update`, `gk` PR create — `gh` is in the template) + an `enabledPlugins` entry `<plugin>@claude-plugins-official: true` per detected language server.
+- `.claude/settings.local.json` from `templates/project/settings.local.json` + rules for the detected stacks (.NET: `deny` `Read(**/appsettings.Production.json)`, `ask` `Bash(dotnet ef database update:*)`; other stacks: their production config files and migration commands) + the user's never-touch paths as `deny` rules (`Read(…)`) + read-only paths as `deny` `Edit(…)` and `Write(…)` rules + `ask` rules for the detected tools' write commands (`glab mr create/merge`, `az repos pr create/update`, `gk` PR create — `gh` is in the template) + an `enabledPlugins` entry `<plugin>@claude-plugins-official: true` per detected language server.
 - Obsidian add-on (only on yes): `.ai/views.md` from `templates/project/obsidian/views.md`, `.obsidian/` appended to `.ai/.ignore`, `"obsidian": true` in `.ai/.playbook.json`; print `templates/project/obsidian/setup.md` for the user to click through. No → `"obsidian": false`.
 - Code graph (only on yes): `"code-graph@agent-playbook": true` in `enabledPlugins`, `"codeGraph": true` in `.ai/.playbook.json` (no → `false`); non-default branches from question 8 → `.ai/.index/config.json` (`{ "repos": { "<repo>": { "prod": "<branch>" } } }`). Never install the plugin yourself and never at user scope.
 - Databases: don't write connection strings anywhere. Suggest the command to register each allowed DB as a local MCP server (`claude mcp add --scope local …`, secrets via env vars or 1Password `op run`) and put only the server names into CLAUDE.md.

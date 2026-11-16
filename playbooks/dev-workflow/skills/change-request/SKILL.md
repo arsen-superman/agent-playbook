@@ -1,11 +1,12 @@
 ---
 name: change-request
-description: "Workflow — bring new requirements or edge cases into a task past the spec stage: record, analyse impact, plan and deliver only the delta. Triggers: new requirements, clarification, уточнення, нові вимоги, додай edge case."
+description: "Workflow — bring new requirements or edge cases into a task past the spec stage: record, analyse impact, plan and deliver only the delta. Manual: /dev:change-request <KEY> <text | file | url>."
 argument-hint: "<task-key> <clarification text | file | url>"
+disable-model-invocation: true
 ---
 # Change request — orchestrator
 
-You orchestrate; stages run in the same agents as `/dev:feature-workflow` and follow its **Orchestration rules** (gates, questions, recording answers in `spec.md §Decisions`), with `workflow: amend`. Never rewrite finished work — add to it.
+You orchestrate; stages run in the same agents as `/dev:feature-workflow` and follow `templates/shared/orchestration.md` in this plugin (two levels up from this skill's folder; read it first) (gates, questions, recording answers in `spec.md §Decisions`), with `workflow: amend`. Never rewrite finished work — add to it.
 
 ## Stages
 0. **Task** — must have `spec.md` with AC. No AC yet → append to Raw requirement and run `/dev:spec` instead. Note where the task is: workflow stage, PR open or not.
@@ -16,7 +17,7 @@ You orchestrate; stages run in the same agents as `/dev:feature-workflow` and fo
 4. **Implement** → `dev:implementer`, the amend phase only.
 5. **Review** → `dev:reviewer` on the whole `base...branch` diff with focus on the amend commits (they interact with earlier code). Max 2 fix rounds, then gate: the user decides each remaining row (fix / follow-up / won't fix + why); running out of rounds is never the reason for `won't fix`.
 6. **Verify** → `dev:verifier`: the full `test-cases.md` — new cases plus every earlier AC as regression. Record as in `/dev:feature-workflow` stage 5.
-7. **Finish** — draft the PR update: a "Changes since last review" section (items → commits → TCs) and a Jira comment. **GATE C** — push / PR edit / Jira only on OK. `status: review`, then `/dev:handoff`.
+7. **Finish** — draft the PR update: a "Changes since last review" section (items → commits → TCs) and a tracker comment. **GATE C** — push / PR edit / tracker only on OK (`Delivery: self-merge` → the merge gate from the KB rules instead, then `/dev:close-task`). `status: review`, then `/dev:handoff`.
 
 Task was mid-workflow (no code for the plan yet) → after stage 3 return to the original workflow at its implement stage instead of 4-7.
 Resume: `task.md` says `workflow: amend · stage: N` → continue from N.

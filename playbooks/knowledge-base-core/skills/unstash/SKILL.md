@@ -1,6 +1,6 @@
 ---
 name: unstash
-description: Restore a previously stashed working context into the current session and consume it (remove the stash). Use when the user says unstash, поверни контекст, restore context, "повертаюсь до …", or names a stash.
+description: "Restore a previously stashed working context into the current session and consume it (remove the stash). Use when the user says unstash, поверни контекст, restore context, \"повертаюсь до …\", or names a stash."
 argument-hint: "[short-name]"
 ---
 # Restore a stash

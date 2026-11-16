@@ -1,6 +1,6 @@
 ---
 name: scout
-description: Cheap read-only code reader — answers one narrow factual question about code, data model, tests or configuration with file:line evidence. Called by analyst, planner, debugger and researcher instead of reading code themselves (the built-in Explore runs on the caller's model).
+description: "Cheap read-only code reader — answers one narrow factual question about code, data model, tests or configuration with file:line evidence. Called by analyst, planner, debugger and researcher instead of reading code themselves (the built-in Explore runs on the caller's model)."
 model: sonnet
 effort: low
 maxTurns: 25

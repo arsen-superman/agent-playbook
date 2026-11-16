@@ -3,9 +3,14 @@ import re
 import subprocess
 import sys
 
-import yaml
+try:
+    import yaml
+except ModuleNotFoundError:
+    sys.exit("check_frontmatter.py needs PyYAML: python -m pip install pyyaml")
 
 REQUIRED = {"SKILL.md": ("name", "description")}
+MAX_DESCRIPTION = 350   # chars; a model-invocable skill's description sits in context on every turn
+MAX_AUTO_BODY = 3500    # chars; body of a model-invocable skill, loaded on each use
 
 
 def main() -> int:
@@ -38,6 +43,21 @@ def main() -> int:
         if name == "SKILL.md" and isinstance(data, dict) and data.get("name") != f.split("/")[-2]:
             print(f"{f}: name does not match folder")
             bad += 1
+        is_skill = name == "SKILL.md"
+        is_agent = "/agents/" in f and f.startswith("playbooks/")
+        if (is_skill or is_agent) and isinstance(data, dict):
+            # Size is measured in characters: lines can be arbitrarily long, tokens follow characters.
+            if not re.search(r'^description: "', m.group(1), re.M):
+                print(f"{f}: description must be wrapped in double quotes")
+                bad += 1
+            desc = data.get("description") or ""
+            if len(desc) > MAX_DESCRIPTION:
+                print(f"{f}: description is {len(desc)} chars (max {MAX_DESCRIPTION})")
+                bad += 1
+            body = len(text) - len(m.group(0))
+            if is_skill and not data.get("disable-model-invocation") and body > MAX_AUTO_BODY:
+                print(f"{f}: body is {body} chars (max {MAX_AUTO_BODY} for a model-invocable skill)")
+                bad += 1
     print("frontmatter OK" if not bad else f"{bad} problem(s)")
     return 1 if bad else 0
 

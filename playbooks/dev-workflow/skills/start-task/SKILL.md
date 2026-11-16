@@ -12,13 +12,13 @@ The project `CLAUDE.md` is already loaded. Knowledge base: `.ai/` next to it. No
 3. Read the task's `task.md`, then `plan.md` from the top through the first unchecked step and the 3 after it. `status: paused` → go to **Paused task** below instead of 4-8.
 4. Do **not** read now: `inbox/`, `stash/`, `archive/`, `raw/`, `research/`, `context/`, `decisions/`, the full `spec.md`. Open them later only when a step needs them.
 5. Counts only: inbox items (not `INDEX.md`), stashes (`ls`). If a stash belongs to this task, mention it (`/kb:unstash <name>`).
-6. Staleness: task `updated:` vs recent commits on its branch; Jira status vs `status:` (if a key exists and the connector is available). Mention mismatches. `status: review` with a PR → its state if a tool is available: merged → suggest `/dev:close-task`; unresolved comments → `/dev:pr-comments`.
+6. Staleness: task `updated:` vs recent commits on its branch; tracker status vs `status:` (the project has a tracker, the task has a ticket key and the connector is available). Mention mismatches. `status: review` with a PR → its state if a tool is available: merged → suggest `/dev:close-task`; unresolved comments → `/dev:pr-comments`. `Delivery: self-merge` → there is no PR to wait for: branch already merged into `base:` → suggest `/dev:close-task`.
 7. Schema: `.ai/.playbook.json` `schema` below this plugin's `migrations/CURRENT` (or file missing) → one line: "KB structure is outdated — `/dev:upgrade-project`".
 8. Reply ≤8 lines: where we are · Next · open questions/blockers · inbox/stash counts. If the user already said what to do, proceed.
 
 ## Paused task (`status: paused`)
 1. Read the **Paused** block in `task.md` first. **What changed since `Since:`**:
-   - Unblock condition — met? (ask the user; check Jira comments/status and linked issues via the connector)
+   - Unblock condition — met? (ask the user; check tracker comments/status and linked issues via the connector)
    - Code — per repo: is the task branch still there; how far behind the base branch; would it rebase cleanly (`git merge-tree` / dry run); did files touched by the plan change on the base branch?
    - Volatile facts — re-check each listed one (re-run the query, re-read the code).
    - Decisions/context in `.ai/` updated after `Since:` that touch this task (grep by date and terms).

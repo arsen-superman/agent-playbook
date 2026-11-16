@@ -1,6 +1,6 @@
 ---
 name: pause-task
-description: Freeze a task for an unknown time — blocked, missing data, priorities changed — so it can be resumed weeks later without losing context. Use when the user says park, pause, freeze, заморозь, постав на паузу, відкладаємо задачу.
+description: "Freeze a task for an unknown time — blocked, missing data, priorities changed — so it can be resumed weeks later without losing context. Use when the user says park, pause, freeze, заморозь, постав на паузу, відкладаємо задачу."
 argument-hint: "<task-key> [reason]"
 ---
 # Pause a task
@@ -19,6 +19,6 @@ A paused task stays in `.ai/tasks/` (paths and links stay valid); only its statu
    - **Volatile facts to re-check on resume:** <data counts, API behaviour, people's answers, base branch>
    - **Resume with:** <first action once unblocked>
    ```
-4. Waiting on a person → draft the follow-up message (Jira comment / Slack) in the reply; post only on OK.
+4. Waiting on a person → draft the follow-up message (tracker comment / chat) in the reply; post only on OK.
 5. `STATUS.md`: move the row from Active to **Paused** (task · repos · since · waiting for).
 6. Reply ≤4 lines: paused, why, what unblocks it.

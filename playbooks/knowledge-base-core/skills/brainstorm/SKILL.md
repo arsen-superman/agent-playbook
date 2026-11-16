@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-description: Think an idea through with the user — goal, options, risks, the cheapest test — then record its status, verdict and next step in the idea file, and optionally promote it to a task or project. Use when the user says brainstorm, let's think about an idea, обміркуймо ідею, подумаймо над ідеєю, розбери ідею, or names an idea from ideas/.
+description: "Think an idea through with the user — goal, options, risks, the cheapest test — then record its status, verdict and next step in the idea file, and optionally promote it to a task or project. Use when the user says brainstorm, let's think about an idea, обміркуймо ідею, подумаймо над ідеєю, розбери ідею, or names an idea from ideas/."
 argument-hint: "[idea]"
 ---
 # Brainstorm an idea

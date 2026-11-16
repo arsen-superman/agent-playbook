@@ -12,16 +12,17 @@ agent-playbook/                       this repo = a Claude Code plugin marketpla
 │   ├── personal-vault/               /me
 │   └── code-graph/                   /code-graph  (optional)
 ├── user/CLAUDE.md.example            your global ~/.claude/CLAUDE.md
+├── shared/                           text several plugins need (orchestration rules, agent contract) — synced by scripts/sync_shared.py
 ├── docs/
 │   ├── COMMANDS.md                   cheat sheet of every command (keep current)
 │   └── design.md                     principles and why
-└── scripts/                          pack.py (zip for claude.ai), check_commands.py, check_frontmatter.py
+└── scripts/                          pack.py (zip for claude.ai), check_commands.py, check_frontmatter.py, sync_shared.py
 ```
 
 | Plugin | What it is for | Skills and agents |
 |---|---|---|
 | **Knowledge Base Core** `/kb` | core for every knowledge base | capture · brainstorm · triage · stash · unstash · ingest · lint |
-| **Dev Workflow** `/dev` | software development | **Workflows:** feature-workflow · bugfix-workflow · spike-workflow · change-request<br>**Project:** init-project · upgrade-project<br>**Task:** new-task · start-task · pause-task · handoff · close-task<br>**Stages:** spec · plan · implement · review · pr-comments · fix-bug · verify · research<br>**Agents:** analyst · planner · implementer · debugger · reviewer · verifier · researcher · scout |
+| **Dev Workflow** `/dev` | software development | **Workflows:** feature-workflow · bugfix-workflow · spike-workflow · change-request<br>**Project:** init-project · upgrade-project<br>**Task:** new-task · start-task · pause-task · handoff · close-task<br>**Stages:** requirements · spec · plan · implement · review · pr-comments · fix-bug · verify · research<br>**Agents:** analyst · planner · implementer · debugger · reviewer · verifier · researcher · scout |
 | **Personal Vault** `/me` | personal vault | init-vault · save · find |
 | **Code Graph** `/code-graph` | optional cross-repo code graph MCP server for a project | reindex |
 
@@ -51,7 +52,7 @@ Or clone the repo and add the local folder instead (`claude plugin marketplace a
 
 Optional: copy [`user/CLAUDE.md.example`](user/CLAUDE.md.example) into your `~/.claude/CLAUDE.md` (merge if you have one; you don't need to clone the repo — just copy the text from GitHub) and fill in the `<placeholders>`. The playbooks work without it; `/me:init-vault` adds the vault path for you.
 
-Skills are namespaced by the plugin's `name`, not its folder or display name: Dev Workflow → `/dev:start-task`, Knowledge Base Core → `/kb:capture`, Personal Vault → `/me:save`. Most also trigger on their own from what you say; rare, deliberate ones (`init-project`, `upgrade-project`, `init-vault`, `lint`, `triage`, the `*-workflow` orchestrators) are manual-only — type them, their descriptions stay out of the context.
+Skills are namespaced by the plugin's `name`, not its folder or display name: Dev Workflow → `/dev:start-task`, Knowledge Base Core → `/kb:capture`, Personal Vault → `/me:save`. Most also trigger on their own from what you say; rare, deliberate ones (`init-project`, `upgrade-project`, `init-vault`, `lint`, `triage`, the `*-workflow` orchestrators, `change-request`, `pr-comments`) are manual-only — type them, their descriptions stay out of the context.
 
 **Keep [`docs/COMMANDS.md`](docs/COMMANDS.md) handy** — it is the cheat sheet of every command and agent (arguments, triggers, gates, models, outputs). Bookmark it on GitHub or save a copy next to your notes; it is the quickest way to remember what to type.
 

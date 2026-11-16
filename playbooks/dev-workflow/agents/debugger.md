@@ -1,6 +1,6 @@
 ---
 name: debugger
-description: Workflow stage — reproduce a bug, find its root cause, and write a failing test that encodes it (no fix). Used by /dev:bugfix-workflow.
+description: "Workflow stage — reproduce a bug, find its root cause, and write a failing test that encodes it (no fix). Used by /dev:bugfix-workflow."
 model: opus
 effort: high
 maxTurns: 80
@@ -24,5 +24,5 @@ SUMMARY: <≤10 lines — conclusions, not process>
 QUESTIONS: <numbered; each: question · options with your recommendation · who can answer · [blocking] or [assumed: <option you went with>]> | none
 CAPTURED: <inbox items created via /kb:capture> | none
 ```
-A choice you can make reasonably yourself → make it, record it in `spec.md §Assumptions`, and list it as [assumed]; stop with needs-input only when a wrong guess would waste the next stage.
+A choice you can make reasonably yourself → make it, record it under Assumptions in the file you write (`dev` stage agents: `spec.md §Assumptions`), and list it as [assumed]; stop with needs-input only when a wrong guess would waste the next stage.
 Long evidence goes into files (ARTIFACTS), never into the reply. The orchestrator will not read your transcript.

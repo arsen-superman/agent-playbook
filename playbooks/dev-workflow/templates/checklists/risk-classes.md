@@ -19,5 +19,6 @@
 | 13 | **Rule interaction** | A new rule that restricts, removes or redirects something — re-check every existing rule that selects, routes to or falls back on the same thing. Do they still produce a valid result together? |
 | 14 | **Dead ends** | Every state the change can create still has a way forward: someone or something able to move it on, who also learns that they need to. A rule that takes an ability away names who takes it over. Whether anyone can proceed is decided by who has the permission, not by whether a list of assignees happens to be non-empty. |
 | 15 | **Tests that can't fail** | Each new or changed test: what change to the code would make it fail? Negative assertions ("nothing matches", "not present") — can the matcher see every form the thing can take? Inputs from the environment (time, randomness, ordering, locale, machine) are fixed, not live — also those read inside dependencies. |
+| 16 | **Interface states** | Every screen, message or bot reply the change touches: empty, loading, error, partial and very large data, long text, narrow screen, keyboard-only use, a repeated click. Does the user always see what happened and what to do next? Texts and numbers come from the rules, not invented. |
 
 Not a miss: an old bug in shared code the change only calls (capture it); a decision recorded in spec §Decisions.

@@ -3,7 +3,7 @@ id: KEY-123
 title: Short title
 type: feature | bug | research | chore
 status: spec | planned | in-progress | review | blocked | paused | done
-jira: https://...
+source: https://...    # tracker ticket URL, or the .ai/ file the requirement comes from (../../ideas/<slug>.md); empty if neither
 repos: [repo-a]
 branch: feature/KEY-123-slug
 base: develop          # branch the task starts from and merges into; main/master for a production hotfix
@@ -26,6 +26,6 @@ updated: YYYY-MM-DD
 <!-- Filled by /dev:verify or /dev:fix-bug: how to check, latest result. -->
 
 ## Links
-- [spec](spec.md) · [plan](plan.md) · [test cases](test-cases.md) · Jira · PR
-<!-- Also link: research/ files, the idea it was promoted from (../../ideas/<slug>.md), decision records it produced. Relative markdown links only. -->
+- [spec](spec.md) · [plan](plan.md) · [test cases](test-cases.md) · ticket · PR
+<!-- Also link: the feature spec (../../specs/<feature>.md), design.md, research/ files, the idea it was promoted from (../../ideas/<slug>.md), decision records it produced. Relative markdown links only. -->
 

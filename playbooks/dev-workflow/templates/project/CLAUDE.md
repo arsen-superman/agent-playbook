@@ -1,6 +1,6 @@
 # Project: <Name>
 
-<!-- 2-3 lines: what the product is, who the client is, your role, current phase. -->
+<!-- 2-3 lines: what the product is, who it is for (a client, or yourself), your role, current phase. -->
 
 ## Repositories
 | Folder | What | Stack | Build / test | Host · tool |
@@ -10,7 +10,9 @@
 Each repo may have its own `CLAUDE.md` (code conventions) — it loads when you work inside that repo.
 
 ## Links
-- Tracker: <Jira project URL> (key `ABC`)
+- Profile: <work | tool | product>
+- Tracker: <Jira project URL (key `ABC`) | none>
+- Delivery: <pr-review | self-merge>
 - Docs: <Confluence / Drive>
 - People: <role → name, only those you need to ask things>
 
@@ -21,7 +23,7 @@ Each repo may have its own `CLAUDE.md` (code conventions) — it loads when you 
 - Never run: <commands, e.g. migrations against shared DBs, `terraform apply`>.
 
 ## Conventions
-- Branch: `feature/<KEY>-<slug>` · commits/PRs in English, prefixed with the ticket key.
+- Branch: `feature/<KEY>-<slug>` · commits/PRs in English, prefixed with the task key.
 - <anything the agent got wrong twice>
 
 ## Context index (read on demand)

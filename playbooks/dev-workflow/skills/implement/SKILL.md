@@ -1,11 +1,11 @@
 ---
 name: implement
-description: Execute an approved plan.md step by step in the code repositories — change, verify, commit, tick. Use when the user says implement, continue, do the next step, or "go" on a planned task.
+description: "Execute an approved plan.md step by step in the code repositories — change, verify, commit, tick. Use when the user says implement, continue, do the next step, or \"go\" on a planned task."
 argument-hint: "[task-key] [all | phase N]"
 ---
 # Implement the plan (developer)
 
-Read `task.md`, `plan.md`, and only the spec sections the current step references. Build/test commands: project CLAUDE.md; code conventions: the repo's own CLAUDE.md, editorconfig, surrounding code.
+Read `task.md`, `plan.md`, and only the spec sections the current step references; a UI step in a task with `design.md` → the screens it maps to that step. Build/test commands: project CLAUDE.md; code conventions: the repo's own CLAUDE.md, editorconfig, surrounding code.
 
 Default scope: one phase, then report. `all` → until done or blocked.
 

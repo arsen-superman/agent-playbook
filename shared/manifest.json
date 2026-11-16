@@ -1,0 +1,11 @@
+{
+  "copy": {
+    "orchestration.md": ["dev-workflow"]
+  },
+  "embed": {
+    "agent-contract.md": {
+      "glob": "playbooks/*/agents/*.md",
+      "exempt": ["playbooks/dev-workflow/agents/scout.md"]
+    }
+  }
+}
