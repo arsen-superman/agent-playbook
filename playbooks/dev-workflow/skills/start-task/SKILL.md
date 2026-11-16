@@ -1,6 +1,6 @@
 ---
 name: start-task
-description: "Start a work session on a task — read the minimum state and say where things stand; a paused task is brought back to active. Use at the beginning of every session, or when the user says start, continue, resume, unpause, where were we, продовжуємо, розморозь, повертаємось до <task>."
+description: "Start a work session on a task — read the minimum state and say where things stand; a paused task is brought back to active. Use at the beginning of every session, or when the user says start, continue, resume, unpause, where were we, продовжуємо, розморозь, повертаємось до задачі."
 argument-hint: "[task-key]"
 ---
 # Start a task session

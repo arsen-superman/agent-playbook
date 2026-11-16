@@ -1,6 +1,6 @@
 ---
 name: change-request
-description: "Workflow — bring new requirements or edge cases into a task past the spec stage: record, analyse impact, plan and deliver only the delta. Manual: /dev:change-request <KEY> <text | file | url>."
+description: "Workflow — bring new requirements or edge cases into a task past the spec stage: record, analyse impact, plan and deliver only the delta. Manual: /dev:change-request KEY, then text, file or url."
 argument-hint: "<task-key> <clarification text | file | url>"
 disable-model-invocation: true
 ---

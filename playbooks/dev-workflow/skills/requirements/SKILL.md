@@ -1,6 +1,6 @@
 ---
 name: requirements
-description: "Specify a feature before it becomes tasks (business analyst): actors, scenarios, business rules, scope, open questions — written to .ai/specs/<feature>.md, no code. Triggers: requirements, feature spec, business analysis, вимоги, специфікація фічі, опиши бізнес-правила, побудь аналітиком."
+description: "Specify a feature before it becomes tasks (business analyst): actors, scenarios, business rules, scope, open questions — written to .ai/specs/FEATURE.md, no code. Triggers: requirements, feature spec, business analysis, вимоги, специфікація фічі, опиши бізнес-правила, побудь аналітиком."
 argument-hint: "<feature | idea | ticket | file>"
 ---
 # Feature requirements (business analyst)

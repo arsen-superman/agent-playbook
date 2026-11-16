@@ -1,6 +1,6 @@
 ---
 name: init
-description: "Start a product in a project folder — create .ai/product/ from an idea, set its type, stage and limits. Manual: /product:init <idea | description>."
+description: "Start a product in a project folder — create .ai/product/ from an idea, set its type, stage and limits. Manual: /product:init idea or description."
 argument-hint: "<idea name | description>"
 disable-model-invocation: true
 ---
