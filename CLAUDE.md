@@ -1,6 +1,6 @@
 # agent-playbook — working on the playbooks themselves
 
-This repo is a Claude Code plugin marketplace. Each folder in `playbooks/` is a plugin; the folder is named after its `displayName`, the slash prefix comes from `name` in `plugin.json` (`kb`, `dev`, `me`).
+This repo is a Claude Code plugin marketplace. Each folder in `playbooks/` is a plugin; the folder is named after its `displayName`, the slash prefix comes from `name` in `plugin.json` (`kb`, `dev`, `me`, `product`).
 Read `docs/design.md` before changing behaviour; README for layout.
 
 ## Rules for editing

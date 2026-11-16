@@ -120,6 +120,15 @@ flowchart TD
 ```
 Solid arrows: stage order. Dotted: scouts (cheap reading) and what follows the PR. `SendMessage` = the same agent continues in this session; everything else starts fresh and learns from the task files. Gates are you.
 
+## Product playbook
+- **A separate plugin, not more `dev`.** `dev` answers "how do I build this task"; `product` answers "what is worth building, and is it still". It is enabled only in folders of products you own, depends on `kb` and `dev`, and nothing in `dev` depends on it — `ops`, `design` and `growth`, when they exist, will depend on `kb` and `dev` too, never on `product`, so a personal tool can use them without it. Other departments' files are read "if present".
+- **Stages end at gates, and a gate is the user's decision.** `/product:gate` prepares one page of evidence, a fresh `product:skeptic` attacks it, the user picks go / pivot / kill / not yet. Only the gate changes `stage:`; `/product:next` (the one model-invocable skill) only reads. One stage table (`templates/stages.md`) serves `next` and `gate`, with a column per product type: software, channel (someone else's platform is the interface), goods.
+- **Thresholds before tests.** A hypothesis gets its number and period before the test and keeps them; a miss is a refuted hypothesis. For goods the unit-economics table comes before any test that spends money.
+- **Numbers have sources or are missing.** Researchers cite the page and the date of the data; what only a tool behind a login knows (search volume, marketplace sales) is "needs an export" — the user exports it, `/kb:ingest` files it. Agents read metric snapshots, never dashboards.
+- **"MVP first" is a register, not an intention.** Everything cut on purpose is a row in `deferred.md` with the condition that brings it back; `/product:next` reports when one fires.
+- **Product research ≠ technical research.** `/product:discover` and `product:researcher` cover market, people and demand; `/dev:spike-workflow` and `dev:researcher` stay technical. They share only the orchestration rules and the agent contract (`shared/`).
+- `init-project` (in `dev`) stays the only creator of `.ai/`; `/product:init` adds `.ai/product/`. Project-side structure keeps one migration chain, in `dev`.
+
 ## Testing
 - **Design before code**: the planner writes `test-cases.md` from the AC (one+ case per AC, negatives, edge cases, unaffected users), choosing the lowest level that proves the behaviour: unit → integration → e2e → manual. Existing repo frameworks only, unless the user agrees otherwise.
 - **Automate**: the implementer's test steps name the TC IDs they automate and fill `Automated by`. Bugs start as `TC-01` = the failing test from the debugger.

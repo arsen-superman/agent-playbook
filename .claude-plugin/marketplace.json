@@ -1,6 +1,6 @@
 {
   "name": "agent-playbook",
-  "description": "Personal playbooks for working with AI agents: a shared knowledge-base core plus domain playbooks (software development, personal life).",
+  "description": "Personal playbooks for working with AI agents: a shared knowledge-base core plus domain playbooks (software development, product, personal life).",
   "owner": {
     "name": "Arsen Superman"
   },
@@ -24,6 +24,11 @@
       "name": "code-graph",
       "source": "./playbooks/code-graph",
       "description": "Code graph across all repositories of a project (cross-repo-graph MCP server): callers, cross-repo HTTP/config/package links with file:line, re-indexed at session start. Enabled per project by /dev:init-project."
+    },
+    {
+      "name": "product",
+      "source": "./playbooks/product-office",
+      "description": "Product playbook for a solo founder: idea → discovery → validation → MVP scope with go / pivot / kill gates, weekly review after launch. Software, channels and bots, physical goods. Enabled per project; needs kb and dev."
     }
   ]
 }

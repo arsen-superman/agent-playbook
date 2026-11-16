@@ -1,0 +1,17 @@
+{
+  "name": "product",
+  "displayName": "Product Office",
+  "version": "0.1.0",
+  "description": "Product playbook for a solo founder: take an idea through discovery, validation and MVP scope with go / pivot / kill gates, then decide what to build next from metrics. Software products, channels and bots, physical goods.",
+  "author": {
+    "name": "Arsen Superman"
+  },
+  "keywords": [
+    "product",
+    "discovery",
+    "validation",
+    "mvp",
+    "gates",
+    "agents"
+  ]
+}

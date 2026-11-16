@@ -30,6 +30,10 @@ For you and for any agent. Kept in sync with `playbooks/` (see *Maintenance* at 
 | Weekly | `/kb:lint` |
 | After changing agent-playbook structure | `/dev:upgrade-project all` |
 | Code graph looks stale / after a big merge | `/code-graph:reindex` (normally re-indexed at session start) |
+| Start your own product from an idea | `/dev:init-project` (no code yet, profile product) → `/product:init <idea>` |
+| "What do I do next on the product?" | just ask "що далі?" → `/product:next` |
+| Product: research, tests, MVP cut | `/product:discover` → `/product:validate` → `/product:scope`, each followed by `/product:gate` |
+| Product: weekly after launch | `/product:review` |
 | "Save this recipe / instruction" | `/me:save` |
 | "How did I … ?" | `/me:find` |
 
@@ -44,7 +48,7 @@ Diagram of who runs when (models, scouts, reuse, gates): [design.md → Feature 
 | ⌨ `/dev:bugfix-workflow <KEY \| task \| description>` | a bug end to end | debugger (repro, root cause, failing test) → **GATE A** pick fix → implementer → reviewer → verifier → **GATE C** |
 | ⌨ `/dev:change-request <KEY> <text \| file \| url>` | new requirements, clarifications, edge cases after the spec (also with a PR open) | appends a dated Update to Raw requirement → analyst classifies items (covered+tested / no test / new / conflict) and sizes them → **GATE A** → planner adds TCs + one Amend phase (**GATE B** unless ≤3 steps) → implementer → reviewer (whole PR diff, focus on amend) → verifier (full regression) → **GATE C** PR update + Jira |
 | ⌨ `/dev:pr-comments [KEY]` | PR has review comments | fetches unresolved threads (`gh` / connector / paste) → one `review.md` row each: fix / reply / discuss / follow-up (requirement-like comments start as discuss; amend only when the user explicitly confirms) → **GATE** → PR-feedback phase by F-ID via implementer (+ reviewer verifying those rows and verifier for logic changes) → drafted replies, one per comment thread → **GATE C** choose push + replies / push only / replies only; resolve on explicit OK → proposed `<repo>/REVIEW.md` lines for team conventions |
-| ⌨ `/dev:spike-workflow <question \| KEY> [timebox]` | choose between options before building | frame + sub-questions → **GATE A** → researcher ×N in parallel → synthesis → **GATE B** → decision record in `.ai/decisions/`, follow-ups |
+| ⌨ `/dev:spike-workflow <question \| KEY> [timebox]` | choose between technical options before building (market questions → `/product:discover`) | frame + sub-questions → **GATE A** → researcher ×N in parallel → synthesis → **GATE B** → decision record in `.ai/decisions/`, follow-ups |
 
 ### Project setup and maintenance
 | Command | When | What happens |
@@ -97,6 +101,26 @@ Every agent returns `STATUS / ARTIFACTS / SUMMARY / QUESTIONS / CAPTURED`. Code-
 | 🤖 `/kb:ingest <file \| url \| text>` | meeting notes, transcript, doc, epic | keeps source in `raw/` (web pages via `defuddle` if installed), proposes facts / decisions / todos / questions, files them on OK |
 | ⌨ `/kb:lint [fix]` | weekly | sizes (incl. context files ≤300), history-instead-of-truth, contradictions, copies of repo docs, contradicting or dangling superseded decisions, missing or unknown repo tags, stale/orphan items, old inbox/stash, inbox items off the template (skips generated `INDEX.md`), secrets, outdated KB structure; vault: broken links (Obsidian CLI), notes without `summary`/`categories`, stray folders |
 
+## product — your own product, from idea to what to build next (per project: `--scope local`)
+For a project you own: software, channels and bots, or physical goods (`type` in `.ai/product/product.md`). Lives in `.ai/product/` next to the rest of the project KB; needs `kb` and `dev`. Stages and gates G1–G7: `templates/stages.md` in the plugin. Development itself stays in `dev` (`Tracker: none`, `Delivery: self-merge`).
+
+| Command | When | What happens |
+|---|---|---|
+| ⌨ `/product:init <idea \| description>` | once per product, after `/dev:init-project` | finds the idea (project `ideas/` or the vault), asks type, segment and limits (money per month, hours per week, markets), creates `.ai/product/` (`product.md`, `hypotheses.md`, `deferred.md`, `research/`, `gates/`, `metrics/`), moves idea material in, proposes `Profile: product` · `Tracker: none` · `Delivery: self-merge` for the project `CLAUDE.md` (written on OK) |
+| 🤖 `/product:next` | any time: "що далі?", "product status" | reads `product.md` + stage table: stage and gate, what the gate still lacks, **one** next command (never from a playbook that is not installed), deferred shortcuts whose condition fired, limits; never changes the stage |
+| ⌨ `/product:discover [focus]` | stage 1 | frames 3–5 questions for the product type → **GATE A** → `product:researcher` ×N in parallel (web + your exports in `.ai/raw/`; a number behind a login is "needs an export", never estimated) → `product:strategist` writes `research/summary.md` and hypotheses → one follow-up round for gaps → next: `/product:gate G2` |
+| ⌨ `/product:validate [results]` | stage 2 | plan: top 3–5 hypotheses by risk, cheapest test each, threshold **named before the test**, budget, stop rule (goods: unit economics first — negative margin stops it) → **GATE** on thresholds and money → tests to build become tasks; `results`: numbers against the thresholds, never moved afterwards; refuted → pivot options |
+| ⌨ `/product:scope` | stage 3 | `product:strategist` drafts `scope.md` (what the MVP must prove, thin slices; goods: test batch), `metrics.md`, `deferred.md`, price hypothesis → **GATE B** → first slice specified with `/dev:requirements`, tasks for the first slice only via `/dev:new-task` |
+| ⌨ `/product:gate [G1-G7]` | end of every stage | `product:strategist` writes a one-page `gates/G<n>.md` (numbers with sources, what is missing, cost of going on) → fresh `product:skeptic` adds objections → **GATE**: you choose go / pivot / kill / not yet → decision record in `.ai/decisions/`, `product.md` stage and bet updated; from G4 offers to archive finished stages' working files |
+| ⌨ `/product:review [period]` | weekly after launch | snapshot `metrics/YYYY-Www.md` (from your export when missing) → `product:metrics-analyst` review → inbox feedback, closed tasks, fired deferred rows → `product:strategist` judges last bets and proposes 1–3 → **GATE**: you pick → `product.md` bet, tasks; three flat reviews or exhausted limits → `/product:gate G7` |
+
+| Agent | Model / effort | Does | Writes |
+|---|---|---|---|
+| `product:strategist` | opus / medium | synthesis, scope, gate pages, bets — one recommendation with its reason | `research/summary.md`, `hypotheses.md`, `scope.md`, `metrics.md`, `deferred.md`, `gates/G<n>.md` |
+| `product:researcher` | sonnet / high | one market / competitor / demand question, sources with dates | `research/<topic>.md`, raw extracts |
+| `product:skeptic` | opus / high, always fresh | attacks a gate page: weakest evidence, what would make it a no | only the Objections sections of the gate page |
+| `product:metrics-analyst` | sonnet / medium | reads snapshots, not dashboards; describes, doesn't prescribe | `metrics/review-YYYY-Www.md` |
+
 ## code-graph — code graph across a project's repos (optional add-on, installed per project: `--scope local`)
 The [`cross-repo-graph`](https://github.com/arsen-superman/cross-repo-graph) MCP server: an AST graph of every repo plus cross-repo links (HTTP client → endpoint with `used` / `declared-only`, config addresses per environment, NuGet/npm packages) with `file:line`. Index in `.ai/.index/`, one graph per scope read from git (not from the clones on disk): `dev` = `develop`, `prod` = `main`/`master` — agents use `prod` when the task's `base:` is `main`/`master` (hotfix). At session start, in the background: `git fetch` of the scope branches (only `origin/*`, at most every 30 min, never prompts; a remote that needs a password is skipped and indexed from local refs) and re-indexing of what moved. Branch overrides per repo: `.ai/.index/config.json`. Needs Node 22+ and uv. Agents (scout, analyst, planner, researcher, reviewer) use its tools for cross-repo questions: `dependencies`, `get_neighbors`, `query_graph`, `get_node`, `shortest_path`, `architecture_hubs`, `list_repos`.
 
@@ -114,7 +138,7 @@ The [`cross-repo-graph`](https://github.com/arsen-superman/cross-repo-graph) MCP
 ## Command line (outside a session)
 ```
 claude plugin marketplace add <path-to-agent-playbook>   # once, path to your clone of this repo
-claude plugin install kb@agent-playbook        # also dev@, me@
+claude plugin install kb@agent-playbook        # also dev@, me@, product@ (then enable per project, like dev)
 claude plugin install code-graph@agent-playbook --scope local   # in a project folder only
 claude plugin list                              # what is installed and enabled
 claude plugin details dev                       # tokens each plugin costs per session

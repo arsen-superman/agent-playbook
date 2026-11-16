@@ -10,6 +10,7 @@ agent-playbook/                       this repo = a Claude Code plugin marketpla
 │   ├── knowledge-base-core/          /kb
 │   ├── dev-workflow/                 /dev  (+ agents/, migrations/ for project KB changes)
 │   ├── personal-vault/               /me
+│   ├── product-office/               /product  (per project: own products)
 │   └── code-graph/                   /code-graph  (optional)
 ├── user/CLAUDE.md.example            your global ~/.claude/CLAUDE.md
 ├── shared/                           text several plugins need (orchestration rules, agent contract) — synced by scripts/sync_shared.py
@@ -24,6 +25,7 @@ agent-playbook/                       this repo = a Claude Code plugin marketpla
 | **Knowledge Base Core** `/kb` | core for every knowledge base | capture · brainstorm · triage · stash · unstash · ingest · lint |
 | **Dev Workflow** `/dev` | software development | **Workflows:** feature-workflow · bugfix-workflow · spike-workflow · change-request<br>**Project:** init-project · upgrade-project<br>**Task:** new-task · start-task · pause-task · handoff · close-task<br>**Stages:** requirements · spec · plan · implement · review · pr-comments · fix-bug · verify · research<br>**Agents:** analyst · planner · implementer · debugger · reviewer · verifier · researcher · scout |
 | **Personal Vault** `/me` | personal vault | init-vault · save · find |
+| **Product Office** `/product` | your own product, from idea to what to build next (per project) | **Stages:** init · discover · validate · scope · gate · review<br>**Any time:** next<br>**Agents:** strategist · researcher · skeptic · metrics-analyst |
 | **Code Graph** `/code-graph` | optional cross-repo code graph MCP server for a project | reindex |
 
 ## Install (once per machine)
@@ -43,6 +45,8 @@ claude plugin install me@agent-playbook
 claude plugin disable dev@agent-playbook --scope user    # once
 claude plugin enable dev@agent-playbook --scope local    # in each project folder, before /dev:init-project
 ```
+
+`product` is for your own products (software, channels and bots, physical goods) and, like `dev`, is enabled per project folder: `claude plugin install product@agent-playbook`, `claude plugin disable product@agent-playbook --scope user`, then `claude plugin enable product@agent-playbook --scope local` in the product's folder.
 
 `code-graph` (optional, for projects with several repos) is never installed for the user — only per project, from the project folder: `claude plugin install code-graph@agent-playbook --scope local`. `/dev:init-project` prints that command when you accept the code graph. It runs the [`cross-repo-graph`](https://github.com/arsen-superman/cross-repo-graph) MCP server and needs Node 22+ and [uv](https://docs.astral.sh/uv/).
 
@@ -103,6 +107,19 @@ open Repos/SuperProject in VS Code → Claude Code or in Claude CLI from project
 /kb:capture  /kb:triage           side findings → inbox → sorted later
 /kb:capture  /kb:brainstorm       "ідея: …" → ideas/ → think it through, verdict, promote
 /kb:ingest  /kb:lint              meeting notes/docs into the KB · weekly health check
+```
+
+**Your own product** (a project folder; repositories may not exist yet):
+
+```
+/dev:init-project                 once: answer "no code yet", profile product
+/kb:brainstorm → /product:init    the idea gets a verdict, then becomes .ai/product/
+"що далі?" / /product:next        where the product stands and the one next step
+/product:discover → /product:gate G2     market, competitors, segment → your go / pivot / kill
+/product:validate → /product:gate G3     thresholds before tests, results against them
+/product:scope → /product:gate G4        MVP slices, metrics, deferred register, first tasks
+/dev:requirements → /dev:feature-workflow   build slice by slice
+/product:review                   weekly after launch: numbers, feedback, the next bet
 ```
 
 **Personal vault**:
